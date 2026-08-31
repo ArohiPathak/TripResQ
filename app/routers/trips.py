@@ -28,7 +28,7 @@ def get_trip_graph(trip_id):
     nodes = ItineraryNode.query.filter_by(trip_id=trip_id).all()
     node_list = []
     for node in nodes:
-        node_list.append({
+        node_data = {
             "id": node.id,
             "type": node.node_type,
             "title": node.title,
@@ -36,7 +36,10 @@ def get_trip_graph(trip_id):
             "start_time": node.start_time.isoformat(),
             "end_time": node.end_time.isoformat(),
             "status": node.status
-        })
+        }
+        if node.hard_cutoff:
+            node_data["hard_cutoff"] = node.hard_cutoff.isoformat()
+        node_list.append(node_data)
         
     # Get edges connected to these nodes
     node_ids = [n.id for n in nodes]
@@ -78,7 +81,7 @@ def disrupt_trip(trip_id):
         return jsonify({"error": str(e)}), 400
         
     # Return the updated graph and the diagnostic breakdown
-    graph_response = get_trip_graph(trip_id).get_json()
+    graph_response = get_trip_graph(trip_id)[0].get_json()
     return jsonify({
         "message": "Disruption applied and propagated successfully",
         "impacts": impacts,
