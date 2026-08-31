@@ -87,3 +87,28 @@ def disrupt_trip(trip_id):
         "impacts": impacts,
         "updated_graph": graph_response
     }), 200
+
+from app.services.recovery import generate_recovery_proposals, apply_recovery_plan
+
+@trips_bp.route('/<trip_id>/recover', methods=['POST'])
+def recover_trip(trip_id):
+    proposals = generate_recovery_proposals(trip_id)
+    return jsonify({
+        "trip_id": trip_id,
+        "proposals": proposals
+    }), 200
+    
+@trips_bp.route('/<trip_id>/apply-plan', methods=['POST'])
+def apply_plan(trip_id):
+    data = request.get_json()
+    if not data or 'proposals' not in data:
+        return jsonify({"error": "proposals list is required"}), 400
+        
+    apply_recovery_plan(trip_id, data['proposals'])
+    
+    # Return the restored graph
+    graph_response = get_trip_graph(trip_id)[0].get_json()
+    return jsonify({
+        "message": "Recovery plan applied atomically. Trip restored.",
+        "updated_graph": graph_response
+    }), 200
