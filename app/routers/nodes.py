@@ -9,6 +9,34 @@ nodes_bp = Blueprint('nodes', __name__, url_prefix='/api/nodes')
 
 @nodes_bp.route('', methods=['POST'])
 def add_node():
+    """
+    Ingest a new node into a trip
+    ---
+    tags:
+      - Nodes
+    parameters:
+      - in: body
+        name: body
+        schema:
+          type: object
+          properties:
+            trip_id:
+              type: string
+            node_type:
+              type: string
+              enum: [FLIGHT, TRAIN, CAB, HOTEL, ACTIVITY]
+            title:
+              type: string
+            start_time:
+              type: string
+            end_time:
+              type: string
+            hard_cutoff:
+              type: string
+    responses:
+      201:
+        description: Node added successfully
+    """
     data = request.get_json()
     required_fields = ['trip_id', 'node_type', 'title', 'start_time', 'end_time']
     for field in required_fields:
