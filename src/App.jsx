@@ -8,7 +8,6 @@ import {
   Clock,
   Trash2,
   Check,
-  ArrowRight,
   User,
   ChevronRight,
   ShieldAlert,
@@ -50,12 +49,23 @@ const TRANSLATIONS = {
     trainTab: "🚆 Trains",
     hotelTab: "🏨 Hotels",
     cabTab: "🚕 Cabs",
-    fromLabel: "From City",
-    toLabel: "To City",
+    fromLabel: "From Location",
+    toLabel: "To Location",
     dateLabel: "Departure Date",
     timeLabel: "Departure Time",
-    includeCab: "Include connected Station-to-Hotel Cab",
-    includeHotel: "Include Hotel Reservation",
+    durationLabel: "Duration (Minutes)",
+    airwaysLabel: "Airways Name",
+    trainNameLabel: "Train Name / Number",
+    cabServiceLabel: "Cab Operator / Service",
+    hotelNameLabel: "Hotel Name",
+    addNodeBtn: "➕ Add Node to Itinerary",
+    lockTripBtn: "🛡️ Lock & Protect Itinerary",
+    livePreview: "Live Itinerary Preview Chain",
+    authPromptTitle: "Sign In to Protect Your Trip",
+    authPromptDesc: "Build your custom travel routes and let our engine automatically safeguard your connections from cascading delays.",
+    noNodesYet: "No travel nodes added yet. Add a Flight, Train, Cab, or Hotel above to start building your timeline.",
+    typePlaceholder: "Type location...",
+    
     freeCancellation: "Free cancellation up to 24h & automatic missed connection protection.",
     howItWorks: "Smart Trip Protection, Reimagined",
     marketingTitle1: "Automatic Rebooking",
@@ -179,12 +189,23 @@ const TRANSLATIONS = {
     trainTab: "🚆 ट्रेनें",
     hotelTab: "🏨 होटल",
     cabTab: "🚕 कैब",
-    fromLabel: "प्रस्थान शहर",
-    toLabel: "गंतव्य शहर",
+    fromLabel: "प्रस्थान स्थान",
+    toLabel: "गंतव्य स्थान",
     dateLabel: "प्रस्थान की तारीख",
     timeLabel: "प्रस्थान का समय",
-    includeCab: "गंतव्य स्टेशन से होटल कैब शामिल करें",
-    includeHotel: "हॉटेल बुकिंग शामिल करें",
+    durationLabel: "अवधि (मिनट)",
+    airwaysLabel: "एयरलाइंस का नाम",
+    trainNameLabel: "ट्रेन का नाम / नंबर",
+    cabServiceLabel: "कैब सेवा प्रदाता",
+    hotelNameLabel: "होटल का नाम",
+    addNodeBtn: "➕ यात्रा कार्यक्रम में नोड जोड़ें",
+    lockTripBtn: "🛡️ यात्रा कार्यक्रम लॉक और सुरक्षित करें",
+    livePreview: "लाइव यात्रा कार्यक्रम पूर्वावलोकन",
+    authPromptTitle: "अपनी यात्रा सुरक्षित करने के लिए लॉग इन करें",
+    authPromptDesc: "अपने पसंदीदा यात्रा मार्ग बनाएं और हमारे व्यवधान सुधार इंजन को आपके कनेक्शन सुरक्षित करने दें।",
+    noNodesYet: "अभी तक कोई यात्रा नोड नहीं जोड़ा गया है। अपनी टाइमलाइन बनाने के लिए ऊपर एक उड़ान, ट्रेन, कैब या होटल जोड़ें।",
+    typePlaceholder: "स्थान का नाम लिखें...",
+
     freeCancellation: "24 घंटे पहले तक मुफ्त रद्दीकरण और स्वचालित सुरक्षा सुविधा।",
     howItWorks: "स्मार्ट यात्रा सुरक्षा, नए रूप में",
     marketingTitle1: "स्वचालित रीबुकिंग",
@@ -279,7 +300,7 @@ const TRANSLATIONS = {
     rememberMe: "मुझे याद रखें",
     forgotPass: "पासवर्ड भूल गए?",
     socialSignIn: "या इससे लॉग इन करें",
-    googleSignIn: "गुगल खाते",
+    googleSignIn: "गुगल खाता",
     otpSignIn: "मोबाइल ओटीपी सत्यापन",
     signUpBtn: "पंजीकरण करें"
   },
@@ -302,12 +323,23 @@ const TRANSLATIONS = {
     trainTab: "🚆 रेल्वे",
     hotelTab: "🏨 हॉटेल्स",
     cabTab: "🚕 कॅब",
-    fromLabel: "प्रस्थान शहर",
-    toLabel: "गंतव्य शहर",
+    fromLabel: "प्रस्थान स्थान",
+    toLabel: "गंतव्य स्थान",
     dateLabel: "प्रस्थानाची तारीख",
     timeLabel: "प्रस्थानाची वेळ",
-    includeCab: "गंतव्य स्टेशन ते हॉटेल कॅब समाविष्ट करा",
-    includeHotel: "हॉटेल बुकिंग समाविष्ट करा",
+    durationLabel: "कालावधी (मिनिटे)",
+    airwaysLabel: "विमान कंपनीचे नाव",
+    trainNameLabel: "रेल्वेचे नाव / नंबर",
+    cabServiceLabel: "कॅब ऑपरेटर / सेवा",
+    hotelNameLabel: "हॉटेलचे नाव",
+    addNodeBtn: "➕ प्रवासात नोड जोडा",
+    lockTripBtn: "🛡️ प्रवासाची कालरेषा लॉक व सुरक्षित करा",
+    livePreview: "थेट प्रवासाचे कालरेषा पूर्वावलोकन",
+    authPromptTitle: "आपला प्रवास सुरक्षित करण्यासाठी लॉग इन करा",
+    authPromptDesc: "तुमचे सानुकूल प्रवास मार्ग तयार करा आणि आमच्या इंजिनला तुमच्या जोडण्या वेळेवर राखू द्या.",
+    noNodesYet: "अद्याप प्रवासाचे कोणतेही नोड जोडलेले नाहीत. तुमची कालरेषा तयार करण्यासाठी वर विमान, ट्रेन, कॅब किंवा हॉटेल जोडा.",
+    typePlaceholder: "ठिकाण लिहा...",
+
     freeCancellation: "24 तास आधीपर्यंत मोफत रद्दीकरण आणि स्वयंचलित संरक्षण सुविधा.",
     howItWorks: "स्मार्ट प्रवास संरक्षण, नवीन रूपात",
     marketingTitle1: "स्वयंचलित रीबुकिंग",
@@ -324,7 +356,7 @@ const TRANSLATIONS = {
     healthyTitle: "तुमचा प्रवास सुरक्षित आहे",
     healthyDesc: "TripResQ सक्रिय आहे. सर्व प्रस्थान वेळेवर सुरू आहेत आणि बफर सुरक्षित आहेत.",
     disruptTitle: "प्रवासात अडथळा आला",
-    disruptDesc: "व्यत्यय आढळला. तुमचे प्रवासाचे वेळापत्रक बदलले आहे, ज्यामुळे पुढील कनेक्शन चुकण्याचा धोका आहे.",
+    disruptDesc: "व्यत्यय आढळला. taste बदलले आहे, ज्यामुळे पुढील कनेक्शन चुकण्याचा धोका आहे.",
     viewRescuePlans: "स्मार्ट बचाव योजना पहा",
     timelineTitle: "प्रवासाची कालरेषा",
     scheduled: "नियोजित वेळ",
@@ -593,6 +625,21 @@ function addMinutesToTime(timeStr, mins) {
   return `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}`;
 }
 
+// Helper to get buffer minutes between end of node 1 and start of node 2
+function getMinutesBetween(time1, time2) {
+  if (!time1 || !time2 || time1 === 'Onwards' || time2 === 'Onwards' || time1.includes('CANCELLED') || time2.includes('CANCELLED') || time1.includes('COMPROMISED') || time2.includes('COMPROMISED')) return 0;
+  
+  // Clean potential delay string elements (e.g. "14:15 (Delayed)" -> "14:15")
+  const cleanT1 = time1.split(' ')[0];
+  const cleanT2 = time2.split(' ')[0];
+  
+  const [h1, m1] = cleanT1.split(':').map(Number);
+  const [h2, m2] = cleanT2.split(':').map(Number);
+  if (isNaN(h1) || isNaN(m1) || isNaN(h2) || isNaN(m2)) return 0;
+  
+  return (h2 * 60 + m2) - (h1 * 60 + m1);
+}
+
 // Generate unique Trip Reference
 function generateTripRef() {
   return "TR-" + Math.floor(100000 + Math.random() * 900000);
@@ -610,14 +657,22 @@ function App() {
     user: null
   });
 
-  // Search State
+  // Search State Tab: flights | trains | cabs | hotels
   const [searchTab, setSearchTab] = useState('flights');
-  const [searchFrom, setSearchFrom] = useState('Mumbai (BOM)');
-  const [searchTo, setSearchTo] = useState('Pune (PNQ)');
-  const [searchDate, setSearchDate] = useState('2026-08-31');
-  const [searchTime, setSearchTime] = useState('08:00');
-  const [includeCab, setIncludeCab] = useState(true);
-  const [includeHotel, setIncludeHotel] = useState(true);
+  
+  // Custom Node Builder Input States
+  const [builderFrom, setBuilderFrom] = useState('');
+  const [builderTo, setBuilderTo] = useState('');
+  const [builderDate, setBuilderDate] = useState('2026-08-31');
+  const [builderTime, setBuilderTime] = useState('08:00');
+  const [builderDuration, setBuilderDuration] = useState(75);
+  const [builderAirways, setBuilderAirways] = useState('');
+  const [builderTrainName, setBuilderTrainName] = useState('');
+  const [builderCabService, setBuilderCabService] = useState('');
+  const [builderHotelName, setBuilderHotelName] = useState('');
+
+  // Temporary constructed nodes
+  const [builderNodes, setBuilderNodes] = useState([]);
 
   // Active Trip Graph Nodes State
   const [tripRefNum, setTripRefNum] = useState('TR-998827');
@@ -670,6 +725,8 @@ function App() {
   const [authName, setAuthName] = useState('');
   const [authEmail, setAuthEmail] = useState('');
   const [authPassword, setAuthPassword] = useState('');
+
+  // Selected tab default durations are updated synchronously in the tab onClick handler.
 
   // Sync translation key lookup helper
   const t = (key) => {
@@ -754,9 +811,111 @@ function App() {
     setImpactMetrics({ delayMinutes: 0, brokenConnections: 0, affectedNodes: 0 });
   };
 
-  const handleBuildNewTrip = (e) => {
+  // Add node dynamically as user inputs details in the form
+  const handleAddBuilderNode = (e) => {
     e.preventDefault();
-    buildTripNodes(searchTab, searchFrom, searchTo, searchDate, searchTime, includeCab, includeHotel);
+    
+    let title = '';
+    let info = '';
+    let type = searchTab; // flights | trains | cabs | hotels
+    let from = builderFrom.trim();
+    let to = builderTo.trim();
+    
+    if (type === 'flights') {
+      type = 'flight';
+      title = builderAirways.trim() || 'Custom Flight';
+      info = 'Terminal Gateway';
+    } else if (type === 'trains') {
+      type = 'train';
+      title = builderTrainName.trim() || 'Custom Train';
+      info = 'Platform Route';
+    } else if (type === 'cabs') {
+      type = 'cab';
+      title = builderCabService.trim() || 'Custom Cab';
+      info = 'Pickup Area';
+    } else if (type === 'hotels') {
+      type = 'hotel';
+      title = builderHotelName.trim() || 'Custom Hotel Stay';
+      info = 'Reception Lobby';
+      to = from; 
+    }
+
+    if (!from && type !== 'hotel') {
+      alert("Please enter a From Location!");
+      return;
+    }
+    if (!to) {
+      alert("Please enter a Destination Location!");
+      return;
+    }
+    if (!title) {
+      alert("Please enter the name details (Airways, Train Name, Cab service, or Hotel name)!");
+      return;
+    }
+
+    const scheduledStart = builderTime;
+    const scheduledEnd = type === 'hotel' ? 'Onwards' : addMinutesToTime(builderTime, builderDuration);
+
+    const newNode = {
+      id: `node-${Date.now()}-${Math.floor(Math.random() * 1000)}`,
+      type,
+      title,
+      sub: type === 'hotel' ? `${to}` : `${from} → ${to}`,
+      scheduledStart,
+      scheduledEnd,
+      actualStart: scheduledStart,
+      actualEnd: scheduledEnd,
+      buffer: 0,
+      status: 'healthy',
+      disruptionReason: '',
+      delayMinutes: 0,
+      info
+    };
+
+    setBuilderNodes(prev => {
+      const updated = [...prev, newNode];
+      // Recalculate buffers
+      for (let i = 0; i < updated.length - 1; i++) {
+        if (updated[i].actualEnd !== 'Onwards' && updated[i + 1].actualStart !== 'Onwards') {
+          updated[i].buffer = getMinutesBetween(updated[i].actualEnd, updated[i + 1].actualStart);
+        }
+      }
+      return updated;
+    });
+
+    // Reset inputs for standard chain workflow
+    if (type !== 'hotel') {
+      setBuilderFrom(to); // Next node starts where this one ended
+      setBuilderTo('');
+    }
+    if (scheduledEnd !== 'Onwards') {
+      setBuilderTime(addMinutesToTime(scheduledEnd, 30)); // Next starts 30 mins after
+    }
+    setBuilderAirways('');
+    setBuilderTrainName('');
+    setBuilderCabService('');
+    setBuilderHotelName('');
+  };
+
+  const handleRemoveBuilderNode = (nodeId) => {
+    setBuilderNodes(prev => {
+      const updated = prev.filter(n => n.id !== nodeId);
+      for (let i = 0; i < updated.length - 1; i++) {
+        if (updated[i].actualEnd !== 'Onwards' && updated[i + 1].actualStart !== 'Onwards') {
+          updated[i].buffer = getMinutesBetween(updated[i].actualEnd, updated[i + 1].actualStart);
+        }
+      }
+      return updated;
+    });
+  };
+
+  const handleLockJourney = () => {
+    if (builderNodes.length === 0) return;
+    setCurrentTrip(builderNodes);
+    setBuilderNodes([]);
+    setTripRefNum(generateTripRef());
+    setDisruptionState('healthy');
+    setImpactMetrics({ delayMinutes: 0, brokenConnections: 0, affectedNodes: 0 });
     setCurrentPage('my-trip');
   };
 
@@ -771,7 +930,6 @@ function App() {
     let brokenCount = 0;
     let affectedCount = 0;
 
-    // Disrupt target node
     const targetNode = updatedNodes[targetIndex];
     affectedCount++;
     targetNode.disruptionReason = reason;
@@ -785,7 +943,6 @@ function App() {
       }
       cascadeDelay = delayMins;
     } else {
-      // Cancelled / Terminal lockout
       targetNode.status = 'broken';
       targetNode.delayMinutes = 360;
       targetNode.actualStart = 'CANCELLED';
@@ -794,13 +951,11 @@ function App() {
       brokenCount++;
     }
 
-    // Ripple downstream
     for (let i = targetIndex + 1; i < updatedNodes.length; i++) {
       const prevNode = updatedNodes[i - 1];
       const currNode = updatedNodes[i];
 
-      if (prevNode.status === 'broken' || prevNode.actualEnd === 'CANCELLED') {
-        // If predecessor cancelled, this connection is broken
+      if (prevNode.status === 'broken' || prevNode.actualEnd === 'CANCELLED' || prevNode.actualEnd === 'COMPROMISED') {
         currNode.status = 'broken';
         currNode.actualStart = 'COMPROMISED';
         currNode.actualEnd = 'COMPROMISED';
@@ -808,22 +963,13 @@ function App() {
         brokenCount++;
         affectedCount++;
       } else {
-        // Calculate buffers
-        // scheduled start of currNode - actual end of prevNode
         const prevActualEnd = prevNode.actualEnd;
         const currSchedStart = currNode.scheduledStart;
 
-        // If delay eats up buffer
         if (prevActualEnd !== 'Onwards' && currSchedStart !== 'Onwards') {
-          const [ph, pm] = prevActualEnd.split(':').map(Number);
-          const [sh, sm] = currSchedStart.split(':').map(Number);
-          const prevActualMins = ph * 60 + pm;
-          const currSchedMins = sh * 60 + sm;
-
-          const bufferRemaining = currSchedMins - prevActualMins;
+          const bufferRemaining = getMinutesBetween(prevActualEnd, currSchedStart);
 
           if (bufferRemaining < 0) {
-            // Buffer is violated! Connection is broken!
             currNode.status = 'broken';
             currNode.delayMinutes = Math.abs(bufferRemaining);
             currNode.actualStart = addMinutesToTime(currNode.scheduledStart, Math.abs(bufferRemaining));
@@ -833,20 +979,16 @@ function App() {
             brokenCount++;
             affectedCount++;
           } else {
-            // Delay is absorbed by buffer, but shifts timeline
             currNode.status = 'healthy';
             currNode.actualStart = currNode.scheduledStart;
             currNode.actualEnd = currNode.scheduledEnd;
           }
         } else if (currNode.scheduledEnd === 'Onwards') {
-          // It is a Hotel staying node
           const prevEnd = prevNode.actualEnd;
           const hotelCheckin = currNode.scheduledStart;
-          const [eh, em] = prevEnd.split(':').map(Number);
-          const [ch, cm] = hotelCheckin.split(':').map(Number);
+          const bufferRemaining = getMinutesBetween(prevEnd, hotelCheckin);
           
-          if (eh * 60 + em > ch * 60 + cm + 120) {
-            // Late check-in risk
+          if (bufferRemaining < -120) {
             currNode.status = 'delayed';
             currNode.actualStart = prevEnd;
             affectedCount++;
@@ -879,7 +1021,6 @@ function App() {
   const handleAcceptPlan = (planKey) => {
     setSuccessPlanAccepted(planKey);
     setTimeout(() => {
-      // Restore timeline to healthy state
       const restored = currentTrip.map((node, index) => {
         if (index === 0 && planKey === 'fastest') {
           return {
@@ -987,6 +1128,7 @@ function App() {
     setAuthName('');
     setAuthEmail('');
     setAuthPassword('');
+    setCurrentPage('home'); // Redirect to home page where builder is unlocked
   };
 
   // Restaurant details filtered
@@ -1003,7 +1145,7 @@ function App() {
     <div className="min-h-screen bg-slate-50 text-slate-850 flex flex-col justify-between selection:bg-[#287DFA] selection:text-white font-sans antialiased">
       
       {/* --- Global Navigation Header --- */}
-      <header className="sticky top-0 z-40 bg-white border-b border-slate-100 shadow-sm px-6 py-4 flex items-center justify-between">
+      <header className="sticky top-0 z-40 bg-white border-b border-slate-105 shadow-sm px-6 py-4 flex items-center justify-between">
         <div className="flex items-center gap-8">
           {/* Logo */}
           <button 
@@ -1016,54 +1158,58 @@ function App() {
             <span className="font-serif font-extrabold">{t('logo')}</span>
           </button>
 
-          {/* Desktop Nav Links */}
-          <nav className="hidden md:flex items-center gap-6 text-sm font-semibold text-slate-655">
-            <button 
-              onClick={() => setCurrentPage('home')}
-              className={`hover:text-[#287DFA] transition py-1 cursor-pointer ${currentPage === 'home' ? 'text-[#287DFA] border-b-2 border-[#287DFA]' : ''}`}
-            >
-              {t('navHome')}
-            </button>
-            <button 
-              onClick={() => setCurrentPage('my-trip')}
-              className={`hover:text-[#287DFA] transition py-1 flex items-center gap-1.5 cursor-pointer ${currentPage === 'my-trip' ? 'text-[#287DFA] border-b-2 border-[#287DFA]' : ''}`}
-            >
-              {t('navMyTrips')}
-              {disruptionState === 'disrupted' && (
-                <span className="relative flex h-2.5 w-2.5">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#FF7700] opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#FF7700]"></span>
-                </span>
-              )}
-            </button>
-            <button 
-              onClick={() => setCurrentPage('restaurants')}
-              className={`hover:text-[#287DFA] transition py-1 cursor-pointer ${currentPage === 'restaurants' ? 'text-[#287DFA] border-b-2 border-[#287DFA]' : ''}`}
-            >
-              {t('navRestaurants')}
-            </button>
-            <button 
-              onClick={() => setCurrentPage('support')}
-              className={`hover:text-[#287DFA] transition py-1 cursor-pointer ${currentPage === 'support' ? 'text-[#287DFA] border-b-2 border-[#287DFA]' : ''}`}
-            >
-              {t('navSupport')}
-            </button>
-          </nav>
+          {/* Desktop Nav Links - Gated by Login */}
+          {userAuth.loggedIn && (
+            <nav className="hidden md:flex items-center gap-6 text-sm font-semibold text-slate-655">
+              <button 
+                onClick={() => setCurrentPage('home')}
+                className={`hover:text-[#287DFA] transition py-1 cursor-pointer ${currentPage === 'home' ? 'text-[#287DFA] border-b-2 border-[#287DFA]' : ''}`}
+              >
+                {t('navHome')}
+              </button>
+              <button 
+                onClick={() => setCurrentPage('my-trip')}
+                className={`hover:text-[#287DFA] transition py-1 flex items-center gap-1.5 cursor-pointer ${currentPage === 'my-trip' ? 'text-[#287DFA] border-b-2 border-[#287DFA]' : ''}`}
+              >
+                {t('navMyTrips')}
+                {disruptionState === 'disrupted' && (
+                  <span className="relative flex h-2.5 w-2.5">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#FF7700] opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#FF7700]"></span>
+                  </span>
+                )}
+              </button>
+              <button 
+                onClick={() => setCurrentPage('restaurants')}
+                className={`hover:text-[#287DFA] transition py-1 cursor-pointer ${currentPage === 'restaurants' ? 'text-[#287DFA] border-b-2 border-[#287DFA]' : ''}`}
+              >
+                {t('navRestaurants')}
+              </button>
+              <button 
+                onClick={() => setCurrentPage('support')}
+                className={`hover:text-[#287DFA] transition py-1 cursor-pointer ${currentPage === 'support' ? 'text-[#287DFA] border-b-2 border-[#287DFA]' : ''}`}
+              >
+                {t('navSupport')}
+              </button>
+            </nav>
+          )}
         </div>
 
         {/* Right Controls */}
         <div className="flex items-center gap-4">
-          {/* Chaos Sandbox badge */}
-          <button 
-            onClick={() => setCurrentPage('chaos-lab')}
-            className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold rounded-full transition duration-200 cursor-pointer ${
-              currentPage === 'chaos-lab' 
-                ? 'bg-[#FF7700] text-white shadow-md shadow-[#FF7700]/20'
-                : 'bg-orange-50 text-[#FF7700] hover:bg-orange-100 border border-orange-200/20'
-            }`}
-          >
-            {t('navChaos')}
-          </button>
+          {/* Chaos Sandbox badge - Gated by Login */}
+          {userAuth.loggedIn && (
+            <button 
+              onClick={() => setCurrentPage('chaos-lab')}
+              className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold rounded-full transition duration-200 cursor-pointer ${
+                currentPage === 'chaos-lab' 
+                  ? 'bg-[#FF7700] text-white shadow-md shadow-[#FF7700]/20'
+                  : 'bg-orange-50 text-[#FF7700] hover:bg-orange-100 border border-orange-200/20'
+              }`}
+            >
+              {t('navChaos')}
+            </button>
+          )}
 
           {/* Language Dropdown Selector */}
           <div className="relative group">
@@ -1132,7 +1278,7 @@ function App() {
       <div className="flex-1 w-full relative">
         <AnimatePresence mode="wait">
           
-          {/* ================= PAGE 1: DYNAMIC HOMEPAGE & TRIP BUILDER ================= */}
+          {/* ================= PAGE 1: HOMEPAGE WITH AUTH GATED BUILDER ================= */}
           {currentPage === 'home' && (
             <motion.div
               key="home-page"
@@ -1155,137 +1301,294 @@ function App() {
                     {t('tagline').split('.')[0]}.<br />
                     <span className="text-[#287DFA]">{t('tagline').split('.')[1]}</span>
                   </h1>
-                  <p className="text-slate-600 text-sm md:text-base max-w-2xl mx-auto mb-8 leading-relaxed">
+                  <p className="text-slate-650 text-sm md:text-base max-w-2xl mx-auto mb-8 leading-relaxed font-semibold">
                     {t('subTagline')}
                   </p>
                 </div>
 
-                {/* Dynamic Trip Builder Card */}
-                <div className="w-full max-w-4xl bg-white rounded-2xl shadow-xl border border-slate-100 p-6 text-left mt-2 z-20">
-                  <div className="flex gap-2 border-b border-slate-100 pb-4 mb-6">
-                    <button
-                      type="button"
-                      onClick={() => setSearchTab('flights')}
-                      className={`px-4 py-2 rounded-full text-xs font-extrabold tracking-wider uppercase flex items-center gap-1.5 transition cursor-pointer ${
-                        searchTab === 'flights' ? 'bg-[#EAF3FF] text-[#287DFA]' : 'text-slate-500 hover:bg-slate-100'
-                      }`}
-                    >
-                      {t('flightTab')}
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => setSearchTab('trains')}
-                      className={`px-4 py-2 rounded-full text-xs font-extrabold tracking-wider uppercase flex items-center gap-1.5 transition cursor-pointer ${
-                        searchTab === 'trains' ? 'bg-[#EAF3FF] text-[#287DFA]' : 'text-slate-500 hover:bg-slate-100'
-                      }`}
-                    >
-                      {t('trainTab')}
-                    </button>
-                  </div>
-
-                  <form onSubmit={handleBuildNewTrip} className="space-y-6">
-                    {/* Inputs Row */}
-                    <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                      <div className="flex flex-col gap-1">
-                        <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">{t('fromLabel')}</label>
-                        <div className="relative">
-                          <MapPin className="absolute left-3 top-3 w-4 h-4 text-slate-400" />
-                          <select 
-                            value={searchFrom} 
-                            onChange={(e) => setSearchFrom(e.target.value)}
-                            className="w-full h-10 pl-9 pr-3 rounded-lg border border-slate-205 text-sm font-semibold bg-slate-50 focus:outline-none focus:border-[#287DFA] transition appearance-none cursor-pointer"
+                {/* Gated Builder Form Render */}
+                <div className="w-full max-w-4xl z-20">
+                  {userAuth.loggedIn ? (
+                    /* Authenticated Custom Node Builder */
+                    <div className="bg-white rounded-2xl shadow-xl border border-slate-100 p-6 text-left mt-2">
+                      <div className="flex gap-2 border-b border-slate-100 pb-4 mb-6">
+                        {['flights', 'trains', 'cabs', 'hotels'].map((tab) => (
+                          <button
+                            key={tab}
+                            type="button"
+                            onClick={() => {
+                              setSearchTab(tab);
+                              if (tab === 'flights') setBuilderDuration(75);
+                              else if (tab === 'trains') setBuilderDuration(180);
+                              else if (tab === 'cabs') setBuilderDuration(45);
+                              else setBuilderDuration(0);
+                            }}
+                            className={`px-4 py-2 rounded-full text-xs font-extrabold tracking-wider uppercase flex items-center gap-1.5 transition cursor-pointer ${
+                              searchTab === tab ? 'bg-[#EAF3FF] text-[#287DFA]' : 'text-slate-500 hover:bg-slate-50'
+                            }`}
                           >
-                            <option value="Mumbai (BOM)">Mumbai (BOM)</option>
-                            <option value="Delhi (DEL)">Delhi (DEL)</option>
-                            <option value="Bangalore (BLR)">Bangalore (BLR)</option>
-                          </select>
-                        </div>
+                            {tab === 'flights' ? t('flightTab')
+                              : tab === 'trains' ? t('trainTab')
+                              : tab === 'cabs' ? t('cabTab')
+                              : t('hotelTab')}
+                          </button>
+                        ))}
                       </div>
 
-                      <div className="flex flex-col gap-1">
-                        <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">{t('toLabel')}</label>
-                        <div className="relative">
-                          <MapPin className="absolute left-3 top-3 w-4 h-4 text-slate-400" />
-                          <select 
-                            value={searchTo} 
-                            onChange={(e) => setSearchTo(e.target.value)}
-                            className="w-full h-10 pl-9 pr-3 rounded-lg border border-slate-205 text-sm font-semibold bg-slate-50 focus:outline-none focus:border-[#287DFA] transition appearance-none cursor-pointer"
+                      <form onSubmit={handleAddBuilderNode} className="space-y-6">
+                        {/* Dynamic Input Fields based on Active Tab */}
+                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                          
+                          {/* From location (Not for Hotels) */}
+                          {searchTab !== 'hotels' && (
+                            <div className="flex flex-col gap-1">
+                              <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">{t('fromLabel')}</label>
+                              <div className="relative">
+                                <MapPin className="absolute left-3 top-3 w-4 h-4 text-slate-400" />
+                                <input
+                                  type="text"
+                                  required
+                                  value={builderFrom}
+                                  onChange={(e) => setBuilderFrom(e.target.value)}
+                                  placeholder={t('typePlaceholder')}
+                                  className="w-full h-10 pl-9 pr-3 rounded-lg border border-slate-205 text-xs font-semibold focus:outline-none focus:border-[#287DFA]"
+                                />
+                              </div>
+                            </div>
+                          )}
+
+                          {/* To Location (Hotel check-in destination) */}
+                          <div className="flex flex-col gap-1">
+                            <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+                              {searchTab === 'hotels' ? t('toLabel').split(' ')[0] + " Location" : t('toLabel')}
+                            </label>
+                            <div className="relative">
+                              <MapPin className="absolute left-3 top-3 w-4 h-4 text-slate-400" />
+                              <input
+                                type="text"
+                                required
+                                value={builderTo}
+                                onChange={(e) => setBuilderTo(e.target.value)}
+                                placeholder={t('typePlaceholder')}
+                                className="w-full h-10 pl-9 pr-3 rounded-lg border border-slate-205 text-xs font-semibold focus:outline-none focus:border-[#287DFA]"
+                              />
+                            </div>
+                          </div>
+
+                          {/* Date */}
+                          <div className="flex flex-col gap-1">
+                            <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">{t('dateLabel')}</label>
+                            <div className="relative">
+                              <Calendar className="absolute left-3 top-3 w-4 h-4 text-slate-400" />
+                              <input
+                                type="date"
+                                required
+                                value={builderDate}
+                                onChange={(e) => setBuilderDate(e.target.value)}
+                                className="w-full h-10 pl-9 pr-3 rounded-lg border border-slate-250 text-xs font-semibold focus:outline-none focus:border-[#287DFA]"
+                              />
+                            </div>
+                          </div>
+
+                          {/* Start Time */}
+                          <div className="flex flex-col gap-1">
+                            <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">{t('timeLabel')}</label>
+                            <div className="relative">
+                              <Clock className="absolute left-3 top-3 w-4 h-4 text-slate-400" />
+                              <input
+                                type="time"
+                                required
+                                value={builderTime}
+                                onChange={(e) => setBuilderTime(e.target.value)}
+                                className="w-full h-10 pl-9 pr-3 rounded-lg border border-slate-250 text-xs font-semibold focus:outline-none focus:border-[#287DFA]"
+                              />
+                            </div>
+                          </div>
+
+                          {/* Duration in Minutes (Except Hotel) */}
+                          {searchTab !== 'hotels' && (
+                            <div className="flex flex-col gap-1">
+                              <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">{t('durationLabel')}</label>
+                              <div className="relative">
+                                <Clock className="absolute left-3 top-3 w-4 h-4 text-slate-400" />
+                                <input
+                                  type="number"
+                                  min="1"
+                                  required
+                                  value={builderDuration}
+                                  onChange={(e) => setBuilderDuration(Number(e.target.value))}
+                                  className="w-full h-10 pl-9 pr-3 rounded-lg border border-slate-205 text-xs font-semibold focus:outline-none focus:border-[#287DFA]"
+                                />
+                              </div>
+                            </div>
+                          )}
+
+                          {/* Specific Identity Inputs */}
+                          {searchTab === 'flights' && (
+                            <div className="flex flex-col gap-1">
+                              <label className="text-[10px] font-bold text-[#287DFA] uppercase tracking-wider">{t('airwaysLabel')}</label>
+                              <input
+                                type="text"
+                                required
+                                value={builderAirways}
+                                onChange={(e) => setBuilderAirways(e.target.value)}
+                                placeholder="E.g. IndiGo, Air India"
+                                className="w-full h-10 px-3 rounded-lg border border-[#287DFA]/40 bg-blue-50/10 text-xs font-bold focus:outline-none focus:border-[#287DFA]"
+                              />
+                            </div>
+                          )}
+
+                          {searchTab === 'trains' && (
+                            <div className="flex flex-col gap-1">
+                              <label className="text-[10px] font-bold text-[#287DFA] uppercase tracking-wider">{t('trainNameLabel')}</label>
+                              <input
+                                type="text"
+                                required
+                                value={builderTrainName}
+                                onChange={(e) => setBuilderTrainName(e.target.value)}
+                                placeholder="E.g. Shatabdi Exp, Deccan Queen"
+                                className="w-full h-10 px-3 rounded-lg border border-[#287DFA]/40 bg-blue-50/10 text-xs font-bold focus:outline-none focus:border-[#287DFA]"
+                              />
+                            </div>
+                          )}
+
+                          {searchTab === 'cabs' && (
+                            <div className="flex flex-col gap-1">
+                              <label className="text-[10px] font-bold text-[#287DFA] uppercase tracking-wider">{t('cabServiceLabel')}</label>
+                              <input
+                                type="text"
+                                required
+                                value={builderCabService}
+                                onChange={(e) => setBuilderCabService(e.target.value)}
+                                placeholder="E.g. Uber Select, Ola Outstation"
+                                className="w-full h-10 px-3 rounded-lg border border-[#287DFA]/40 bg-blue-50/10 text-xs font-bold focus:outline-none focus:border-[#287DFA]"
+                              />
+                            </div>
+                          )}
+
+                          {searchTab === 'hotels' && (
+                            <div className="flex flex-col gap-1">
+                              <label className="text-[10px] font-bold text-[#287DFA] uppercase tracking-wider">{t('hotelNameLabel')}</label>
+                              <input
+                                type="text"
+                                required
+                                value={builderHotelName}
+                                onChange={(e) => setBuilderHotelName(e.target.value)}
+                                placeholder="E.g. Grand Hyatt, Taj Mahal Stay"
+                                className="w-full h-10 px-3 rounded-lg border border-[#287DFA]/40 bg-blue-50/10 text-xs font-bold focus:outline-none focus:border-[#287DFA]"
+                              />
+                            </div>
+                          )}
+
+                        </div>
+
+                        <div className="flex justify-end pt-2">
+                          <button
+                            type="submit"
+                            className="px-6 h-10 bg-[#287DFA] hover:bg-[#1C6BDB] text-white text-xs font-extrabold rounded-lg transition shadow-md shadow-[#287DFA]/10 active:scale-98 flex items-center justify-center gap-1.5 cursor-pointer w-full sm:w-auto"
                           >
-                            <option value="Pune (PNQ)">Pune (PNQ)</option>
-                            <option value="Mumbai (BOM)">Mumbai (BOM)</option>
-                            <option value="Delhi (DEL)">Delhi (DEL)</option>
-                          </select>
+                            {t('addNodeBtn')}
+                          </button>
                         </div>
+                      </form>
+
+                      {/* Timeline live preview chain builder */}
+                      <div className="border-t border-slate-100 mt-6 pt-6 space-y-4">
+                        <div className="flex justify-between items-center">
+                          <h4 className="text-xs font-extrabold tracking-wider uppercase text-slate-400 font-mono">
+                            {t('livePreview')}
+                          </h4>
+                          {builderNodes.length > 0 && (
+                            <button
+                              onClick={handleLockJourney}
+                              className="px-4 py-2 bg-emerald-500 hover:bg-emerald-600 text-white text-xs font-bold rounded-lg transition shadow-md shadow-emerald-500/10 active:scale-98 flex items-center gap-1 cursor-pointer"
+                            >
+                              {t('lockTripBtn')}
+                            </button>
+                          )}
+                        </div>
+
+                        {builderNodes.length > 0 ? (
+                          <div className="overflow-x-auto custom-scrollbar pb-3 pt-2 min-h-[170px] flex items-center justify-start">
+                            <div className="flex items-center">
+                              {builderNodes.map((node, idx) => (
+                                <div key={node.id} className="flex items-center">
+                                  
+                                  {/* Preview Node Card */}
+                                  <div className="w-56 p-3 bg-slate-50 border border-slate-200 rounded-xl relative hover:border-[#287DFA] transition group flex-shrink-0 shadow-xs">
+                                    <button
+                                      type="button"
+                                      onClick={() => handleRemoveBuilderNode(node.id)}
+                                      className="absolute -top-1.5 -right-1.5 p-1 bg-red-100 hover:bg-red-200 text-red-650 rounded-full cursor-pointer shadow-xs border border-red-200/50"
+                                    >
+                                      <Trash2 className="w-3 h-3" />
+                                    </button>
+
+                                    <div className="flex items-center justify-between mb-2">
+                                      <span className="px-1.5 py-0.5 rounded text-[8px] font-bold uppercase tracking-wide bg-[#EAF3FF] text-[#287DFA]">
+                                        {node.type}
+                                      </span>
+                                      <span className="text-[9px] text-slate-400 font-mono font-bold">
+                                        {node.scheduledStart}
+                                      </span>
+                                    </div>
+                                    <h5 className="font-extrabold text-xs text-slate-900 truncate font-serif">{node.title}</h5>
+                                    <p className="text-[10px] text-slate-450 truncate mt-0.5">{node.sub}</p>
+                                    
+                                    {node.type !== 'hotel' && (
+                                      <span className="text-[9px] text-slate-400 block mt-2 font-mono">
+                                        End: {node.scheduledEnd}
+                                      </span>
+                                    )}
+                                  </div>
+
+                                  {/* Preview Timeline Bridge connector */}
+                                  {idx < builderNodes.length - 1 && (
+                                    <div className="w-12 h-[2px] bg-slate-205 relative flex items-center justify-center flex-shrink-0">
+                                      <span className="absolute px-1.5 py-0.5 bg-white border border-slate-150 rounded-full text-[8px] font-bold text-slate-450 font-mono">
+                                        {node.buffer}m
+                                      </span>
+                                    </div>
+                                  )}
+
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        ) : (
+                          <div className="text-center py-8 bg-slate-50/50 rounded-xl border border-slate-105 flex flex-col items-center justify-center gap-1.5">
+                            <AlertCircle className="w-6 h-6 text-slate-350" />
+                            <p className="text-xs text-slate-450 font-semibold">{t('noNodesYet')}</p>
+                          </div>
+                        )}
                       </div>
 
-                      <div className="flex flex-col gap-1">
-                        <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">{t('dateLabel')}</label>
-                        <div className="relative">
-                          <Calendar className="absolute left-3 top-3 w-4 h-4 text-slate-400" />
-                          <input
-                            type="date"
-                            value={searchDate}
-                            onChange={(e) => setSearchDate(e.target.value)}
-                            className="w-full h-10 pl-9 pr-3 rounded-lg border border-slate-205 text-sm font-semibold bg-slate-50 focus:outline-none focus:border-[#287DFA] transition cursor-pointer"
-                          />
-                        </div>
-                      </div>
-
-                      <div className="flex flex-col gap-1">
-                        <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">{t('timeLabel')}</label>
-                        <div className="relative">
-                          <Clock className="absolute left-3 top-3 w-4 h-4 text-slate-400" />
-                          <input
-                            type="time"
-                            value={searchTime}
-                            onChange={(e) => setSearchTime(e.target.value)}
-                            className="w-full h-10 pl-9 pr-3 rounded-lg border border-slate-205 text-sm font-semibold bg-slate-50 focus:outline-none focus:border-[#287DFA] transition cursor-pointer"
-                          />
-                        </div>
-                      </div>
                     </div>
-
-                    {/* Add-ons Toggles */}
-                    <div className="flex flex-col sm:flex-row gap-6 py-2 border-t border-slate-100 pt-4">
-                      <label className="flex items-center gap-2.5 cursor-pointer text-xs font-semibold text-slate-655 selection:bg-transparent">
-                        <input
-                          type="checkbox"
-                          checked={includeCab}
-                          onChange={(e) => setIncludeCab(e.target.checked)}
-                          className="w-4.5 h-4.5 rounded border-slate-300 text-[#287DFA] focus:ring-[#287DFA]"
-                        />
-                        <span>{t('includeCab')}</span>
-                      </label>
-
-                      <label className="flex items-center gap-2.5 cursor-pointer text-xs font-semibold text-slate-655 selection:bg-transparent">
-                        <input
-                          type="checkbox"
-                          checked={includeHotel}
-                          onChange={(e) => setIncludeHotel(e.target.checked)}
-                          className="w-4.5 h-4.5 rounded border-slate-300 text-[#287DFA] focus:ring-[#287DFA]"
-                        />
-                        <span>{t('includeHotel')}</span>
-                      </label>
-                    </div>
-
-                    {/* Form Footer */}
-                    <div className="flex flex-col sm:flex-row justify-between items-center pt-4 border-t border-slate-100 gap-4">
-                      <div className="flex items-center gap-2 text-[11px] text-slate-505 font-medium">
-                        <ShieldCheck className="w-4.5 h-4.5 text-emerald-500 shrink-0" />
-                        <span>{t('freeCancellation')}</span>
+                  ) : (
+                    /* Guest Call-to-action banner */
+                    <div className="bg-white rounded-2xl shadow-xl border border-slate-100 p-8 text-center flex flex-col items-center gap-4">
+                      <div className="p-4 bg-[#EAF3FF] text-[#287DFA] rounded-full">
+                        <ShieldCheck className="w-8 h-8 stroke-[2]" />
                       </div>
+                      <h3 className="text-lg font-extrabold text-slate-900 font-serif">{t('authPromptTitle')}</h3>
+                      <p className="text-slate-500 text-xs max-w-md leading-relaxed">
+                        {t('authPromptDesc')}
+                      </p>
                       <button
-                        type="submit"
-                        className="px-6 h-11 bg-[#287DFA] hover:bg-[#1C6BDB] text-white font-bold rounded-xl transition shadow-md shadow-[#287DFA]/20 active:scale-95 flex items-center justify-center gap-2 cursor-pointer w-full sm:w-auto"
+                        onClick={() => {
+                          setAuthTab('signin');
+                          setShowAuthModal(true);
+                        }}
+                        className="px-6 h-10 bg-[#287DFA] hover:bg-[#1C6BDB] text-white text-xs font-bold rounded-lg transition shadow-md shadow-[#287DFA]/15 active:scale-95 cursor-pointer font-semibold"
                       >
-                        {t('searchDeals')} <ArrowRight className="w-4 h-4" />
+                        Sign In Now
                       </button>
                     </div>
-                  </form>
+                  )}
                 </div>
               </section>
 
-              {/* Marketing Perks Grid */}
+              {/* Marketing Perks Grid - Shown for both Guest and Authed users */}
               <section className="max-w-6xl w-full px-6 py-16">
                 <h2 className="text-2xl font-bold tracking-tight text-center text-slate-900 mb-10 font-serif">
                   {t('howItWorks')}
@@ -1327,7 +1630,7 @@ function App() {
           )}
 
           {/* ================= PAGE 2: "MY TRIP" LIVE TIMELINE VIEW ================= */}
-          {currentPage === 'my-trip' && (
+          {currentPage === 'my-trip' && userAuth.loggedIn && (
             <motion.div
               key="my-trip-page"
               initial={{ opacity: 0, y: 15 }}
@@ -1340,7 +1643,7 @@ function App() {
               <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-slate-200 pb-5">
                 <div>
                   <h1 className="text-2xl font-bold tracking-tight text-slate-900 font-serif">
-                    {t('tripHeaderTitle')} {currentTrip[0]?.sub?.split('→')[1]?.trim() || searchTo}
+                    {t('tripHeaderTitle')} {currentTrip[currentTrip.length - 1]?.title || 'Destination'}
                   </h1>
                   <p className="text-slate-505 text-xs font-semibold mt-0.5">{t('tripReference')}: <span className="font-mono text-slate-800 font-bold">{tripRefNum}</span></p>
                 </div>
@@ -1468,7 +1771,7 @@ function App() {
                             <div className="grid grid-cols-2 gap-2 mt-4 pt-3 border-t border-slate-100">
                               <div>
                                 <span className="text-[9px] font-bold text-slate-400 block uppercase tracking-wider">{t('scheduled')}</span>
-                                <span className="text-xs font-semibold text-slate-505 font-mono">{node.scheduledStart} - {node.scheduledEnd}</span>
+                                <span className="text-xs font-semibold text-slate-555 font-mono">{node.scheduledStart} - {node.scheduledEnd}</span>
                               </div>
                               <div>
                                 <span className="text-[9px] font-bold text-slate-400 block uppercase tracking-wider">{t('actual')}</span>
@@ -1551,7 +1854,7 @@ function App() {
           )}
 
           {/* ================= PAGE 3: THE RESCUE CENTER ================= */}
-          {currentPage === 'rescue' && (
+          {currentPage === 'rescue' && userAuth.loggedIn && (
             <motion.div
               key="rescue-page"
               initial={{ opacity: 0, y: 15 }}
@@ -1684,7 +1987,7 @@ function App() {
                     <button
                       onClick={() => handleAcceptPlan('cheapest')}
                       disabled={successPlanAccepted !== null}
-                      className="w-full h-10 bg-slate-950 hover:bg-slate-900 text-white font-bold text-xs rounded-xl shadow-sm transition cursor-pointer active:scale-98"
+                      className="w-full h-10 bg-slate-955 hover:bg-slate-900 text-white font-bold text-xs rounded-xl shadow-sm transition cursor-pointer active:scale-98"
                     >
                       {successPlanAccepted === 'cheapest' ? 'Processing...' : t('acceptPlan')}
                     </button>
@@ -1703,7 +2006,7 @@ function App() {
 
                     <div>
                       <h3 className="font-extrabold text-base text-slate-900 font-serif">💸 Max Refund Claim</h3>
-                      <p className="text-xs text-slate-400 mt-0.5">Cancel & Full Claim</p>
+                      <p className="text-xs text-slate-450 mt-0.5 font-semibold">Cancel & Full Claim</p>
                     </div>
 
                     <p className="text-slate-505 text-xs leading-relaxed">
@@ -1734,7 +2037,7 @@ function App() {
                     <button
                       onClick={() => handleAcceptPlan('refund')}
                       disabled={successPlanAccepted !== null}
-                      className="w-full h-10 border border-slate-300 hover:bg-slate-50 text-slate-700 font-bold text-xs rounded-xl shadow-xs transition cursor-pointer active:scale-98"
+                      className="w-full h-10 border border-slate-305 hover:bg-slate-50 text-slate-700 font-bold text-xs rounded-xl shadow-xs transition cursor-pointer active:scale-98"
                     >
                       {successPlanAccepted === 'refund' ? 'Processing...' : t('acceptPlan')}
                     </button>
@@ -1750,7 +2053,7 @@ function App() {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
-                    className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/45 backdrop-blur-xs p-6"
+                    className="fixed inset-0 z-50 flex items-center justify-center bg-slate-955/45 backdrop-blur-xs p-6"
                   >
                     <motion.div
                       initial={{ scale: 0.9, y: 20 }}
@@ -1761,11 +2064,11 @@ function App() {
                       <div className="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center text-emerald-555 mb-2">
                         <Check className="w-8 h-8 stroke-[3]" />
                       </div>
-                      <h3 className="text-xl font-bold text-slate-900 font-serif">Trip Recovered!</h3>
+                      <h3 className="text-xl font-bold text-slate-900 font-serif font-serif">Trip Recovered!</h3>
                       <p className="text-xs text-slate-550 leading-relaxed">
                         We've updated your itinerary vouchers and notified the cab operator and hotel staff. Your new boarding pass is on its way.
                       </p>
-                      <span className="text-[10px] text-slate-400 font-mono tracking-wider animate-pulse">Updating timeline view...</span>
+                      <span className="text-[10px] text-slate-450 font-mono tracking-wider animate-pulse">Updating timeline view...</span>
                     </motion.div>
                   </motion.div>
                 )}
@@ -1773,8 +2076,8 @@ function App() {
             </motion.div>
           )}
 
-          {/* ================= PAGE 4: CHAOS LAB SANDBOX (JUDGE TESTING) ================= */}
-          {currentPage === 'chaos-lab' && (
+          {/* ================= PAGE 4: CHAOS LAB SANDBOX ================= */}
+          {currentPage === 'chaos-lab' && userAuth.loggedIn && (
             <motion.div
               key="chaos-lab"
               initial={{ opacity: 0, y: 15 }}
@@ -1967,7 +2270,7 @@ function App() {
           )}
 
           {/* ================= PAGE 5: LOCAL DINING & RESTAURANTS ================= */}
-          {currentPage === 'restaurants' && (
+          {currentPage === 'restaurants' && userAuth.loggedIn && (
             <motion.div
               key="restaurants-page"
               initial={{ opacity: 0, y: 15 }}
@@ -2036,7 +2339,7 @@ function App() {
                         <div className="space-y-1">
                           <div className="flex items-start justify-between gap-2">
                             <h3 className="font-extrabold text-sm text-slate-955 font-serif line-clamp-1">{restaurant.name}</h3>
-                            <div className="flex items-center gap-1 shrink-0 text-amber-505 font-bold text-xs">
+                            <div className="flex items-center gap-1 shrink-0 text-amber-500 font-bold text-xs">
                               <Star className="w-3.5 h-3.5 fill-current" />
                               <span>{restaurant.rating}</span>
                             </div>
@@ -2068,7 +2371,7 @@ function App() {
           )}
 
           {/* ================= PAGE 6: SUPPORT HUB & CHATBOT CENTER ================= */}
-          {currentPage === 'support' && (
+          {currentPage === 'support' && userAuth.loggedIn && (
             <motion.div
               key="support-page"
               initial={{ opacity: 0, y: 15 }}
@@ -2077,7 +2380,7 @@ function App() {
               transition={{ duration: 0.25 }}
               className="max-w-5xl mx-auto w-full px-6 py-10 flex flex-col gap-6"
             >
-              <div className="border-b border-slate-205 pb-5">
+              <div className="border-b border-slate-200 pb-5">
                 <span className="px-3 py-1 rounded-full bg-slate-900 text-white text-xs font-bold font-mono uppercase tracking-wider">
                   📞 Help Center
                 </span>
@@ -2124,18 +2427,18 @@ function App() {
                       {/* Helpline Box */}
                       <div className="p-5 bg-rose-50 border border-rose-100 rounded-2xl flex items-center justify-between gap-4">
                         <div className="flex gap-3">
-                          <div className="p-3 bg-rose-555 text-white rounded-xl self-start">
+                          <div className="p-3 bg-rose-500 text-white rounded-xl self-start">
                             <ShieldAlert className="w-5 h-5 animate-pulse" />
                           </div>
                           <div>
                             <h4 className="text-sm font-bold text-slate-900 font-serif">{t('sosHelpline')}</h4>
                             <p className="text-xs text-slate-600 mt-1 leading-normal font-semibold">
-                              {t('sosDesc')}: <span className="font-extrabold text-rose-600 font-mono">1805-419-7377</span> (Toll-Free). Immediate vector backup deck active.
+                              {t('sosDesc')}: <span className="font-extrabold text-rose-600 font-mono">1800-419-7377</span> (Toll-Free). Immediate vector backup deck active.
                             </p>
                           </div>
                         </div>
                         <a
-                          href="tel:18054197377"
+                          href="tel:18004197377"
                           className="px-4 py-2 bg-rose-500 text-white text-xs font-bold rounded-lg hover:bg-rose-600 transition shadow-sm whitespace-nowrap text-center animate-pulse"
                         >
                           Call SOS
@@ -2190,7 +2493,7 @@ function App() {
                             initial={{ opacity: 0, y: 10 }}
                             animate={{ opacity: 1, y: 0 }}
                             exit={{ opacity: 0 }}
-                            className="p-6 bg-emerald-50 border border-emerald-200 rounded-xl text-center flex flex-col items-center gap-3"
+                            className="p-6 bg-emerald-50 border border-emerald-250 rounded-xl text-center flex flex-col items-center gap-3"
                           >
                             <CheckCircle className="w-10 h-10 text-emerald-500" />
                             <h4 className="font-bold text-slate-900 text-sm font-serif">Report Submitted Successfully</h4>
@@ -2264,7 +2567,7 @@ function App() {
                   {supportTab === 'feedback' && (
                     <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm space-y-6">
                       <div>
-                        <h3 className="text-base font-extrabold text-slate-900 font-serif">{t('feedbackTitle')}</h3>
+                        <h3 className="text-base font-extrabold text-slate-905 font-serif">{t('feedbackTitle')}</h3>
                         <p className="text-slate-450 text-[11px] mt-0.5 font-semibold">{t('feedbackSub')}</p>
                       </div>
 
@@ -2278,13 +2581,13 @@ function App() {
                           >
                             <CheckCircle className="w-10 h-10 text-emerald-500" />
                             <h4 className="font-bold text-slate-900 text-sm font-serif">Feedback Submitted</h4>
-                            <p className="text-xs text-slate-655 font-semibold">Thank you for rating your experience! We appreciate your input.</p>
+                            <p className="text-xs text-slate-650 font-semibold font-serif">Thank you for rating your experience! We appreciate your input.</p>
                           </motion.div>
                         ) : (
                           <form onSubmit={handleFeedbackSubmit} className="space-y-6">
                             {/* Star Selection */}
                             <div className="flex flex-col items-center gap-2 py-4 bg-slate-50/60 rounded-xl">
-                              <span className="text-xs font-bold text-slate-500">Tap to Rate</span>
+                              <span className="text-xs font-bold text-slate-500 font-serif">Tap to Rate</span>
                               <div className="flex items-center gap-1.5">
                                 {[1, 2, 3, 4, 5].map((star) => (
                                   <button
@@ -2298,8 +2601,8 @@ function App() {
                                     <Star 
                                       className={`w-8 h-8 ${
                                         star <= (feedbackHover || feedbackRating) 
-                                          ? 'text-amber-400 fill-amber-400 stroke-amber-500' 
-                                          : 'text-slate-305 stroke-slate-300'
+                                          ? 'text-amber-450 fill-amber-400 stroke-amber-500' 
+                                          : 'text-slate-300 stroke-slate-300'
                                       }`} 
                                     />
                                   </button>
@@ -2327,7 +2630,7 @@ function App() {
                                       className={`px-3 py-1 rounded-full text-xs font-bold transition cursor-pointer ${
                                         isSelected 
                                           ? 'bg-slate-900 text-white' 
-                                          : 'bg-slate-105 hover:bg-slate-200 text-slate-600'
+                                          : 'bg-slate-105 hover:bg-slate-200 text-slate-605'
                                       }`}
                                     >
                                       {tag}
@@ -2412,7 +2715,7 @@ function App() {
                   <div className="px-4 py-2 border-t border-slate-55 flex gap-1.5 overflow-x-auto whitespace-nowrap custom-scrollbar bg-white">
                     <button
                       onClick={() => handleQuickChatPrompt("My flight is delayed, what do I do?")}
-                      className="px-2.5 py-1 bg-slate-50 hover:bg-slate-105 border border-slate-200 text-[10px] font-bold text-slate-600 rounded-full transition shrink-0 cursor-pointer font-semibold"
+                      className="px-2.5 py-1 bg-slate-50 hover:bg-slate-105 border border-slate-200 text-[10px] font-bold text-slate-605 rounded-full transition shrink-0 cursor-pointer font-semibold"
                     >
                       ⏱️ delayed transit
                     </button>
@@ -2424,7 +2727,7 @@ function App() {
                     </button>
                     <button
                       onClick={() => handleQuickChatPrompt("Is my hotel stay check-in safe?")}
-                      className="px-2.5 py-1 bg-slate-50 hover:bg-slate-105 border border-slate-200 text-[10px] font-bold text-slate-600 rounded-full transition shrink-0 cursor-pointer font-semibold"
+                      className="px-2.5 py-1 bg-slate-50 hover:bg-slate-105 border border-slate-200 text-[10px] font-bold text-slate-605 rounded-full transition shrink-0 cursor-pointer font-semibold"
                     >
                       🏨 hotel checks
                     </button>
@@ -2509,7 +2812,7 @@ function App() {
               <form onSubmit={handleAuthSubmit} className="p-6 space-y-4">
                 <div className="text-center pb-2">
                   <h3 className="font-bold text-slate-900 font-serif text-base">{t('authTitle')}</h3>
-                  <p className="text-slate-440 text-[10px] mt-0.5">Secure verification via TripResQ Protection Shield</p>
+                  <p className="text-slate-440 text-[10px] mt-0.5 font-semibold">Secure verification via TripResQ Protection Shield</p>
                 </div>
 
                 {authTab === 'signup' && (
@@ -2576,6 +2879,7 @@ function App() {
                       onClick={() => {
                         setUserAuth({ loggedIn: true, user: { name: 'Google Traveler', email: 'traveler@google.com' } });
                         setShowAuthModal(false);
+                        setCurrentPage('home');
                       }}
                       className="h-8 border border-slate-200 rounded-lg text-[10px] font-bold hover:bg-slate-50 cursor-pointer transition flex items-center justify-center gap-1.5"
                     >
@@ -2586,6 +2890,7 @@ function App() {
                       onClick={() => {
                         setUserAuth({ loggedIn: true, user: { name: 'OTP User', email: 'otp@tripresq.com' } });
                         setShowAuthModal(false);
+                        setCurrentPage('home');
                       }}
                       className="h-8 border border-slate-200 rounded-lg text-[10px] font-bold hover:bg-slate-50 cursor-pointer transition flex items-center justify-center gap-1.5"
                     >
