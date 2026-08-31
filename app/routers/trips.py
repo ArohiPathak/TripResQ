@@ -58,3 +58,29 @@ def get_trip_graph(trip_id):
         "nodes": node_list,
         "edges": edge_list
     }), 200
+
+from app.services.disruption import apply_disruption
+
+@trips_bp.route('/<trip_id>/disrupt', methods=['POST'])
+def disrupt_trip(trip_id):
+    data = request.get_json()
+    if not data or 'node_id' not in data or 'delay_minutes' not in data:
+        return jsonify({"error": "node_id and delay_minutes are required"}), 400
+        
+    try:
+        impacts = apply_disruption(
+            trip_id=trip_id,
+            node_id=data['node_id'],
+            delay_minutes=data['delay_minutes'],
+            reason=data.get('reason', 'Unknown Delay')
+        )
+    except ValueError as e:
+        return jsonify({"error": str(e)}), 400
+        
+    # Return the updated graph and the diagnostic breakdown
+    graph_response = get_trip_graph(trip_id).get_json()
+    return jsonify({
+        "message": "Disruption applied and propagated successfully",
+        "impacts": impacts,
+        "updated_graph": graph_response
+    }), 200
