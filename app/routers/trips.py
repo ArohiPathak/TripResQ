@@ -8,6 +8,23 @@ trips_bp = Blueprint('trips', __name__, url_prefix='/api/trips')
 
 @trips_bp.route('', methods=['POST'])
 def create_trip():
+    """
+    Create a new Trip Session
+    ---
+    tags:
+      - Trips
+    parameters:
+      - in: body
+        name: body
+        schema:
+          type: object
+          properties:
+            name:
+              type: string
+    responses:
+      201:
+        description: Trip created
+    """
     data = request.get_json()
     if not data or 'name' not in data:
         return jsonify({"error": "Name is required"}), 400
@@ -20,6 +37,20 @@ def create_trip():
 
 @trips_bp.route('/<trip_id>/graph', methods=['GET'])
 def get_trip_graph(trip_id):
+    """
+    Fetch the entire computed Graph for a trip
+    ---
+    tags:
+      - Graph
+    parameters:
+      - in: path
+        name: trip_id
+        type: string
+        required: true
+    responses:
+      200:
+        description: Graph returned successfully
+    """
     trip = db.session.get(Trip, trip_id)
     if not trip:
         return jsonify({"error": "Trip not found"}), 404
@@ -66,6 +97,31 @@ from app.services.disruption import apply_disruption
 
 @trips_bp.route('/<trip_id>/disrupt', methods=['POST'])
 def disrupt_trip(trip_id):
+    """
+    Apply a time disruption to a Node and execute BFS propagation
+    ---
+    tags:
+      - Graph Disruption
+    parameters:
+      - in: path
+        name: trip_id
+        type: string
+        required: true
+      - in: body
+        name: body
+        schema:
+          type: object
+          properties:
+            node_id:
+              type: string
+            delay_minutes:
+              type: integer
+            reason:
+              type: string
+    responses:
+      200:
+        description: Disruption propagated
+    """
     data = request.get_json()
     if not data or 'node_id' not in data or 'delay_minutes' not in data:
         return jsonify({"error": "node_id and delay_minutes are required"}), 400
@@ -92,6 +148,20 @@ from app.services.recovery import generate_recovery_proposals, apply_recovery_pl
 
 @trips_bp.route('/<trip_id>/recover', methods=['POST'])
 def recover_trip(trip_id):
+    """
+    Generate recovery proposals for broken nodes in the graph
+    ---
+    tags:
+      - Graph Recovery
+    parameters:
+      - in: path
+        name: trip_id
+        type: string
+        required: true
+    responses:
+      200:
+        description: Proposals generated
+    """
     proposals = generate_recovery_proposals(trip_id)
     return jsonify({
         "trip_id": trip_id,
@@ -100,6 +170,29 @@ def recover_trip(trip_id):
     
 @trips_bp.route('/<trip_id>/apply-plan', methods=['POST'])
 def apply_plan(trip_id):
+    """
+    Atomically apply a list of recovery proposals to restore the trip
+    ---
+    tags:
+      - Graph Recovery
+    parameters:
+      - in: path
+        name: trip_id
+        type: string
+        required: true
+      - in: body
+        name: body
+        schema:
+          type: object
+          properties:
+            proposals:
+              type: array
+              items:
+                type: object
+    responses:
+      200:
+        description: Plan applied and trip restored
+    """
     data = request.get_json()
     if not data or 'proposals' not in data:
         return jsonify({"error": "proposals list is required"}), 400

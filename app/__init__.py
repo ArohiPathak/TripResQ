@@ -1,9 +1,33 @@
 import os
 from flask import Flask
+from flask_cors import CORS
+from flasgger import Swagger
 from app.core.db import db, migrate
+from app.routers.trips import trips_bp
+from app.routers.nodes import nodes_bp
 
 def create_app(test_config=None):
     app = Flask(__name__)
+    
+    # Enable CORS for React Dev Server (Person B)
+    CORS(app, resources={r"/api/*": {"origins": "*"}})
+    
+    # Initialize Swagger API Documentation
+    swagger_config = {
+        "headers": [],
+        "specs": [
+            {
+                "endpoint": 'apispec_1',
+                "route": '/apispec_1.json',
+                "rule_filter": lambda rule: True,  # all in
+                "model_filter": lambda tag: True,  # all in
+            }
+        ],
+        "static_url_path": "/flasgger_static",
+        "swagger_ui": True,
+        "specs_route": "/api/docs"
+    }
+    Swagger(app, config=swagger_config)
     
     if test_config is None:
         db_path = os.path.join(app.instance_path, 'tripresq.sqlite')
