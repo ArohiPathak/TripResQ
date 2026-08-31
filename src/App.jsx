@@ -94,6 +94,8 @@ const TRANSLATIONS = {
     onTime: "On Time",
     delayed: "Delayed",
     connectionBroken: "Connection Broken",
+    missedConnection: "Missed Connection",
+    generalDisruption: "General",
 
     // Rescue Page
     rescueHeader: "We've got you covered.",
@@ -105,6 +107,41 @@ const TRANSLATIONS = {
     acceptPlan: "Accept Plan",
     free: "FREE",
     refund: "Refund",
+    fastestTitle: "⚡ Express Route Shift",
+    fastestDesc: "Rescheduled Premium Transit",
+    fastestDetails: "Reschedule transit to next immediate express connection. All downstream cab pick-up schedules are automatically shifted. Hotel notified of late arrival.",
+    transitShift: "Transit Shift",
+    nextDepartureRescheduled: "Next Departure (Rescheduled)",
+    cabPickup: "Cab Pickup",
+    updatedAutomatically: "Updated Automatically",
+    hotelCheckin: "Hotel Check-in",
+    warningAlertDispatched: "Warning Alert Dispatched",
+    tripresqCost: "TripResQ Cost",
+    processing: "Processing...",
+    tripRecoveredTitle: "Trip Recovered!",
+    tripRecoveredDesc: "We've updated your itinerary vouchers and notified the cab operator and hotel staff. Your new boarding pass is on its way.",
+    updatingTimeline: "Updating timeline view...",
+    
+    budgetTitle: "💰 Delayed Coach Reschedule",
+    budgetDesc: "Off-Peak Transit Reschedule",
+    budgetDetails: "Reschedule to later connecting transit node. Minimizes immediate cost by absorbing longer delay, backed by compensation voucher.",
+    delayedByHours: "Delayed by 3.5 hrs",
+    compensation: "Compensation",
+    travelVoucher: "₹600 Travel Voucher",
+    postponedReservation: "Postponed Reservation",
+    compensationCredit: "Compensation Credit",
+    creditBack: "₹600 Credit Back",
+
+    refundTitle: "💸 Max Refund Claim",
+    refundDesc: "Cancel & Full Claim",
+    refundDetails: "Cancel all disrupted and downstream nodes immediately. Initiate 100% refund claims processed under TripResQ protective clauses.",
+    refundEligible: "Refund Eligible",
+    fullRefund: "100% Full Refund",
+    immediateInitiated: "Immediate Initiated",
+    cancellationCost: "Cancellation Cost",
+    freeFee: "₹0 Fee",
+    refundAmount: "Refund Amount",
+    fullRefundClaim: "100% Refund",
 
     // Chaos Lab
     chaosTitle: "Demo Sandbox & Chaos Lab",
@@ -119,6 +156,17 @@ const TRANSLATIONS = {
     downstreamDelay: "Downstream Delay",
     brokenConnections: "Broken Connections",
     affectedNodes: "Affected Nodes Count",
+    disruptionParams: "Disruption Parameters",
+    minsLabel: "Mins",
+    realTimeGraphImpact: "Real-Time Graph Impact",
+    graphImpactDesc: "Our ripple-effect calculator runs a dependency check on nodes sequentially. If a predecessor's arrival slips past the successor's buffer window, the node triggers a connection breach state.",
+    delayOption: "⏱️ Delay",
+    cancelOption: "❌ Cancellation",
+    lockoutOption: "🔒 Terminal Lockout",
+    weatherReason: "Severe Weather & Thunderstorms",
+    mechReason: "Mechanical Failure & Engine Stall",
+    trafficReason: "Rail/Air Traffic Congestion",
+    securityReason: "Security Lockdown Alert",
 
     // Dining Page
     diningTitle: "Local Dining & Bites Near You",
@@ -131,6 +179,10 @@ const TRANSLATIONS = {
     kmAway: "km from destination",
     rating: "Rating",
     avgCost: "Avg. Cost for 2",
+    bookTable: "Book Table",
+    tableBookedSuccess: "Table booked successfully at",
+    noDiningTitle: "No dining options match this filter",
+    noDiningDesc: "Try changing your filter selections above.",
 
     // Support Page
     supportTitle: "Support & Help Center",
@@ -155,6 +207,24 @@ const TRANSLATIONS = {
     feedbackSub: "We continuously refine our recovery models based on passenger feedback.",
     feedbackComment: "Write your review comments here...",
     feedbackSubmit: "Submit Feedback",
+    reportSuccessTitle: "Report Submitted Successfully",
+    reportSuccessDesc: "Thank you! Ticket ID: #",
+    reportSuccessSub: "Our engineers are on it.",
+    feedbackSuccessTitle: "Feedback Submitted",
+    feedbackSuccessDesc: "Thank you for rating your experience! We appreciate your input.",
+    tapToRate: "Tap to Rate",
+    feedbackTags: "Feedback Tags",
+    severityLow: "Low - UI/Text Glitch",
+    severityMedium: "Medium - Feature Flaw",
+    severityHigh: "High - Crash / State Loop",
+    severityCritical: "Critical - Disruption Calculations Failure",
+    chatbotChipDelay: "⏱️ delayed transit",
+    chatbotChipRefund: "💸 refunds",
+    chatbotChipHotel: "🏨 hotel checks",
+    chatbotDefaultResponse: "I understand your query. Your TripResQ Protection Guard is active. If any transit node is delayed or cancelled, you can click on '⚡ Chaos Lab' to trigger a test disruption, then view the recovery options on the 'My Trips' timeline.",
+    chatbotDelayResponse: "If a delay is detected (like the 3-hour delay simulated in Chaos Lab), our system flags compromised connections and offers three rescue plans: Fastest, Budget (with vouchers), and Max Refund. Go to the 'My Trips' timeline and click 'View Smart Rescue Plans' to see them!",
+    chatbotRefundResponse: "Under TripResQ protection guidelines, if your trip is compromised and you choose to cancel, the 'Max Refund Plan' guarantees a 100% refund on all connected bookings. Refunds are processed immediately!",
+    chatbotHotelResponse: "Yes, both cab reschedules and hotel arrival warnings are automated. Once you accept a recovery plan, we automatically notify our transport and lodging partners.",
 
     // Auth
     authTitle: "Sign In / Register",
@@ -168,7 +238,20 @@ const TRANSLATIONS = {
     socialSignIn: "Or sign in with",
     googleSignIn: "Google Account",
     otpSignIn: "Phone OTP verification",
-    signUpBtn: "Sign Up & Register"
+    signUpBtn: "Sign Up & Register",
+    secureVerification: "Secure verification via TripResQ Protection Shield",
+    googleUser: "Google Traveler",
+    otpUser: "OTP User",
+
+    // Global
+    allRightsReserved: "© 2026 TripResQ Technologies Inc. All rights reserved.",
+    privacyPolicy: "Privacy Policy",
+    termsOfProtection: "Terms of Protection",
+    contactHelpDesk: "Contact Help Desk",
+    callSos: "Call SOS",
+    simulateDelaysTitle: "Simulate Delays in the Chaos Lab",
+    simulateDelaysDesc: "To mock complex multi-node failures and explore our instant auto-rebooking engine, use the dedicated ⚡ Chaos Lab sandbox at the top right of the navigation bar.",
+    openSandbox: "Open Sandbox"
   },
   hi: {
     logo: "ट्रिपरेस्क्यू (TripResQ)",
@@ -233,6 +316,8 @@ const TRANSLATIONS = {
     onTime: "समय पर",
     delayed: "विलंबित",
     connectionBroken: "कनेक्शन टूटा",
+    missedConnection: "छूटा हुआ कनेक्शन",
+    generalDisruption: "सामान्य",
 
     rescueHeader: "हमने आपकी सुरक्षा सुनिश्चित की है।",
     rescueSub: "आपकी यात्रा बाधित होने के कारण आगे की बुकिंग प्रभावित हुई है। कृपया नीचे दी गई किसी एक पुनर्प्राप्ति योजना का चयन करें।",
@@ -243,6 +328,41 @@ const TRANSLATIONS = {
     acceptPlan: "योजना स्वीकार करें",
     free: "मुफ़्त",
     refund: "रिफंड",
+    fastestTitle: "⚡ एक्सप्रेस मार्ग परिवर्तन",
+    fastestDesc: "पुनर्निर्धारित प्रीमियम पारगमन",
+    fastestDetails: "तत्काल एक्सप्रेस कनेक्शन पर पारगमन को पुनर्निर्धारित करें। सभी डाउनस्ट्रीम कैब पिक-अप समय स्वचालित रूप से स्थानांतरित हो जाते हैं। होटल को देर से आगमन की सूचना दी जाती है।",
+    transitShift: "पारगमन परिवर्तन",
+    nextDepartureRescheduled: "अगला प्रस्थान (पुनर्निर्धारित)",
+    cabPickup: "कैब पिकअप",
+    updatedAutomatically: "स्वचालित रूप से अद्यतन",
+    hotelCheckin: "होटल चेक-इन",
+    warningAlertDispatched: "चेतावनी अलर्ट भेजा गया",
+    tripresqCost: "ट्रिपरेस्क्यू लागत",
+    processing: "प्रक्रिया जारी है...",
+    tripRecoveredTitle: "यात्रा सुधारी गई!",
+    tripRecoveredDesc: "हमने आपके यात्रा वाउचर अपडेट कर दिए हैं और कैब ऑपरेटर तथा होटल कर्मचारियों को सूचित कर दिया है। आपका नया बोर्डिंग पास भेजा जा रहा है।",
+    updatingTimeline: "टाइमलाइन अपडेट हो रही है...",
+    
+    budgetTitle: "💰 विलंबित कोच पुनर्निर्धारण",
+    budgetDesc: "ऑफ-पीक पारगमन पुनर्निर्धारण",
+    budgetDetails: "बाद के पारगमन नोड में पुनर्निर्धारित करें। मुआवजा वाउचर द्वारा समर्थित, लंबी देरी को अवशोषित करके तत्काल लागत को कम करता है।",
+    delayedByHours: "3.5 घंटे की देरी",
+    compensation: "मुनावजा",
+    travelVoucher: "₹600 यात्रा वाउचर",
+    postponedReservation: "बुकिंग स्थगित की गई",
+    compensationCredit: "मुआवजा क्रेडिट",
+    creditBack: "₹600 क्रेडिट वापस",
+
+    refundTitle: "💸 अधिकतम रिफंड दावा",
+    refundDesc: "रद्द करें और पूरा दावा",
+    refundDetails: "सभी बाधित और डाउनस्ट्रीम नोड्स को तुरंत रद्द करें। ट्रिपरेस्क्यू सुरक्षात्मक खंडों के तहत संसाधित 100% रिफंड दावा शुरू करें।",
+    refundEligible: "रिफंड के योग्य",
+    fullRefund: "100% पूर्ण रिफंड",
+    immediateInitiated: "तत्काल शुरू किया गया",
+    cancellationCost: "रद्दीकरण लागत",
+    freeFee: "₹0 शुल्क",
+    refundAmount: "रिफंड राशि",
+    fullRefundClaim: "100% रिफंड",
 
     chaosTitle: "डेमो सैंडबॉक्स और कैओस लैब",
     chaosDesc: "हमारे व्यवधान इंजन का परीक्षण करें। एक बुकिंग नोड चुनें, देरी का पैमाना सेट करें, और देखें कि TripResQ कैसे प्रभाव की गणना करता है।",
@@ -256,6 +376,17 @@ const TRANSLATIONS = {
     downstreamDelay: "आगे होने वाली देरी",
     brokenConnections: "टूटे हुए कनेक्शन",
     affectedNodes: "प्रभावित नोड्स की संख्या",
+    disruptionParams: "व्यवधान पैरामीटर",
+    minsLabel: "मिनट",
+    realTimeGraphImpact: "वास्तविक समय ग्राफ प्रभाव",
+    graphImpactDesc: "हमारा तरंग-प्रभाव कैलकुलेटर नोड्स पर क्रमिक रूप से निर्भरता जांच चलाता है। यदि किसी पूर्ववर्ती का वास्तविक आगमन बाद वाले के निर्धारित समय से अधिक हो जाता है, तो नोड टूटे कनेक्शन की स्थिति में आ जाता है।",
+    delayOption: "⏱️ देरी",
+    cancelOption: "❌ रद्दीकरण",
+    lockoutOption: "🔒 टर्मिनल लॉकडाउन",
+    weatherReason: "गंभीर मौसम और गरज के साथ बारिश",
+    mechReason: "यांत्रिक विफलता और इंजन खराब होना",
+    trafficReason: "रेल/हवाई यातायात भीड़",
+    securityReason: "सुरक्षा लॉकडाउन चेतावनी",
 
     diningTitle: "आपके आस-पास स्थानीय भोजन",
     diningDesc: "आपके गंतव्य स्टेशन या होटल के पास चुनिंदा भोजनालय। बेहतर स्वच्छता और तेज़ सेवा के आधार पर चुने गए।",
@@ -267,6 +398,10 @@ const TRANSLATIONS = {
     kmAway: "किमी गंतव्य से",
     rating: "रेटिंग",
     avgCost: "2 लोगों के लिए औसत लागत",
+    bookTable: "टेबल बुक करें",
+    tableBookedSuccess: "सफलतापूर्वक टेबल बुक की गई:",
+    noDiningTitle: "कोई भोजन विकल्प इस फ़िल्टर से मेल नहीं खाता",
+    noDiningDesc: "कृपया ऊपर अपने फ़िल्टर चयन बदलने का प्रयास करें।",
 
     supportTitle: "सहायता और प्रतिक्रिया केंद्र",
     supportDesc: "24/7 आपातकालीन प्रतिक्रिया, सामान्य प्रश्न, प्रतिक्रिया फॉर्म और बग रिपोर्टर।",
@@ -284,13 +419,32 @@ const TRANSLATIONS = {
     bugSummary: "समस्या का विवरण",
     bugSteps: "समस्या दोहराने के चरण",
     bugSeverity: "गंभीरता का स्तर",
-    bugScreenshot: "स्क्रीनशॉट खींचकर यहाँ लाएँ, या अपलोड करने के लिए क्लिक करें (मॉक)",
+    bugScreenshot: "स्क्रीनशॉट यहाँ लाएँ, या अपलोड करने के लिए क्लिक करें (मॉक)",
     bugSubmit: "बग रिपोर्ट सबमिट करें",
     feedbackTitle: "अपने अनुभव को रेटिंग दें",
     feedbackSub: "हम यात्रियों की प्रतिक्रिया के आधार पर अपनी योजनाओं में सुधार करते हैं।",
     feedbackComment: "यहाँ अपनी समीक्षा लिखें...",
     feedbackSubmit: "प्रतिक्रिया सबमिट करें",
+    reportSuccessTitle: "रिपोर्ट सफलतापूर्वक सबमिट की गई",
+    reportSuccessDesc: "धन्यवाद! टिकट आईडी: #",
+    reportSuccessSub: "हमारे इंजीनियर इस पर काम कर रहे हैं।",
+    feedbackSuccessTitle: "प्रतिक्रिया सबमिट की गई",
+    feedbackSuccessDesc: "अपने अनुभव को रेटिंग देने के लिए धन्यवाद! हम आपके इनपुट की सराहना करते हैं।",
+    tapToRate: "रेटिंग देने के लिए टैप करें",
+    feedbackTags: "प्रतिक्रिया टैग",
+    severityLow: "कम - यूआई/टेक्स्ट गड़बड़ी",
+    severityMedium: "मध्यम - फीचर दोष",
+    severityHigh: "उच्च - क्रैश / स्टेट लूप",
+    severityCritical: "गंभीर - व्यवधान गणना विफलता",
+    chatbotChipDelay: "⏱️ विलंबित पारगमन",
+    chatbotChipRefund: "💸 रिफंड",
+    chatbotChipHotel: "🏨 होटल जांच",
+    chatbotDefaultResponse: "मैं आपकी बात समझता हूँ। आपका ट्रिपरेस्क्यू सुरक्षा गार्ड सक्रिय है। यदि कोई पारगमन नोड विलंबित या रद्द होता है, तो आप परीक्षण व्यवधान शुरू करने के लिए '⚡ कैओस लैब' पर क्लिक कर सकते हैं, फिर 'मेरी यात्राएं' टाइमलाइन पर पुनर्प्राप्ति विकल्प देख सकते हैं।",
+    chatbotDelayResponse: "यदि देरी का पता चलता है (जैसे कैओस लैब में सिम्युलेट की गई 3 घंटे की देरी), तो हमारा सिस्टम प्रभावित कनेक्शनों को चिह्नित करता है और तीन बचाव योजनाएं प्रदान करता है: सबसे तेज़, बजट (वाउचर के साथ), और अधिकतम रिफंड। इसे देखने के लिए 'मेरी यात्राएं' टाइमलाइन पर जाएं और 'स्मार्ट बचाव योजनाएं देखें' पर क्लिक करें!",
+    chatbotRefundResponse: "ट्रिपरेस्क्यू सुरक्षा दिशानिर्देशों के तहत, यदि आपकी यात्रा बाधित होती है और आप रद्द करने का विकल्प चुनते हैं, तो 'अधिकतम रिफंड योजना' सभी संबंधित बुकिंग पर 100% रिफंड की गारंटी देती है। रिफंड तुरंत संसाधित किए जाते हैं!",
+    chatbotHotelResponse: "हाँ, कैब पुनर्निर्धारण और होटल आगमन चेतावनी दोनों स्वचालित हैं। जैसे ही आप पुनर्प्राप्ति योजना स्वीकार करते हैं, हम स्वचालित रूप से अपने परिवहन और आवास भागीदारों को सूचित करते हैं।",
 
+    // Auth
     authTitle: "लॉग इन / पंजीकरण",
     signInTab: "लॉग इन",
     signUpTab: "खाता बनाएं",
@@ -302,7 +456,20 @@ const TRANSLATIONS = {
     socialSignIn: "या इससे लॉग इन करें",
     googleSignIn: "गुगल खाता",
     otpSignIn: "मोबाइल ओटीपी सत्यापन",
-    signUpBtn: "पंजीकरण करें"
+    signUpBtn: "पंजीकरण करें",
+    secureVerification: "ट्रिपरेस्क्यू सुरक्षा शील्ड के माध्यम से सुरक्षित सत्यापन",
+    googleUser: "गूगल यात्री",
+    otpUser: "ओटीपी उपयोगकर्ता",
+
+    // Global
+    allRightsReserved: "© 2026 ट्रिपरेस्क्यू टेक्नोलॉजीज इंक। सर्वाधिकार सुरक्षित।",
+    privacyPolicy: "गोपनीयता नीति",
+    termsOfProtection: "सुरक्षा की शर्तें",
+    contactHelpDesk: "सहायता डेस्क से संपर्क करें",
+    callSos: "एसओएस कॉल करें",
+    simulateDelaysTitle: "कैओस लैब में देरी का अनुकरण करें",
+    simulateDelaysDesc: "जटिल मल्टी-नोड विफलताओं का अनुकरण करने और हमारे त्वरित ऑटो-रीबुकिंग इंजन का पता लगाने के लिए, नेविगेशन बार के शीर्ष दाईं ओर समर्पित ⚡ कैओस लैब सैंडबॉक्स का उपयोग करें।",
+    openSandbox: "सैंडबॉक्स खोलें"
   },
   mr: {
     logo: "ट्रिपरेस्क्यू (TripResQ)",
@@ -356,17 +523,19 @@ const TRANSLATIONS = {
     healthyTitle: "तुमचा प्रवास सुरक्षित आहे",
     healthyDesc: "TripResQ सक्रिय आहे. सर्व प्रस्थान वेळेवर सुरू आहेत आणि बफर सुरक्षित आहेत.",
     disruptTitle: "प्रवासात अडथळा आला",
-    disruptDesc: "व्यत्यय आढळला. taste बदलले आहे, ज्यामुळे पुढील कनेक्शन चुकण्याचा धोका आहे.",
+    disruptDesc: "व्यत्यय आढळला. तुमचे प्रवासाचे वेळापत्रक बदलले आहे, ज्यामुळे पुढील कनेक्शन चुकण्याचा धोका आहे.",
     viewRescuePlans: "स्मार्ट बचाव योजना पहा",
     timelineTitle: "प्रवासाची कालरेषा",
     scheduled: "नियोजित वेळ",
     actual: "वास्तविक वेळ",
     bufferLabel: "बफर वेळ",
-    missed: "चुकले",
+    missed: "छुकले",
     lateArrival: "उशिरा पोहोचण्याचा धोका",
     onTime: "वेळेवर",
     delayed: "उशिरा",
     connectionBroken: "कनेक्शन तुटले",
+    missedConnection: "चुकलेले कनेक्शन",
+    generalDisruption: "सामान्य",
 
     rescueHeader: "आम्ही तुमचे संरक्षण करतो.",
     rescueSub: "तुमच्या प्रवासात अडथळा आल्यामुळे पुढील बुकिंग बाधित झाले आहे. कृपया खालीलपैकी एका रिकव्हरी योजनेची निवड करा.",
@@ -377,12 +546,48 @@ const TRANSLATIONS = {
     acceptPlan: "योजना स्वीकारा",
     free: "मोफत",
     refund: "परतावा",
+    fastestTitle: "⚡ जलद मार्ग बदल",
+    fastestDesc: "पुनर्निर्धारित प्रीमियम ट्रान्झिट",
+    fastestDetails: "पुढील तात्काळ एक्सप्रेस कनेक्शनवर ट्रान्झिट पुनर्निर्धारित करा. सर्व डाउनस्ट्रीम कॅब पिक-अप वेळापत्रक स्वयंचलितपणे बदलले जाते. हॉटेलला उशिरा येण्याची सूचना दिली जाते.",
+    transitShift: "ट्रान्झिट बदल",
+    nextDepartureRescheduled: "पुढील प्रस्थान (पुनर्निर्धारित)",
+    cabPickup: "कॅब पिकअप",
+    updatedAutomatically: "स्वयंचलितपणे अद्यतनित",
+    hotelCheckin: "हॉटेल चेक-इन",
+    warningAlertDispatched: "चेतावणी अलर्ट पाठवला",
+    tripresqCost: "ट्रिपरेस्क्यू खर्च",
+    processing: "प्रक्रिया सुरू आहे...",
+    tripRecoveredTitle: "प्रवास यशस्वीरित्या सुधारला!",
+    tripRecoveredDesc: "आम्ही तुमचे प्रवास व्हाउचर अपडेट केले आहेत आणि कॅब ऑपरेटर व हॉटेल कर्मचाऱ्यांना सूचित केले आहे. तुमचे नवीन बोर्डिंग पास पाठवले जात आहे.",
+    updatingTimeline: "कालरेषा अपडेट होत आहे...",
+    
+    budgetTitle: "💰 विलंबित कोच पुनर्निर्धारण",
+    budgetDesc: "ऑफ-पीक ट्रान्झिट पुनर्निर्धारण",
+    budgetDetails: "नंतरच्या ट्रान्झिट नोडमध्ये पुनर्निर्धारित करा. भरपाई व्हाउचरद्वारे समर्थित, लांब विलंब शोषून तात्काळ खर्च कमी करते.",
+    delayedByHours: "3.5 तास विलंब",
+    compensation: "भरपाई",
+    travelVoucher: "₹600 प्रवास व्हाउचर",
+    postponedReservation: "बुकिंग स्थगित केले",
+    compensationCredit: "भरपाई क्रेडिट",
+    creditBack: "₹600 क्रेडिट परत",
 
+    refundTitle: "💸 जास्तीत जास्त परतावा दावा",
+    refundDesc: "रद्द करा आणि पूर्ण दावा",
+    refundDetails: "सर्व व्यत्यय आलेले आणि डाउनस्ट्रीम नोड्स त्वरित रद्द करा. ट्रिपरेस्क्यू संरक्षणात्मक कलमांखाली १००% परतावा दावा सुरू करा.",
+    refundEligible: "परतावा मिळण्यास पात्र",
+    fullRefund: "100% पूर्ण परतावा",
+    immediateInitiated: "त्वरित सुरू केले",
+    cancellationCost: "रद्द करण्याचा खर्च",
+    freeFee: "₹0 शुल्क",
+    refundAmount: "परतावा रक्कम",
+    fullRefundClaim: "100% परतावा",
+
+    // Chaos Lab
     chaosTitle: "डेमो सँडबॉक्स आणि कॅओस लॅब",
     chaosDesc: "आमच्या व्यत्यय इंजिनची चाचणी घ्या. एक बुकिंग नोड निवडा, विलंबाचे प्रमाण सेट करा, आणि TripResQ कसे प्रभाव मोजते ते पहा.",
     selectNode: "व्यत्यय आणण्यासाठी बुकिंग नोड निवडा",
     disruptType: "व्यत्ययाचा प्रकार",
-    delayAmount: "विलंबाचा कालावधी (मोजणी)",
+    delayAmount: "विलंभाचा कालावधी (मिनिटे)",
     disruptReason: "व्यत्ययाचे कारण",
     triggerBtn: "व्यत्यय सक्रिय करा",
     resetBtn: "प्रवास वेळेवर रीसेट करा",
@@ -390,7 +595,19 @@ const TRANSLATIONS = {
     downstreamDelay: "पुढील संभाव्य विलंब",
     brokenConnections: "तुटलेले कनेक्शन",
     affectedNodes: "प्रभावित नोड्सची संख्या",
+    disruptionParams: "व्यत्यय पॅरामीटर्स",
+    minsLabel: "मिनिटे",
+    realTimeGraphImpact: "रिअल-टाइम आलेख प्रभाव",
+    graphImpactDesc: "आमचे तरंग-प्रभाव कॅल्क्युलेटर नोड्सवर अनुक्रमे अवलंबित्व तपासणी चालवते. जर पूर्ववर्तीचे वास्तविक आगमन नंतरच्या नियोजित वेळेपेक्षा जास्त झाले, तर नोड तुटलेल्या कनेक्शनच्या स्थितीत येतो.",
+    delayOption: "⏱️ विलंब",
+    cancelOption: "❌ रद्द करणे",
+    lockoutOption: "🔒 टर्मिनल लॉकआउट",
+    weatherReason: "गंभीर हवामान आणि वादळ",
+    mechReason: "यांत्रिक बिघाड आणि इंजिन बंद पडणे",
+    trafficReason: "रेल्वे/हवाई वाहतूक कोंडी",
+    securityReason: "सुरक्षा लॉकडाऊन चेतावणी",
 
+    // Dining Page
     diningTitle: "तुमच्या जवळील स्थानिक जेवण",
     diningDesc: "तुमच्या गंतव्य स्टेशन किंवा हॉटेल जवळील निवडक रेस्टॉरंट्स. स्वच्छता आणि जलद सेवेच्या आधारे निवडलेले.",
     vegOnly: "शुद्ध शाकाहारी",
@@ -401,7 +618,12 @@ const TRANSLATIONS = {
     kmAway: "किमी गंतव्यस्थानापासून",
     rating: "रेटिंग",
     avgCost: "2 लोकांसाठी सरासरी खर्च",
+    bookTable: "टेबल बुक करा",
+    tableBookedSuccess: "टेबल यशस्वीरित्या बुक केले:",
+    noDiningTitle: "या फिल्टरशी जुळणारा कोणताही जेवणाचा पर्याय नाही",
+    noDiningDesc: "कृपया वर आपले फिल्टर पर्याय बदलण्याचा प्रयत्न करा.",
 
+    // Support Page
     supportTitle: "मदत आणि अभिप्राय केंद्र",
     supportDesc: "24/7 आपत्कालीन प्रतिसाद, वारंवार विचारले जाणारे प्रश्न, अभिप्राय फॉर्म आणि बग रिपोर्टर.",
     faqTab: "वारंवार विचारले जाणारे प्रश्न आणि मदत",
@@ -424,7 +646,26 @@ const TRANSLATIONS = {
     feedbackSub: "आम्ही प्रवाशांच्या अभिप्रायाच्या आधारे आमच्या सेवांमध्ये सुधारणा करतो.",
     feedbackComment: "तुमचे मत येथे लिहा...",
     feedbackSubmit: "अभिप्राय सबमिट करा",
+    reportSuccessTitle: "रिपोर्ट यशस्वीरित्या सबमिट केला",
+    reportSuccessDesc: "धन्यवाद! तिकीट आयडी: #",
+    reportSuccessSub: "आमचे अभियंते यावर काम करत आहेत.",
+    feedbackSuccessTitle: "अभिप्राय सबमिट केला",
+    feedbackSuccessDesc: "तुमच्या अनुभवाचे मूल्यांकन केल्याबद्दल धन्यवाद! आम्ही तुमच्या इनपुटची प्रशंसा करतो.",
+    tapToRate: "मूल्यांकन करण्यासाठी टॅप करा",
+    feedbackTags: "अभिप्राय टॅग",
+    severityLow: "कमी - यूआय/मजकूर त्रुटी",
+    severityMedium: "मध्यम - वैशिष्ट्य दोष",
+    severityHigh: "उच्च - क्रॅश / स्टेट लूप",
+    severityCritical: "गंभीर - व्यत्यय मोजणी अपयश",
+    chatbotChipDelay: "⏱️ विलंबित प्रवास",
+    chatbotChipRefund: "💸 परतावा",
+    chatbotChipHotel: "🏨 हॉटेल तपासणी",
+    chatbotDefaultResponse: "मी तुमची क्वेरी समजतो. तुमचे ट्रिपरेस्क्यू प्रोटेक्शन गार्ड सक्रिय आहे. कोणताही ट्रान्झिट नोड विलंबित किंवा रद्द झाल्यास, तुम्ही चाचणी व्यत्यय आणण्यासाठी '⚡ कॅओस लॅब' वर क्लिक करू शकता, त्यानंतर 'माझ्या सहली' कालरेषेवर रिकव्हरी पर्याय पाहू शकता.",
+    chatbotDelayResponse: "उशीर आढळल्यास (कॅओस लॅबमध्ये सिम्युलेट केलेल्या ३ तासांच्या विलंबाप्रमाणे), आमची सिस्टीम तडजोड केलेले कनेक्शन चिन्हांकित करते आणि तीन बचाव योजना ऑफर करते: सर्वात जलद, बजेट (व्हाउचरसह) आणि कमाल परतावा. 'माझ्या सहली' कालरेषेवर जा आणि ते पाहण्यासाठी 'स्मार्ट बचाव योजना पहा' वर क्लिक करा!",
+    chatbotRefundResponse: "ट्रिपरेस्क्यू संरक्षण मार्गदर्शक तत्त्वांनुसार, जर तुमचा प्रवास विस्कळीत झाला आणि तुम्ही रद्द करणे निवडले, तर 'कमाल परतावा योजना' सर्व जोडलेल्या बुकिंगवर १००% परताव्याची हमी देते. परतावा त्वरित प्रक्रिया केला जातो!",
+    chatbotHotelResponse: "होय, कॅबचे वेळापत्रक बदलणे आणि हॉटेल आगमन चेतावणी दोन्ही स्वयंचलित आहेत. एकदा आपण रिकव्हरी योजना स्वीकारली की, आम्ही आमच्या वाहतूक आणि निवास भागीदारांना स्वयंचलितपणे सूचित करतो.",
 
+    // Auth
     authTitle: "लॉग इन / नोंदणी",
     signInTab: "लॉग इन",
     signUpTab: "खाते तयार करा",
@@ -436,7 +677,20 @@ const TRANSLATIONS = {
     socialSignIn: "किंवा याद्वारे लॉग इन करा",
     googleSignIn: "गुगल खाते",
     otpSignIn: "मोबाईल ओटीपी पडताळणी",
-    signUpBtn: "नोंदणी करा"
+    signUpBtn: "नोंदणी करा",
+    secureVerification: "ट्रिपरेस्क्यू प्रोटेक्शन शील्डद्वारे सुरक्षित पडताळणी",
+    googleUser: "गुगल प्रवासी",
+    otpUser: "ओटीपी वापरकर्ता",
+
+    // Global
+    allRightsReserved: "© 2026 ट्रिपरेस्क्यू टेक्नॉलॉजीज इंक. सर्व हक्क राखीव.",
+    privacyPolicy: "गोपनीयता धोरण",
+    termsOfProtection: "संरक्षणाच्या अटी",
+    contactHelpDesk: "मदत डेस्कशी संपर्क साधा",
+    callSos: "एसओएस कॉल करा",
+    simulateDelaysTitle: "कॅओस लॅबमध्ये विलंबाचे अनुकरण करा",
+    simulateDelaysDesc: "गुंतागुंटीच्या मल्टी-नोड अपयशाचे अनुकरण करण्यासाठी आणि आमच्या त्वरित ऑटो-रीबुकिंग इंजिनचा शोध घेण्यासाठी, नेव्हिगेशन बारच्या वरच्या उजव्या बाजूला असलेल्या समर्पित ⚡ कॅओस लॅब सँडबॉक्सचा वापर करा.",
+    openSandbox: "सँडबॉक्स उघडा"
   }
 };
 
@@ -629,7 +883,6 @@ function addMinutesToTime(timeStr, mins) {
 function getMinutesBetween(time1, time2) {
   if (!time1 || !time2 || time1 === 'Onwards' || time2 === 'Onwards' || time1.includes('CANCELLED') || time2.includes('CANCELLED') || time1.includes('COMPROMISED') || time2.includes('COMPROMISED')) return 0;
   
-  // Clean potential delay string elements (e.g. "14:15 (Delayed)" -> "14:15")
   const cleanT1 = time1.split(' ')[0];
   const cleanT2 = time2.split(' ')[0];
   
@@ -682,7 +935,7 @@ function App() {
   const [selectedDisruptNode, setSelectedDisruptNode] = useState('');
   const [disruptType, setDisruptType] = useState('delay'); // 'delay' | 'cancel' | 'lockout'
   const [disruptDelay, setDisruptDelay] = useState(180);
-  const [disruptReason, setDisruptReason] = useState('Weather');
+  const [disruptReason, setDisruptReason] = useState('Severe Weather & Thunderstorms');
 
   // Cascade Impact Metrics
   const [impactMetrics, setImpactMetrics] = useState({
@@ -726,90 +979,12 @@ function App() {
   const [authEmail, setAuthEmail] = useState('');
   const [authPassword, setAuthPassword] = useState('');
 
-  // Selected tab default durations are updated synchronously in the tab onClick handler.
-
   // Sync translation key lookup helper
   const t = (key) => {
     return TRANSLATIONS[currentLanguage][key] || TRANSLATIONS['en'][key] || key;
   };
 
-  // Build sequential multi-node travel graph
-  const buildTripNodes = (mode, from, to, date, startTime, addCab, addHotel) => {
-    const transitName = mode === 'flights' || mode === 'flight'
-      ? `Air India AI-${Math.floor(100 + Math.random() * 900)}`
-      : `Deccan Express DEC-${Math.floor(100 + Math.random() * 900)}`;
 
-    const transitDuration = mode === 'flights' || mode === 'flight' ? 75 : 180; // flights are faster
-    const nodes = [];
-
-    // Node 1: Primary Transit
-    const transitEnd = addMinutesToTime(startTime, transitDuration);
-    nodes.push({
-      id: 'node-1',
-      type: mode === 'flights' || mode === 'flight' ? 'flight' : 'train',
-      title: transitName,
-      sub: `${from} → ${to}`,
-      scheduledStart: startTime,
-      scheduledEnd: transitEnd,
-      actualStart: startTime,
-      actualEnd: transitEnd,
-      buffer: addCab ? 30 : 0,
-      status: 'healthy',
-      disruptionReason: '',
-      delayMinutes: 0,
-      info: mode === 'flights' || mode === 'flight' ? 'Gate 14B • Terminal 2' : 'Platform 4 • Main Terminal'
-    });
-
-    let lastEndTime = transitEnd;
-
-    // Node 2: Optional Cab Connection
-    if (addCab) {
-      const cabStart = addMinutesToTime(lastEndTime, 30); // 30 mins buffer
-      const cabEnd = addMinutesToTime(cabStart, 45); // 45 mins cab ride
-      nodes.push({
-        id: 'node-2',
-        type: 'cab',
-        title: 'Airport/Station Cab Transfer',
-        sub: `${to} Hub → Grand Hyatt`,
-        scheduledStart: cabStart,
-        scheduledEnd: cabEnd,
-        actualStart: cabStart,
-        actualEnd: cabEnd,
-        buffer: addHotel ? 45 : 0,
-        status: 'healthy',
-        disruptionReason: '',
-        delayMinutes: 0,
-        info: 'Pickup Zone B • Uber Select'
-      });
-      lastEndTime = cabEnd;
-    }
-
-    // Node 3: Optional Hotel check-in
-    if (addHotel) {
-      const checkinTime = addMinutesToTime(lastEndTime, 45); // 45 mins buffer
-      nodes.push({
-        id: 'node-3',
-        type: 'hotel',
-        title: 'Grand Hyatt Check-In',
-        sub: `${to} Premium Stay`,
-        scheduledStart: checkinTime,
-        scheduledEnd: 'Onwards',
-        actualStart: checkinTime,
-        actualEnd: 'Onwards',
-        buffer: 0,
-        status: 'healthy',
-        disruptionReason: '',
-        delayMinutes: 0,
-        info: 'Premium Suite Room • Reception Desk'
-      });
-    }
-
-    setCurrentTrip(nodes);
-    setSelectedDisruptNode(nodes[0]?.id || '');
-    setTripRefNum(generateTripRef());
-    setDisruptionState('healthy');
-    setImpactMetrics({ delayMinutes: 0, brokenConnections: 0, affectedNodes: 0 });
-  };
 
   // Add node dynamically as user inputs details in the form
   const handleAddBuilderNode = (e) => {
@@ -1007,15 +1182,9 @@ function App() {
   };
 
   const handleResetJourney = () => {
-    buildTripNodes(
-      currentTrip[0]?.type === 'flight' ? 'flight' : 'train',
-      searchFrom,
-      searchTo,
-      searchDate,
-      searchTime,
-      currentTrip.some(n => n.type === 'cab'),
-      currentTrip.some(n => n.type === 'hotel')
-    );
+    setCurrentTrip(seedInitialTripNodes());
+    setDisruptionState('healthy');
+    setImpactMetrics({ delayMinutes: 0, brokenConnections: 0, affectedNodes: 0 });
   };
 
   const handleAcceptPlan = (planKey) => {
@@ -1045,7 +1214,8 @@ function App() {
 
       if (planKey === 'refund') {
         setCurrentPage('home');
-        buildTripNodes('flights', 'Mumbai (BOM)', 'Pune (PNQ)', '2026-08-31', '08:00', true, true);
+        setCurrentTrip(seedInitialTripNodes());
+        setDisruptionState('healthy');
       } else {
         setCurrentTrip(restored);
         setDisruptionState('resolved');
@@ -1067,14 +1237,14 @@ function App() {
     setIsChatTyping(true);
 
     setTimeout(() => {
-      let botResponse = "I understand your query. Your TripResQ Protection Guard is active. If any transit node is delayed or cancelled, you can click on '⚡ Chaos Lab' to trigger a test disruption, then view the recovery options on the 'My Trips' timeline.";
+      let botResponse = t('chatbotDefaultResponse');
       
       if (textQuery.includes('delay') || textQuery.includes('late')) {
-        botResponse = "If a delay is detected (like the 3-hour delay simulated in Chaos Lab), our system flags compromised connections and offers three rescue plans: Fastest, Budget (with vouchers), and Max Refund. Go to the 'My Trips' timeline and click 'View Smart Rescue Plans' to see them!";
+        botResponse = t('chatbotDelayResponse');
       } else if (textQuery.includes('refund') || textQuery.includes('cancel')) {
-        botResponse = "Under TripResQ protection guidelines, if your trip is compromised and you choose to cancel, the 'Max Refund Plan' guarantees a 100% refund on all connected bookings. Refunds are processed immediately!";
+        botResponse = t('chatbotRefundResponse');
       } else if (textQuery.includes('hotel') || textQuery.includes('cab')) {
-        botResponse = "Yes, both cab reschedules and hotel arrival warnings are automated. Once you accept a recovery plan, we automatically notify our transport and lodging partners.";
+        botResponse = t('chatbotHotelResponse');
       }
 
       setChatMessages(prev => [...prev, { id: prev.length + 1, sender: 'bot', text: botResponse }]);
@@ -1128,7 +1298,7 @@ function App() {
     setAuthName('');
     setAuthEmail('');
     setAuthPassword('');
-    setCurrentPage('home'); // Redirect to home page where builder is unlocked
+    setCurrentPage('home'); 
   };
 
   // Restaurant details filtered
@@ -1142,18 +1312,18 @@ function App() {
   });
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-850 flex flex-col justify-between selection:bg-[#287DFA] selection:text-white font-sans antialiased">
+    <div className="min-h-screen bg-slate-50 text-slate-850 flex flex-col justify-between selection:bg-[#287DFA] selection:text-white font-sans antialiased overflow-x-hidden">
       
       {/* --- Global Navigation Header --- */}
-      <header className="sticky top-0 z-40 bg-white border-b border-slate-105 shadow-sm px-6 py-4 flex items-center justify-between">
-        <div className="flex items-center gap-8">
+      <header className="sticky top-0 z-40 bg-white border-b border-slate-105 shadow-sm px-4 sm:px-6 py-4 flex flex-row items-center justify-between gap-4">
+        <div className="flex items-center gap-4 sm:gap-8">
           {/* Logo */}
           <button 
             onClick={() => setCurrentPage('home')}
-            className="flex items-center gap-2 text-2xl font-bold tracking-tight text-[#287DFA] focus:outline-none cursor-pointer"
+            className="flex items-center gap-2 text-xl sm:text-2xl font-bold tracking-tight text-[#287DFA] focus:outline-none cursor-pointer"
           >
             <div className="p-1 bg-[#287DFA] text-white rounded-lg">
-              <Shield className="w-6 h-6" />
+              <Shield className="w-5 h-5 sm:w-6 sm:h-6" />
             </div>
             <span className="font-serif font-extrabold">{t('logo')}</span>
           </button>
@@ -1196,12 +1366,12 @@ function App() {
         </div>
 
         {/* Right Controls */}
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-2 sm:gap-4 flex-wrap">
           {/* Chaos Sandbox badge - Gated by Login */}
           {userAuth.loggedIn && (
             <button 
               onClick={() => setCurrentPage('chaos-lab')}
-              className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold rounded-full transition duration-200 cursor-pointer ${
+              className={`flex items-center gap-1 px-2.5 py-1.5 text-[10px] sm:text-xs font-bold rounded-full transition duration-200 cursor-pointer ${
                 currentPage === 'chaos-lab' 
                   ? 'bg-[#FF7700] text-white shadow-md shadow-[#FF7700]/20'
                   : 'bg-orange-50 text-[#FF7700] hover:bg-orange-100 border border-orange-200/20'
@@ -1213,11 +1383,11 @@ function App() {
 
           {/* Language Dropdown Selector */}
           <div className="relative group">
-            <button className="flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 border border-slate-200 bg-white rounded-full hover:bg-slate-50 transition cursor-pointer">
+            <button className="flex items-center gap-1 text-[10px] sm:text-xs font-semibold px-2.5 py-1.5 border border-slate-200 bg-white rounded-full hover:bg-slate-50 transition cursor-pointer">
               <Globe className="w-3.5 h-3.5 text-[#287DFA]" />
               <span>{currentLanguage === 'en' ? 'EN' : currentLanguage === 'hi' ? 'हिन्दी' : 'मराठी'}</span>
             </button>
-            <div className="absolute right-0 top-full mt-1.5 w-28 bg-white border border-slate-100 rounded-lg shadow-xl py-1 opacity-0 pointer-events-none group-focus-within:opacity-100 group-focus-within:pointer-events-auto group-hover:opacity-100 group-hover:pointer-events-auto transition duration-150 z-50">
+            <div className="absolute right-0 top-full mt-1.5 w-28 bg-white border border-slate-105 rounded-lg shadow-xl py-1 opacity-0 pointer-events-none group-focus-within:opacity-100 group-focus-within:pointer-events-auto group-hover:opacity-100 group-hover:pointer-events-auto transition duration-150 z-50">
               <button 
                 onClick={() => setCurrentLanguage('en')}
                 className="w-full text-left px-3 py-1.5 text-xs font-medium hover:bg-slate-50 hover:text-[#287DFA]"
@@ -1242,8 +1412,8 @@ function App() {
           {/* Auth System */}
           {userAuth.loggedIn ? (
             <div className="relative group">
-              <button className="flex items-center gap-2 px-3 py-1.5 border border-slate-200 rounded-full hover:bg-slate-50 transition cursor-pointer">
-                <div className="w-6 h-6 bg-[#287DFA] text-white rounded-full flex items-center justify-center text-xs font-bold">
+              <button className="flex items-center gap-1.5 px-2.5 py-1.5 border border-slate-200 rounded-full hover:bg-slate-50 transition cursor-pointer">
+                <div className="w-5 h-5 bg-[#287DFA] text-white rounded-full flex items-center justify-center text-[10px] font-bold">
                   {userAuth.user?.name.substring(0, 2).toUpperCase()}
                 </div>
                 <span className="hidden sm:inline text-xs font-semibold text-slate-700">{userAuth.user?.name}</span>
@@ -1266,13 +1436,46 @@ function App() {
                 setAuthTab('signin');
                 setShowAuthModal(true);
               }}
-              className="flex items-center gap-2 px-4 py-2 bg-[#287DFA] hover:bg-[#1C6BDB] text-white text-xs font-bold rounded-full transition shadow-sm cursor-pointer active:scale-95"
+              className="flex items-center gap-1.5 px-3 py-1.5 bg-[#287DFA] hover:bg-[#1C6BDB] text-white text-[10px] sm:text-xs font-bold rounded-full transition shadow-sm cursor-pointer active:scale-95 whitespace-nowrap"
             >
-              <User className="w-4 h-4" /> {t('signIn')}
+              <User className="w-3.5 h-3.5" /> {t('signIn')}
             </button>
           )}
         </div>
       </header>
+
+      {/* Mobile navigation row (only shown when logged in on small screens) */}
+      {userAuth.loggedIn && (
+        <nav className="md:hidden bg-white border-b border-slate-100 px-4 py-2 flex items-center justify-around text-xs font-bold text-slate-500">
+          <button 
+            onClick={() => setCurrentPage('home')}
+            className={`hover:text-[#287DFA] transition pb-1 ${currentPage === 'home' ? 'text-[#287DFA] border-b-2 border-[#287DFA]' : ''}`}
+          >
+            {t('navHome')}
+          </button>
+          <button 
+            onClick={() => setCurrentPage('my-trip')}
+            className={`hover:text-[#287DFA] transition pb-1 flex items-center gap-1 ${currentPage === 'my-trip' ? 'text-[#287DFA] border-b-2 border-[#287DFA]' : ''}`}
+          >
+            {t('navMyTrips')}
+            {disruptionState === 'disrupted' && (
+              <span className="w-1.5 h-1.5 rounded-full bg-[#FF7700]" />
+            )}
+          </button>
+          <button 
+            onClick={() => setCurrentPage('restaurants')}
+            className={`hover:text-[#287DFA] transition pb-1 ${currentPage === 'restaurants' ? 'text-[#287DFA] border-b-2 border-[#287DFA]' : ''}`}
+          >
+            {t('navRestaurants')}
+          </button>
+          <button 
+            onClick={() => setCurrentPage('support')}
+            className={`hover:text-[#287DFA] transition pb-1 ${currentPage === 'support' ? 'text-[#287DFA] border-b-2 border-[#287DFA]' : ''}`}
+          >
+            {t('navSupport')}
+          </button>
+        </nav>
+      )}
 
       {/* --- Main Content Stage --- */}
       <div className="flex-1 w-full relative">
@@ -1286,32 +1489,32 @@ function App() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -15 }}
               transition={{ duration: 0.25 }}
-              className="flex flex-col items-center"
+              className="flex flex-col items-center w-full"
             >
               {/* Hero Banner Section */}
-              <section className="w-full bg-gradient-to-b from-[#EAF3FF] to-white py-16 px-6 flex flex-col items-center text-center relative overflow-hidden">
+              <section className="w-full bg-gradient-to-b from-[#EAF3FF] to-white py-12 sm:py-16 px-4 sm:px-6 flex flex-col items-center text-center relative overflow-hidden">
                 <div className="absolute top-10 left-10 w-32 h-32 rounded-full bg-blue-100/40 blur-xl pointer-events-none" />
                 <div className="absolute bottom-10 right-10 w-44 h-44 rounded-full bg-orange-100/40 blur-2xl pointer-events-none" />
 
-                <div className="max-w-3xl z-10">
-                  <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white border border-slate-200 text-xs font-bold text-[#287DFA] mb-4 shadow-sm uppercase tracking-wider font-mono">
-                    <ShieldCheck className="w-3.5 h-3.5" /> {t('protectionBadge')}
+                <div className="max-w-3xl z-10 px-2">
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white border border-slate-200 text-[10px] sm:text-xs font-bold text-[#287DFA] mb-4 shadow-sm uppercase tracking-wider font-mono">
+                    <ShieldCheck className="w-3.5 h-3.5 animate-pulse" /> {t('protectionBadge')}
                   </span>
-                  <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight text-slate-900 leading-tight mb-4 font-serif">
+                  <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-slate-900 leading-tight mb-4 font-serif">
                     {t('tagline').split('.')[0]}.<br />
                     <span className="text-[#287DFA]">{t('tagline').split('.')[1]}</span>
                   </h1>
-                  <p className="text-slate-650 text-sm md:text-base max-w-2xl mx-auto mb-8 leading-relaxed font-semibold">
+                  <p className="text-slate-650 text-xs sm:text-sm md:text-base max-w-2xl mx-auto mb-8 leading-relaxed font-semibold">
                     {t('subTagline')}
                   </p>
                 </div>
 
                 {/* Gated Builder Form Render */}
-                <div className="w-full max-w-4xl z-20">
+                <div className="w-full max-w-4xl z-20 px-2">
                   {userAuth.loggedIn ? (
                     /* Authenticated Custom Node Builder */
-                    <div className="bg-white rounded-2xl shadow-xl border border-slate-100 p-6 text-left mt-2">
-                      <div className="flex gap-2 border-b border-slate-100 pb-4 mb-6">
+                    <div className="bg-white rounded-2xl shadow-xl border border-slate-100 p-4 sm:p-6 text-left mt-2">
+                      <div className="flex flex-wrap gap-1 sm:gap-2 border-b border-slate-100 pb-4 mb-6">
                         {['flights', 'trains', 'cabs', 'hotels'].map((tab) => (
                           <button
                             key={tab}
@@ -1323,8 +1526,8 @@ function App() {
                               else if (tab === 'cabs') setBuilderDuration(45);
                               else setBuilderDuration(0);
                             }}
-                            className={`px-4 py-2 rounded-full text-xs font-extrabold tracking-wider uppercase flex items-center gap-1.5 transition cursor-pointer ${
-                              searchTab === tab ? 'bg-[#EAF3FF] text-[#287DFA]' : 'text-slate-500 hover:bg-slate-50'
+                            className={`px-3 py-2 rounded-full text-[10px] sm:text-xs font-extrabold tracking-wider uppercase flex items-center gap-1 transition cursor-pointer ${
+                              searchTab === tab ? 'bg-[#EAF3FF] text-[#287DFA]' : 'text-slate-500 hover:bg-slate-55'
                             }`}
                           >
                             {tab === 'flights' ? t('flightTab')
@@ -1433,7 +1636,7 @@ function App() {
                                 value={builderAirways}
                                 onChange={(e) => setBuilderAirways(e.target.value)}
                                 placeholder="E.g. IndiGo, Air India"
-                                className="w-full h-10 px-3 rounded-lg border border-[#287DFA]/40 bg-blue-50/10 text-xs font-bold focus:outline-none focus:border-[#287DFA]"
+                                className="w-full h-10 px-3 rounded-lg border border-[#287DFA]/45 bg-blue-50/10 text-xs font-bold focus:outline-none focus:border-[#287DFA]"
                               />
                             </div>
                           )}
@@ -1447,7 +1650,7 @@ function App() {
                                 value={builderTrainName}
                                 onChange={(e) => setBuilderTrainName(e.target.value)}
                                 placeholder="E.g. Shatabdi Exp, Deccan Queen"
-                                className="w-full h-10 px-3 rounded-lg border border-[#287DFA]/40 bg-blue-50/10 text-xs font-bold focus:outline-none focus:border-[#287DFA]"
+                                className="w-full h-10 px-3 rounded-lg border border-[#287DFA]/45 bg-blue-50/10 text-xs font-bold focus:outline-none focus:border-[#287DFA]"
                               />
                             </div>
                           )}
@@ -1461,7 +1664,7 @@ function App() {
                                 value={builderCabService}
                                 onChange={(e) => setBuilderCabService(e.target.value)}
                                 placeholder="E.g. Uber Select, Ola Outstation"
-                                className="w-full h-10 px-3 rounded-lg border border-[#287DFA]/40 bg-blue-50/10 text-xs font-bold focus:outline-none focus:border-[#287DFA]"
+                                className="w-full h-10 px-3 rounded-lg border border-[#287DFA]/45 bg-blue-50/10 text-xs font-bold focus:outline-none focus:border-[#287DFA]"
                               />
                             </div>
                           )}
@@ -1475,7 +1678,7 @@ function App() {
                                 value={builderHotelName}
                                 onChange={(e) => setBuilderHotelName(e.target.value)}
                                 placeholder="E.g. Grand Hyatt, Taj Mahal Stay"
-                                className="w-full h-10 px-3 rounded-lg border border-[#287DFA]/40 bg-blue-50/10 text-xs font-bold focus:outline-none focus:border-[#287DFA]"
+                                className="w-full h-10 px-3 rounded-lg border border-[#287DFA]/45 bg-blue-50/10 text-xs font-bold focus:outline-none focus:border-[#287DFA]"
                               />
                             </div>
                           )}
@@ -1494,14 +1697,14 @@ function App() {
 
                       {/* Timeline live preview chain builder */}
                       <div className="border-t border-slate-100 mt-6 pt-6 space-y-4">
-                        <div className="flex justify-between items-center">
+                        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3">
                           <h4 className="text-xs font-extrabold tracking-wider uppercase text-slate-400 font-mono">
                             {t('livePreview')}
                           </h4>
                           {builderNodes.length > 0 && (
                             <button
                               onClick={handleLockJourney}
-                              className="px-4 py-2 bg-emerald-500 hover:bg-emerald-600 text-white text-xs font-bold rounded-lg transition shadow-md shadow-emerald-500/10 active:scale-98 flex items-center gap-1 cursor-pointer"
+                              className="px-4 py-2 bg-emerald-500 hover:bg-emerald-600 text-white text-xs font-bold rounded-lg transition shadow-md shadow-emerald-500/10 active:scale-98 flex items-center justify-center gap-1 cursor-pointer w-full sm:w-auto"
                             >
                               {t('lockTripBtn')}
                             </button>
@@ -1519,14 +1722,14 @@ function App() {
                                     <button
                                       type="button"
                                       onClick={() => handleRemoveBuilderNode(node.id)}
-                                      className="absolute -top-1.5 -right-1.5 p-1 bg-red-100 hover:bg-red-200 text-red-650 rounded-full cursor-pointer shadow-xs border border-red-200/50"
+                                      className="absolute -top-1.5 -right-1.5 p-1 bg-red-100 hover:bg-red-200 text-red-600 rounded-full cursor-pointer shadow-xs border border-red-200/50"
                                     >
                                       <Trash2 className="w-3 h-3" />
                                     </button>
 
                                     <div className="flex items-center justify-between mb-2">
                                       <span className="px-1.5 py-0.5 rounded text-[8px] font-bold uppercase tracking-wide bg-[#EAF3FF] text-[#287DFA]">
-                                        {node.type}
+                                        {node.type === 'flight' ? t('flightTab').split(' ')[1] : node.type === 'train' ? t('trainTab').split(' ')[1] : node.type === 'cab' ? t('cabTab').split(' ')[1] : t('hotelTab').split(' ')[1]}
                                       </span>
                                       <span className="text-[9px] text-slate-400 font-mono font-bold">
                                         {node.scheduledStart}
@@ -1537,7 +1740,7 @@ function App() {
                                     
                                     {node.type !== 'hotel' && (
                                       <span className="text-[9px] text-slate-400 block mt-2 font-mono">
-                                        End: {node.scheduledEnd}
+                                        {t('actual').split(' ')[0]} End: {node.scheduledEnd}
                                       </span>
                                     )}
                                   </div>
@@ -1546,7 +1749,7 @@ function App() {
                                   {idx < builderNodes.length - 1 && (
                                     <div className="w-12 h-[2px] bg-slate-205 relative flex items-center justify-center flex-shrink-0">
                                       <span className="absolute px-1.5 py-0.5 bg-white border border-slate-150 rounded-full text-[8px] font-bold text-slate-450 font-mono">
-                                        {node.buffer}m
+                                        {node.buffer}{t('minsLabel').substring(0, 1)}
                                       </span>
                                     </div>
                                   )}
@@ -1557,8 +1760,8 @@ function App() {
                           </div>
                         ) : (
                           <div className="text-center py-8 bg-slate-50/50 rounded-xl border border-slate-105 flex flex-col items-center justify-center gap-1.5">
-                            <AlertCircle className="w-6 h-6 text-slate-350" />
-                            <p className="text-xs text-slate-450 font-semibold">{t('noNodesYet')}</p>
+                            <AlertCircle className="w-6 h-6 text-slate-300" />
+                            <p className="text-xs text-slate-450 font-semibold px-4">{t('noNodesYet')}</p>
                           </div>
                         )}
                       </div>
@@ -1566,12 +1769,12 @@ function App() {
                     </div>
                   ) : (
                     /* Guest Call-to-action banner */
-                    <div className="bg-white rounded-2xl shadow-xl border border-slate-100 p-8 text-center flex flex-col items-center gap-4">
+                    <div className="bg-white rounded-2xl shadow-xl border border-slate-100 p-6 sm:p-8 text-center flex flex-col items-center gap-4">
                       <div className="p-4 bg-[#EAF3FF] text-[#287DFA] rounded-full">
                         <ShieldCheck className="w-8 h-8 stroke-[2]" />
                       </div>
                       <h3 className="text-lg font-extrabold text-slate-900 font-serif">{t('authPromptTitle')}</h3>
-                      <p className="text-slate-500 text-xs max-w-md leading-relaxed">
+                      <p className="text-slate-500 text-xs max-w-md leading-relaxed px-2">
                         {t('authPromptDesc')}
                       </p>
                       <button
@@ -1581,51 +1784,53 @@ function App() {
                         }}
                         className="px-6 h-10 bg-[#287DFA] hover:bg-[#1C6BDB] text-white text-xs font-bold rounded-lg transition shadow-md shadow-[#287DFA]/15 active:scale-95 cursor-pointer font-semibold"
                       >
-                        Sign In Now
+                        {t('signInTab')}
                       </button>
                     </div>
                   )}
                 </div>
               </section>
 
-              {/* Marketing Perks Grid - Shown for both Guest and Authed users */}
-              <section className="max-w-6xl w-full px-6 py-16">
-                <h2 className="text-2xl font-bold tracking-tight text-center text-slate-900 mb-10 font-serif">
-                  {t('howItWorks')}
-                </h2>
-                
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                  <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex flex-col items-start gap-4 hover:shadow-md transition">
-                    <div className="p-3 rounded-xl bg-[#EAF3FF] text-[#287DFA]">
-                      <Zap className="w-6 h-6" />
+              {/* Marketing Perks Grid - Hidden for logged-in users to fulfill "home page should only have that input boxes" */}
+              {!userAuth.loggedIn && (
+                <section className="max-w-6xl w-full px-6 py-12 sm:py-16">
+                  <h2 className="text-2xl font-bold tracking-tight text-center text-slate-900 mb-10 font-serif">
+                    {t('howItWorks')}
+                  </h2>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex flex-col items-start gap-4 hover:shadow-md transition">
+                      <div className="p-3 rounded-xl bg-[#EAF3FF] text-[#287DFA]">
+                        <Zap className="w-6 h-6" />
+                      </div>
+                      <h3 className="font-extrabold text-lg text-slate-950 font-serif">{t('marketingTitle1')}</h3>
+                      <p className="text-slate-500 text-xs leading-relaxed">
+                        {t('marketingDesc1')}
+                      </p>
                     </div>
-                    <h3 className="font-extrabold text-lg text-slate-950 font-serif">{t('marketingTitle1')}</h3>
-                    <p className="text-slate-500 text-xs leading-relaxed">
-                      {t('marketingDesc1')}
-                    </p>
-                  </div>
 
-                  <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex flex-col items-start gap-4 hover:shadow-md transition">
-                    <div className="p-3 rounded-xl bg-orange-50 text-[#FF7700]">
-                      <AlertTriangle className="w-6 h-6" />
+                    <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex flex-col items-start gap-4 hover:shadow-md transition">
+                      <div className="p-3 rounded-xl bg-orange-50 text-[#FF7700]">
+                        <AlertTriangle className="w-6 h-6" />
+                      </div>
+                      <h3 className="font-extrabold text-lg text-slate-955 font-serif">{t('marketingTitle2')}</h3>
+                      <p className="text-slate-505 text-xs leading-relaxed">
+                        {t('marketingDesc2')}
+                      </p>
                     </div>
-                    <h3 className="font-extrabold text-lg text-slate-955 font-serif">{t('marketingTitle2')}</h3>
-                    <p className="text-slate-505 text-xs leading-relaxed">
-                      {t('marketingDesc2')}
-                    </p>
-                  </div>
 
-                  <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex flex-col items-start gap-4 hover:shadow-md transition">
-                    <div className="p-3 rounded-xl bg-emerald-50 text-emerald-555">
-                      <ShieldCheck className="w-6 h-6" />
+                    <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex flex-col items-start gap-4 hover:shadow-md transition">
+                      <div className="p-3 rounded-xl bg-emerald-50 text-emerald-555">
+                        <ShieldCheck className="w-6 h-6" />
+                      </div>
+                      <h3 className="font-extrabold text-lg text-slate-955 font-serif">{t('marketingTitle3')}</h3>
+                      <p className="text-slate-505 text-xs leading-relaxed">
+                        {t('marketingDesc3')}
+                      </p>
                     </div>
-                    <h3 className="font-extrabold text-lg text-slate-955 font-serif">{t('marketingTitle3')}</h3>
-                    <p className="text-slate-505 text-xs leading-relaxed">
-                      {t('marketingDesc3')}
-                    </p>
                   </div>
-                </div>
-              </section>
+                </section>
+              )}
             </motion.div>
           )}
 
@@ -1637,26 +1842,26 @@ function App() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -15 }}
               transition={{ duration: 0.25 }}
-              className="max-w-5xl mx-auto w-full px-6 py-10 flex flex-col gap-6"
+              className="max-w-5xl mx-auto w-full px-4 sm:px-6 py-10 flex flex-col gap-6"
             >
               {/* Trip Header Banner */}
               <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-slate-200 pb-5">
                 <div>
                   <h1 className="text-2xl font-bold tracking-tight text-slate-900 font-serif">
-                    {t('tripHeaderTitle')} {currentTrip[currentTrip.length - 1]?.title || 'Destination'}
+                    {t('tripHeaderTitle')} {currentTrip[currentTrip.length - 1]?.sub?.split('→')[1]?.trim() || currentTrip[currentTrip.length - 1]?.title || 'Destination'}
                   </h1>
                   <p className="text-slate-505 text-xs font-semibold mt-0.5">{t('tripReference')}: <span className="font-mono text-slate-800 font-bold">{tripRefNum}</span></p>
                 </div>
-                <div className="flex gap-2">
+                <div className="flex flex-wrap gap-2 w-full sm:w-auto">
                   <button
                     onClick={() => setCurrentPage('home')}
-                    className="px-4 py-2 border border-slate-200 text-slate-655 hover:bg-slate-50 text-xs font-bold rounded-full transition cursor-pointer"
+                    className="flex-1 sm:flex-initial px-4 py-2 border border-slate-200 text-slate-655 hover:bg-slate-50 text-xs font-bold rounded-full transition cursor-pointer text-center"
                   >
                     {t('backToBookings')}
                   </button>
                   <button 
                     onClick={() => alert('Itinerary emailed to your account!')}
-                    className="px-4 py-2 bg-slate-950 text-white text-xs font-bold rounded-full hover:bg-slate-900 transition cursor-pointer"
+                    className="flex-1 sm:flex-initial px-4 py-2 bg-slate-950 text-white text-xs font-bold rounded-full hover:bg-slate-900 transition cursor-pointer text-center"
                   >
                     {t('emailItinerary')}
                   </button>
@@ -1671,23 +1876,22 @@ function App() {
                     initial={{ opacity: 0, scale: 0.98 }}
                     animate={{ opacity: 1, scale: 1 }}
                     exit={{ opacity: 0, scale: 0.98 }}
-                    className="p-4 rounded-xl bg-orange-50 border border-orange-200 text-orange-855 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-sm"
+                    className="p-4 rounded-xl bg-orange-50 border border-orange-200 text-orange-855 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 shadow-sm"
                   >
                     <div className="flex gap-3">
-                      <div className="p-2 bg-[#FF7700] text-white rounded-lg self-start">
+                      <div className="p-2 bg-[#FF7700] text-white rounded-lg self-start shrink-0">
                         <ShieldAlert className="w-5 h-5 animate-pulse" />
                       </div>
                       <div>
                         <h4 className="font-extrabold text-sm text-slate-900 font-serif">{t('disruptTitle')}</h4>
-                        <p className="text-xs text-slate-605 mt-1 leading-relaxed">
-                          Disruption detected on travel graph node. Buffer windows compromised. 
-                          We have calculated express recovery routes.
+                        <p className="text-xs text-slate-600 mt-1 leading-relaxed">
+                          {t('disruptDesc')}
                         </p>
                       </div>
                     </div>
                     <button
                       onClick={() => setCurrentPage('rescue')}
-                      className="px-4 py-2 bg-[#FF7700] hover:bg-[#E06600] text-white text-xs font-extrabold rounded-lg transition shrink-0 shadow-sm flex items-center gap-1 cursor-pointer"
+                      className="px-4 py-2 bg-[#FF7700] hover:bg-[#E06600] text-white text-xs font-extrabold rounded-lg transition shrink-0 shadow-sm flex items-center gap-1 cursor-pointer w-full md:w-auto justify-center"
                     >
                       {t('viewRescuePlans')} <ChevronRight className="w-3.5 h-3.5" />
                     </button>
@@ -1700,11 +1904,11 @@ function App() {
                     exit={{ opacity: 0, scale: 0.98 }}
                     className="p-4 rounded-xl bg-emerald-50 border border-emerald-250 text-emerald-805 flex items-center gap-3 shadow-sm"
                   >
-                    <div className="p-2 bg-emerald-555 text-white rounded-lg">
+                    <div className="p-2 bg-emerald-555 text-white rounded-lg shrink-0">
                       <CheckCircle className="w-5 h-5" />
                     </div>
                     <div>
-                      <h4 className="font-extrabold text-sm text-slate-900 font-serif">Itinerary Successfully Rescued</h4>
+                      <h4 className="font-extrabold text-sm text-slate-900 font-serif">{t('tripRecoveredTitle')}</h4>
                       <p className="text-xs text-slate-600 mt-0.5">Your replacement bookings are verified. All buffers are back in safe parameters.</p>
                     </div>
                   </motion.div>
@@ -1716,7 +1920,7 @@ function App() {
                     exit={{ opacity: 0, scale: 0.98 }}
                     className="p-4 rounded-xl bg-[#EAF3FF] border border-blue-200 text-slate-805 flex items-center gap-3 shadow-sm"
                   >
-                    <div className="p-2 bg-[#287DFA] text-white rounded-lg">
+                    <div className="p-2 bg-[#287DFA] text-white rounded-lg shrink-0">
                       <ShieldCheck className="w-5 h-5" />
                     </div>
                     <div>
@@ -1728,7 +1932,7 @@ function App() {
               </AnimatePresence>
 
               {/* Chronological Route Horizontal Timeline */}
-              <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex flex-col gap-4 overflow-hidden mt-2">
+              <div className="bg-white p-4 sm:p-6 rounded-2xl border border-slate-100 shadow-sm flex flex-col gap-4 overflow-hidden mt-2">
                 <h3 className="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-400">{t('timelineTitle')}</h3>
 
                 <div className="overflow-x-auto custom-scrollbar pb-4 pt-2 flex items-center justify-start min-h-[220px]">
@@ -1743,21 +1947,21 @@ function App() {
                             layout
                             className={`w-64 p-4 rounded-xl border transition-all duration-300 shadow-sm flex-shrink-0 ${
                               node.status === 'broken'
-                                ? 'border-red-500 bg-red-50/20 shadow-red-100'
+                                ? 'border-red-500 bg-red-50/20 shadow-red-105'
                                 : node.status === 'delayed'
-                                ? 'border-[#FF7700] bg-orange-50/20 shadow-orange-100'
+                                ? 'border-[#FF7700] bg-orange-50/20 shadow-orange-105'
                                 : 'border-slate-205 bg-white hover:border-[#287DFA]'
                             }`}
                           >
                             <div className="flex items-center justify-between mb-3">
                               <span className={`px-2 py-0.5 rounded text-[9px] font-bold uppercase tracking-wide flex items-center gap-1 ${
                                 node.status === 'broken'
-                                  ? 'bg-red-105 text-red-655'
+                                  ? 'bg-red-100 text-red-600'
                                   : node.status === 'delayed'
-                                  ? 'bg-orange-105 text-[#FF7700]'
+                                  ? 'bg-orange-100 text-[#FF7700]'
                                   : 'bg-[#EAF3FF] text-[#287DFA]'
                               }`}>
-                                {node.type === 'flight' ? '✈️ Flight' : node.type === 'train' ? '🚆 Train' : node.type === 'cab' ? '🚕 Cab' : '🏨 Hotel'}
+                                {node.type === 'flight' ? t('flightTab').split(' ')[1] : node.type === 'train' ? t('trainTab').split(' ')[1] : node.type === 'cab' ? t('cabTab').split(' ')[1] : t('hotelTab').split(' ')[1]}
                               </span>
                               
                               <span className="text-[10px] text-slate-400 font-bold font-mono">
@@ -1787,14 +1991,14 @@ function App() {
                             {node.status === 'delayed' && (
                               <div className="mt-3 p-1.5 rounded bg-orange-100/30 text-[9px] font-bold text-[#FF7700] flex items-center gap-1">
                                 <AlertTriangle className="w-3.5 h-3.5" />
-                                <span>+{node.delayMinutes} mins delay ({node.disruptionReason || 'General'})</span>
+                                <span>+{node.delayMinutes} {t('minsLabel')} {t('delayed')} ({t(node.disruptionReason) || t('generalDisruption')})</span>
                               </div>
                             )}
 
                             {node.status === 'broken' && (
-                              <div className="mt-3 p-1.5 rounded bg-red-100/30 text-[9px] font-bold text-red-655 flex items-center gap-1 animate-pulse">
+                              <div className="mt-3 p-1.5 rounded bg-red-100/30 text-[9px] font-bold text-red-600 flex items-center gap-1 animate-pulse">
                                 <AlertCircle className="w-3.5 h-3.5" />
-                                <span>Missed Connection</span>
+                                <span>{t('missedConnection')}</span>
                               </div>
                             )}
                           </motion.div>
@@ -1831,23 +2035,23 @@ function App() {
               </div>
 
               {/* Quick instructions to use Chaos Sandbox */}
-              <div className="p-5 bg-blue-50 border border-blue-100 rounded-2xl flex flex-col sm:flex-row items-center justify-between gap-4">
+              <div className="p-5 bg-blue-50 border border-blue-105 rounded-2xl flex flex-col sm:flex-row items-center justify-between gap-4">
                 <div className="flex gap-3">
-                  <div className="p-2 rounded-xl bg-white text-[#287DFA]">
+                  <div className="p-2 rounded-xl bg-white text-[#287DFA] shrink-0">
                     <Sparkles className="w-5 h-5" />
                   </div>
                   <div>
-                    <h4 className="text-sm font-bold text-slate-900 font-serif">Simulate Delays in the Chaos Lab</h4>
+                    <h4 className="text-sm font-bold text-slate-900 font-serif">{t('simulateDelaysTitle')}</h4>
                     <p className="text-xs text-slate-655 leading-normal mt-0.5">
-                      To mock complex multi-node failures and explore our instant auto-rebooking engine, use the dedicated <span className="font-semibold text-[#287DFA]">⚡ Chaos Lab</span> sandbox at the top right of the navigation bar.
+                      {t('simulateDelaysDesc')}
                     </p>
                   </div>
                 </div>
                 <button
                   onClick={() => setCurrentPage('chaos-lab')}
-                  className="px-4 py-2 bg-[#287DFA] text-white text-xs font-bold rounded-xl hover:bg-[#1C6BDB] transition cursor-pointer whitespace-nowrap"
+                  className="px-4 py-2 bg-[#287DFA] text-white text-xs font-bold rounded-xl hover:bg-[#1C6BDB] transition cursor-pointer whitespace-nowrap w-full sm:w-auto text-center"
                 >
-                  Open Sandbox
+                  {t('openSandbox')}
                 </button>
               </div>
             </motion.div>
@@ -1861,14 +2065,14 @@ function App() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -15 }}
               transition={{ duration: 0.25 }}
-              className="max-w-5xl mx-auto w-full px-6 py-10 flex flex-col gap-6"
+              className="max-w-5xl mx-auto w-full px-4 sm:px-6 py-10 flex flex-col gap-6"
             >
               {/* Rescue Portal Alert Banner */}
               <div className="p-6 rounded-2xl bg-[#FF7700] text-white flex flex-col md:flex-row items-start md:items-center justify-between gap-6 shadow-md relative overflow-hidden">
                 <div className="absolute right-0 bottom-0 translate-x-10 translate-y-10 w-44 h-44 rounded-full bg-white/10 blur-xl pointer-events-none" />
                 <div className="absolute left-1/3 top-0 w-24 h-24 rounded-full bg-white/5 blur-lg pointer-events-none" />
 
-                <div className="z-10 max-w-2xl">
+                <div className="z-10 max-w-2xl text-left">
                   <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/20 text-xs font-bold text-white mb-3 tracking-wider uppercase font-mono">
                     🛡️ TripResQ Guard Active
                   </span>
@@ -1879,7 +2083,7 @@ function App() {
                 </div>
                 <button
                   onClick={() => setCurrentPage('my-trip')}
-                  className="px-4 py-2 bg-white text-[#FF7700] font-extrabold hover:bg-slate-100 text-xs rounded-xl transition shrink-0 z-10 shadow cursor-pointer"
+                  className="px-4 py-2 bg-white text-[#FF7700] font-extrabold hover:bg-slate-100 text-xs rounded-xl transition shrink-0 z-10 shadow cursor-pointer w-full md:w-auto text-center"
                 >
                   {t('backToTimeline')}
                 </button>
@@ -1891,10 +2095,10 @@ function App() {
                 {/* Fastest Plan */}
                 <div className="bg-white rounded-2xl border-2 border-[#287DFA] shadow-lg flex flex-col justify-between relative overflow-hidden hover:scale-[1.01] transition duration-200">
                   <div className="bg-[#287DFA] text-white text-[9px] font-extrabold text-center py-1 tracking-wider uppercase font-mono">
-                    ⭐ Recommended Recovery
+                    ⭐ {t('fastestTitle').split(' ')[0]} Recommended
                   </div>
                   
-                  <div className="p-6 flex-1 flex flex-col gap-4">
+                  <div className="p-6 flex-1 flex flex-col gap-4 text-left">
                     <div className="flex items-center justify-between">
                       <div className="p-2.5 rounded-xl bg-[#EAF3FF] text-[#287DFA]">
                         <Zap className="w-6 h-6 animate-pulse" />
@@ -1903,33 +2107,33 @@ function App() {
                     </div>
 
                     <div>
-                      <h3 className="font-extrabold text-base text-slate-900 font-serif">⚡ Express Route Shift</h3>
-                      <p className="text-xs text-slate-500 mt-0.5 leading-relaxed">Rescheduled Premium Transit</p>
+                      <h3 className="font-extrabold text-base text-slate-900 font-serif">{t('fastestTitle')}</h3>
+                      <p className="text-xs text-slate-500 mt-0.5 leading-relaxed">{t('fastestDesc')}</p>
                     </div>
 
                     <p className="text-slate-505 text-xs leading-relaxed">
-                      Reschedule transit to next immediate express connection. All downstream cab pick-up schedules are automatically shifted. Hotel notified of late arrival.
+                      {t('fastestDetails')}
                     </p>
 
                     <div className="bg-slate-50 p-3 rounded-xl border border-slate-100 text-[11px] flex flex-col gap-1.5 font-semibold">
                       <div className="flex justify-between">
-                        <span className="text-slate-400">Transit Shift</span>
-                        <span className="text-slate-700">Next Departure (Rescheduled)</span>
+                        <span className="text-slate-400">{t('transitShift')}</span>
+                        <span className="text-slate-700">{t('nextDepartureRescheduled')}</span>
                       </div>
                       <div className="flex justify-between">
-                        <span className="text-slate-400">Cab Pickup</span>
-                        <span className="text-emerald-600">Updated Automatically</span>
+                        <span className="text-slate-400">{t('cabPickup')}</span>
+                        <span className="text-emerald-600">{t('updatedAutomatically')}</span>
                       </div>
                       <div className="flex justify-between">
-                        <span className="text-slate-400">Hotel Check-in</span>
-                        <span className="text-emerald-600">Warning Alert Dispatched</span>
+                        <span className="text-slate-400">{t('hotelCheckin')}</span>
+                        <span className="text-emerald-600">{t('warningAlertDispatched')}</span>
                       </div>
                     </div>
                   </div>
 
-                  <div className="p-6 bg-slate-50/60 border-t border-slate-100 flex flex-col gap-3">
+                  <div className="p-6 bg-slate-50/60 border-t border-slate-100 flex flex-col gap-3 text-left">
                     <div className="flex justify-between items-baseline">
-                      <span className="text-slate-505 text-xs font-semibold">TripResQ Cost</span>
+                      <span className="text-slate-550 text-xs font-semibold">{t('tripresqCost')}</span>
                       <span className="text-base font-extrabold text-[#287DFA]">
                         {t('free')} <span className="text-[10px] text-slate-400 line-through font-normal">₹1,500</span>
                       </span>
@@ -1939,14 +2143,14 @@ function App() {
                       disabled={successPlanAccepted !== null}
                       className="w-full h-10 bg-[#287DFA] hover:bg-[#1C6BDB] text-white font-bold text-xs rounded-xl shadow-md transition cursor-pointer flex items-center justify-center gap-1.5 active:scale-98"
                     >
-                      {successPlanAccepted === 'fastest' ? 'Processing...' : t('acceptPlan')}
+                      {successPlanAccepted === 'fastest' ? t('processing') : t('acceptPlan')}
                     </button>
                   </div>
                 </div>
 
                 {/* Budget Plan */}
                 <div className="bg-white rounded-2xl border border-slate-205 shadow-sm flex flex-col justify-between overflow-hidden hover:scale-[1.01] transition duration-200">
-                  <div className="p-6 flex-1 flex flex-col gap-4">
+                  <div className="p-6 flex-1 flex flex-col gap-4 text-left">
                     <div className="flex items-center justify-between">
                       <div className="p-2.5 rounded-xl bg-orange-50 text-[#FF7700]">
                         <RefreshCw className="w-6 h-6" />
@@ -1955,48 +2159,48 @@ function App() {
                     </div>
 
                     <div>
-                      <h3 className="font-extrabold text-base text-slate-900 font-serif">💰 Delayed Coach Reschedule</h3>
-                      <p className="text-xs text-slate-405 mt-0.5 font-semibold">Off-Peak Transit Reschedule</p>
+                      <h3 className="font-extrabold text-base text-slate-900 font-serif">{t('budgetTitle')}</h3>
+                      <p className="text-xs text-slate-405 mt-0.5 font-semibold">{t('budgetDesc')}</p>
                     </div>
 
                     <p className="text-slate-505 text-xs leading-relaxed">
-                      Reschedule to later connecting transit node. Minimizes immediate cost by absorbing longer delay, backed by compensation voucher.
+                      {t('budgetDetails')}
                     </p>
 
                     <div className="bg-slate-50 p-3 rounded-xl border border-slate-100 text-[11px] flex flex-col gap-1.5 font-semibold">
                       <div className="flex justify-between">
-                        <span className="text-slate-400">Transit Shift</span>
-                        <span className="text-slate-700">Delayed by 3.5 hrs</span>
+                        <span className="text-slate-400">{t('transitShift')}</span>
+                        <span className="text-slate-700">{t('delayedByHours')}</span>
                       </div>
                       <div className="flex justify-between">
-                        <span className="text-slate-400">Compensation</span>
-                        <span className="text-emerald-600">₹600 Travel Voucher</span>
+                        <span className="text-slate-400">{t('compensation')}</span>
+                        <span className="text-emerald-600">{t('travelVoucher')}</span>
                       </div>
                       <div className="flex justify-between">
-                        <span className="text-slate-400">Hotel Check-in</span>
-                        <span className="text-orange-500">Postponed Reservation</span>
+                        <span className="text-slate-400">{t('hotelCheckin')}</span>
+                        <span className="text-orange-500">{t('postponedReservation')}</span>
                       </div>
                     </div>
                   </div>
 
-                  <div className="p-6 bg-slate-55/60 border-t border-slate-100 flex flex-col gap-3">
+                  <div className="p-6 bg-slate-55/60 border-t border-slate-100 flex flex-col gap-3 text-left">
                     <div className="flex justify-between items-baseline">
-                      <span className="text-slate-505 text-xs font-semibold">Compensation Credit</span>
-                      <span className="text-base font-extrabold text-slate-800">₹600 Credit Back</span>
+                      <span className="text-slate-550 text-xs font-semibold">{t('compensationCredit')}</span>
+                      <span className="text-base font-extrabold text-slate-800">{t('creditBack')}</span>
                     </div>
                     <button
                       onClick={() => handleAcceptPlan('cheapest')}
                       disabled={successPlanAccepted !== null}
-                      className="w-full h-10 bg-slate-955 hover:bg-slate-900 text-white font-bold text-xs rounded-xl shadow-sm transition cursor-pointer active:scale-98"
+                      className="w-full h-10 bg-slate-950 hover:bg-slate-900 text-white font-bold text-xs rounded-xl shadow-sm transition cursor-pointer active:scale-98"
                     >
-                      {successPlanAccepted === 'cheapest' ? 'Processing...' : t('acceptPlan')}
+                      {successPlanAccepted === 'cheapest' ? t('processing') : t('acceptPlan')}
                     </button>
                   </div>
                 </div>
 
                 {/* Refund Plan */}
                 <div className="bg-white rounded-2xl border border-slate-205 shadow-sm flex flex-col justify-between overflow-hidden hover:scale-[1.01] transition duration-200">
-                  <div className="p-6 flex-1 flex flex-col gap-4">
+                  <div className="p-6 flex-1 flex flex-col gap-4 text-left">
                     <div className="flex items-center justify-between">
                       <div className="p-2.5 rounded-xl bg-red-50 text-red-500">
                         <Trash2 className="w-6 h-6" />
@@ -2005,41 +2209,41 @@ function App() {
                     </div>
 
                     <div>
-                      <h3 className="font-extrabold text-base text-slate-900 font-serif">💸 Max Refund Claim</h3>
-                      <p className="text-xs text-slate-450 mt-0.5 font-semibold">Cancel & Full Claim</p>
+                      <h3 className="font-extrabold text-base text-slate-900 font-serif">{t('refundTitle')}</h3>
+                      <p className="text-xs text-slate-450 mt-0.5 font-semibold">{t('refundDesc')}</p>
                     </div>
 
                     <p className="text-slate-505 text-xs leading-relaxed">
-                      Cancel all disrupted and downstream nodes immediately. Initiate 100% refund claims processed under TripResQ protective clauses.
+                      {t('refundDetails')}
                     </p>
 
                     <div className="bg-slate-50 p-3 rounded-xl border border-slate-100 text-[11px] flex flex-col gap-1.5 font-semibold">
                       <div className="flex justify-between">
-                        <span className="text-slate-400">Refund Eligible</span>
-                        <span className="text-emerald-600">100% Full Refund</span>
+                        <span className="text-slate-400">{t('refundEligible')}</span>
+                        <span className="text-emerald-600">{t('fullRefund')}</span>
                       </div>
                       <div className="flex justify-between">
                         <span className="text-slate-400">Processing</span>
-                        <span className="text-slate-700">Immediate Initiated</span>
+                        <span className="text-slate-700">{t('immediateInitiated')}</span>
                       </div>
                       <div className="flex justify-between">
-                        <span className="text-slate-400">Cancellation Cost</span>
-                        <span className="text-slate-700">₹0 Fee</span>
+                        <span className="text-slate-400">{t('cancellationCost')}</span>
+                        <span className="text-slate-700">{t('freeFee')}</span>
                       </div>
                     </div>
                   </div>
 
-                  <div className="p-6 bg-slate-50/60 border-t border-slate-100 flex flex-col gap-3">
+                  <div className="p-6 bg-slate-50/60 border-t border-slate-100 flex flex-col gap-3 text-left">
                     <div className="flex justify-between items-baseline">
-                      <span className="text-slate-505 text-xs font-semibold">Refund Amount</span>
-                      <span className="text-base font-extrabold text-emerald-600">100% {t('refund')}</span>
+                      <span className="text-slate-550 text-xs font-semibold">{t('refundAmount')}</span>
+                      <span className="text-base font-extrabold text-emerald-600">{t('fullRefundClaim')}</span>
                     </div>
                     <button
                       onClick={() => handleAcceptPlan('refund')}
                       disabled={successPlanAccepted !== null}
-                      className="w-full h-10 border border-slate-305 hover:bg-slate-50 text-slate-700 font-bold text-xs rounded-xl shadow-xs transition cursor-pointer active:scale-98"
+                      className="w-full h-10 border border-slate-300 hover:bg-slate-55 text-slate-700 font-bold text-xs rounded-xl shadow-xs transition cursor-pointer active:scale-98"
                     >
-                      {successPlanAccepted === 'refund' ? 'Processing...' : t('acceptPlan')}
+                      {successPlanAccepted === 'refund' ? t('processing') : t('acceptPlan')}
                     </button>
                   </div>
                 </div>
@@ -2053,7 +2257,7 @@ function App() {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
-                    className="fixed inset-0 z-50 flex items-center justify-center bg-slate-955/45 backdrop-blur-xs p-6"
+                    className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/45 backdrop-blur-xs p-6"
                   >
                     <motion.div
                       initial={{ scale: 0.9, y: 20 }}
@@ -2064,11 +2268,11 @@ function App() {
                       <div className="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center text-emerald-555 mb-2">
                         <Check className="w-8 h-8 stroke-[3]" />
                       </div>
-                      <h3 className="text-xl font-bold text-slate-900 font-serif font-serif">Trip Recovered!</h3>
-                      <p className="text-xs text-slate-550 leading-relaxed">
-                        We've updated your itinerary vouchers and notified the cab operator and hotel staff. Your new boarding pass is on its way.
+                      <h3 className="text-xl font-bold text-slate-900 font-serif">{t('tripRecoveredTitle')}</h3>
+                      <p className="text-xs text-slate-550 leading-relaxed px-2">
+                        {t('tripRecoveredDesc')}
                       </p>
-                      <span className="text-[10px] text-slate-450 font-mono tracking-wider animate-pulse">Updating timeline view...</span>
+                      <span className="text-[10px] text-slate-400 font-mono tracking-wider animate-pulse">{t('updatingTimeline')}</span>
                     </motion.div>
                   </motion.div>
                 )}
@@ -2084,9 +2288,9 @@ function App() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -15 }}
               transition={{ duration: 0.25 }}
-              className="max-w-5xl mx-auto w-full px-6 py-10 flex flex-col gap-6"
+              className="max-w-5xl mx-auto w-full px-4 sm:px-6 py-10 flex flex-col gap-6"
             >
-              <div className="border-b border-slate-205 pb-5">
+              <div className="border-b border-slate-205 pb-5 text-left">
                 <span className="px-3 py-1 rounded-full bg-orange-100 text-[#FF7700] text-xs font-bold font-mono uppercase tracking-wider">
                   ⚡ Sandbox Mode
                 </span>
@@ -2096,8 +2300,8 @@ function App() {
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                 {/* Controls Card */}
-                <div className="md:col-span-2 bg-white p-6 rounded-2xl border border-slate-100 shadow-sm space-y-6">
-                  <h3 className="text-sm font-bold uppercase tracking-wider text-slate-400 font-mono">Disruption Parameters</h3>
+                <div className="md:col-span-2 bg-white p-4 sm:p-6 rounded-2xl border border-slate-100 shadow-sm space-y-6 text-left">
+                  <h3 className="text-sm font-bold uppercase tracking-wider text-slate-400 font-mono">{t('disruptionParams')}</h3>
 
                   {/* 1. Node selector */}
                   <div className="space-y-2">
@@ -2137,7 +2341,7 @@ function App() {
                             : 'border-slate-205 text-slate-600 hover:bg-slate-50'
                         }`}
                       >
-                        ⏱️ Delay
+                        {t('delayOption')}
                       </button>
                       <button
                         type="button"
@@ -2148,7 +2352,7 @@ function App() {
                             : 'border-slate-205 text-slate-600 hover:bg-slate-50'
                         }`}
                       >
-                        ❌ Cancellation
+                        {t('cancelOption')}
                       </button>
                       <button
                         type="button"
@@ -2159,7 +2363,7 @@ function App() {
                             : 'border-slate-205 text-slate-600 hover:bg-slate-50'
                         }`}
                       >
-                        🔒 Terminal Lockout
+                        {t('lockoutOption')}
                       </button>
                     </div>
                   </div>
@@ -2169,7 +2373,7 @@ function App() {
                     <div className="space-y-2">
                       <div className="flex justify-between items-baseline">
                         <label className="text-xs font-bold text-slate-655">{t('delayAmount')}</label>
-                        <span className="text-sm font-mono font-extrabold text-[#FF7700]">{disruptDelay} Mins ({(disruptDelay/60).toFixed(1)} hrs)</span>
+                        <span className="text-sm font-mono font-extrabold text-[#FF7700]">{disruptDelay} {t('minsLabel')} ({(disruptDelay/60).toFixed(1)} hrs)</span>
                       </div>
                       <input
                         type="range"
@@ -2191,15 +2395,15 @@ function App() {
                       onChange={(e) => setDisruptReason(e.target.value)}
                       className="w-full h-10 px-3 rounded-lg border border-slate-200 text-xs font-bold bg-slate-50 focus:outline-none focus:border-[#FF7700] transition cursor-pointer appearance-none"
                     >
-                      <option value="Severe Weather & Thunderstorms">Severe Weather & Thunderstorms</option>
-                      <option value="Mechanical Failure & Engine Stall">Mechanical Failure & Engine Stall</option>
-                      <option value="Rail/Air Traffic Congestion">Rail/Air Traffic Congestion</option>
-                      <option value="Security Lockdown Alert">Security Lockdown Alert</option>
+                      <option value="Severe Weather & Thunderstorms">{t('weatherReason')}</option>
+                      <option value="Mechanical Failure & Engine Stall">{t('mechReason')}</option>
+                      <option value="Rail/Air Traffic Congestion">{t('trafficReason')}</option>
+                      <option value="Security Lockdown Alert">{t('securityReason')}</option>
                     </select>
                   </div>
 
                   {/* Action Buttons */}
-                  <div className="flex flex-col sm:flex-row gap-3 pt-4 border-t border-slate-100">
+                  <div className="flex flex-col sm:flex-row gap-3 pt-4 border-t border-slate-105">
                     <button
                       type="button"
                       onClick={() => {
@@ -2214,7 +2418,7 @@ function App() {
                     <button
                       type="button"
                       onClick={handleResetJourney}
-                      className="px-6 h-11 border border-slate-300 bg-white hover:bg-slate-50 text-slate-700 font-bold rounded-xl transition cursor-pointer text-xs"
+                      className="px-6 h-11 border border-slate-350 bg-white hover:bg-slate-50 text-slate-700 font-bold rounded-xl transition cursor-pointer text-xs"
                     >
                       {t('resetBtn')}
                     </button>
@@ -2222,7 +2426,7 @@ function App() {
                 </div>
 
                 {/* Metrics & Impact Panel */}
-                <div className="bg-slate-900 text-white p-6 rounded-2xl flex flex-col justify-between relative overflow-hidden shadow-xl border border-slate-800">
+                <div className="bg-slate-900 text-white p-6 rounded-2xl flex flex-col justify-between relative overflow-hidden shadow-xl border border-slate-800 text-left">
                   <div className="absolute right-0 top-0 translate-x-10 -translate-y-10 w-36 h-36 rounded-full bg-[#FF7700]/10 blur-xl pointer-events-none" />
                   
                   <div className="space-y-6 z-10">
@@ -2236,7 +2440,7 @@ function App() {
                       <div className="border-b border-slate-800 pb-3 flex justify-between items-center">
                         <span className="text-slate-400 text-xs font-semibold">{t('downstreamDelay')}</span>
                         <span className="text-lg font-mono font-extrabold text-[#FF7700]">
-                          {impactMetrics.delayMinutes > 0 ? `${impactMetrics.delayMinutes} mins` : '0 mins'}
+                          {impactMetrics.delayMinutes > 0 ? `${impactMetrics.delayMinutes} ${t('minsLabel')}` : `0 ${t('minsLabel')}`}
                         </span>
                       </div>
 
@@ -2260,8 +2464,8 @@ function App() {
 
                   <div className="pt-8 z-10">
                     <div className="bg-slate-800/60 p-4 rounded-xl border border-slate-700/50 text-[11px] leading-relaxed text-slate-400 space-y-2">
-                      <span className="font-extrabold text-white block uppercase tracking-wider font-mono text-[10px]">Real-Time Graph Impact</span>
-                      Our ripple-effect calculator runs a dependency check on nodes sequentially. If a predecessor's arrival slips past the successor's buffer window, the node triggers a connection breach state.
+                      <span className="font-extrabold text-white block uppercase tracking-wider font-mono text-[10px]">{t('realTimeGraphImpact')}</span>
+                      {t('graphImpactDesc')}
                     </div>
                   </div>
                 </div>
@@ -2277,9 +2481,9 @@ function App() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -15 }}
               transition={{ duration: 0.25 }}
-              className="max-w-5xl mx-auto w-full px-6 py-10 flex flex-col gap-6"
+              className="max-w-5xl mx-auto w-full px-4 sm:px-6 py-10 flex flex-col gap-6"
             >
-              <div className="border-b border-slate-205 pb-5">
+              <div className="border-b border-slate-205 pb-5 text-left">
                 <span className="px-3 py-1 rounded-full bg-[#EAF3FF] text-[#287DFA] text-xs font-bold font-mono uppercase tracking-wider">
                   🍽️ Transit Dining
                 </span>
@@ -2305,6 +2509,7 @@ function App() {
                      : filterOption === 'Local Specialties' ? t('specialties')
                      : filterOption === 'Fast Delivery' ? t('fastDelivery')
                      : filterOption === 'Open 24/7' ? t('open247')
+                     : filterOption === 'All' ? t('all')
                      : filterOption}
                   </button>
                 ))}
@@ -2317,7 +2522,7 @@ function App() {
                     <motion.div
                       layout
                       key={restaurant.id}
-                      className="bg-white rounded-xl overflow-hidden border border-slate-100 shadow-sm flex flex-col hover:shadow-md transition"
+                      className="bg-white rounded-xl overflow-hidden border border-slate-100 shadow-sm flex flex-col hover:shadow-md transition text-left"
                     >
                       <div className="h-44 relative bg-slate-100 overflow-hidden">
                         <img
@@ -2350,10 +2555,10 @@ function App() {
                         <div className="flex justify-between items-center border-t border-slate-50 pt-3">
                           <span className="text-[10px] text-slate-400 font-semibold">{t('avgCost')}: <span className="font-extrabold text-slate-800 font-mono">₹{restaurant.cost}</span></span>
                           <button
-                            onClick={() => alert(`Table booked successfully at ${restaurant.name}!`)}
+                            onClick={() => alert(`${t('tableBookedSuccess')} ${restaurant.name}!`)}
                             className="px-3 py-1.5 bg-[#EAF3FF] hover:bg-[#287DFA] hover:text-white text-[#287DFA] text-[10px] font-bold rounded-lg transition cursor-pointer"
                           >
-                            Book Table
+                            {t('bookTable')}
                           </button>
                         </div>
                       </div>
@@ -2362,9 +2567,9 @@ function App() {
                 </div>
               ) : (
                 <div className="text-center py-16 bg-white rounded-2xl border border-slate-100 flex flex-col items-center gap-2">
-                  <Filter className="w-8 h-8 text-slate-300" />
-                  <h4 className="font-bold text-slate-800 text-sm">No dining options match this filter</h4>
-                  <p className="text-xs text-slate-450">Try changing your filter selections above.</p>
+                  <Filter className="w-8 h-8 text-slate-350" />
+                  <h4 className="font-bold text-slate-800 text-sm">{t('noDiningTitle')}</h4>
+                  <p className="text-xs text-slate-450">{t('noDiningDesc')}</p>
                 </div>
               )}
             </motion.div>
@@ -2378,9 +2583,9 @@ function App() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -15 }}
               transition={{ duration: 0.25 }}
-              className="max-w-5xl mx-auto w-full px-6 py-10 flex flex-col gap-6"
+              className="max-w-5xl mx-auto w-full px-4 sm:px-6 py-10 flex flex-col gap-6"
             >
-              <div className="border-b border-slate-200 pb-5">
+              <div className="border-b border-slate-200 pb-5 text-left">
                 <span className="px-3 py-1 rounded-full bg-slate-900 text-white text-xs font-bold font-mono uppercase tracking-wider">
                   📞 Help Center
                 </span>
@@ -2423,11 +2628,11 @@ function App() {
                   
                   {/* Tab 1: FAQs & Helpline */}
                   {supportTab === 'faq' && (
-                    <div className="space-y-6">
+                    <div className="space-y-6 text-left">
                       {/* Helpline Box */}
-                      <div className="p-5 bg-rose-50 border border-rose-100 rounded-2xl flex items-center justify-between gap-4">
+                      <div className="p-5 bg-rose-50 border border-rose-100 rounded-2xl flex flex-col sm:flex-row items-center justify-between gap-4">
                         <div className="flex gap-3">
-                          <div className="p-3 bg-rose-500 text-white rounded-xl self-start">
+                          <div className="p-3 bg-rose-500 text-white rounded-xl self-start shrink-0">
                             <ShieldAlert className="w-5 h-5 animate-pulse" />
                           </div>
                           <div>
@@ -2439,9 +2644,9 @@ function App() {
                         </div>
                         <a
                           href="tel:18004197377"
-                          className="px-4 py-2 bg-rose-500 text-white text-xs font-bold rounded-lg hover:bg-rose-600 transition shadow-sm whitespace-nowrap text-center animate-pulse"
+                          className="px-4 py-2 bg-rose-500 text-white text-xs font-bold rounded-lg hover:bg-rose-600 transition shadow-sm whitespace-nowrap text-center animate-pulse w-full sm:w-auto"
                         >
-                          Call SOS
+                          {t('callSos')}
                         </a>
                       </div>
 
@@ -2468,12 +2673,6 @@ function App() {
                               If your arrival is delayed, our system automatically informs the hotel reception desk via API, sending check-in updates and preventing reservation cancellations for late arrival.
                             </p>
                           </div>
-                          <div className="space-y-1">
-                            <h4 className="text-xs font-extrabold text-slate-900 font-serif">Q: Can I cancel a disrupted trip and get a full refund?</h4>
-                            <p className="text-[11px] text-slate-555 leading-relaxed font-semibold">
-                              Absolutely. The 'Max Refund Plan' option allows you to cancel all broken nodes and initiates instant full refunds directly to your bank account.
-                            </p>
-                          </div>
                         </div>
                       </div>
                     </div>
@@ -2481,7 +2680,7 @@ function App() {
 
                   {/* Tab 2: Bug Report Form */}
                   {supportTab === 'bug' && (
-                    <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm space-y-6">
+                    <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm space-y-6 text-left">
                       <div>
                         <h3 className="text-base font-extrabold text-slate-900 font-serif">{t('bugTitle')}</h3>
                         <p className="text-slate-450 text-[11px] mt-0.5 font-semibold">Spotted something broken? File a report so our engineers can fix it.</p>
@@ -2493,11 +2692,11 @@ function App() {
                             initial={{ opacity: 0, y: 10 }}
                             animate={{ opacity: 1, y: 0 }}
                             exit={{ opacity: 0 }}
-                            className="p-6 bg-emerald-50 border border-emerald-250 rounded-xl text-center flex flex-col items-center gap-3"
+                            className="p-6 bg-emerald-50 border border-emerald-200 rounded-xl text-center flex flex-col items-center gap-3"
                           >
                             <CheckCircle className="w-10 h-10 text-emerald-500" />
-                            <h4 className="font-bold text-slate-900 text-sm font-serif">Report Submitted Successfully</h4>
-                            <p className="text-xs text-slate-600 font-semibold">Thank you! Ticket ID: #{bugTicketId}. Our engineers are on it.</p>
+                            <h4 className="font-bold text-slate-900 text-sm font-serif">{t('reportSuccessTitle')}</h4>
+                            <p className="text-xs text-slate-600 font-semibold">{t('reportSuccessDesc')}{bugTicketId}. {t('reportSuccessSub')}</p>
                           </motion.div>
                         ) : (
                           <form onSubmit={handleBugSubmit} className="space-y-4">
@@ -2532,10 +2731,10 @@ function App() {
                                   onChange={(e) => setBugSeverity(e.target.value)}
                                   className="h-10 px-3 rounded-lg border border-slate-205 text-xs font-bold bg-slate-50 focus:outline-none focus:border-[#287DFA] transition cursor-pointer"
                                 >
-                                  <option value="Low">Low - UI/Text Glitch</option>
-                                  <option value="Medium">Medium - Feature Flaw</option>
-                                  <option value="High">High - Crash / State Loop</option>
-                                  <option value="Critical">Critical - Disruption Calculations Failure</option>
+                                  <option value="Low">{t('severityLow')}</option>
+                                  <option value="Medium">{t('severityMedium')}</option>
+                                  <option value="High">{t('severityHigh')}</option>
+                                  <option value="Critical">{t('severityCritical')}</option>
                                 </select>
                               </div>
 
@@ -2565,7 +2764,7 @@ function App() {
 
                   {/* Tab 3: Share Feedback */}
                   {supportTab === 'feedback' && (
-                    <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm space-y-6">
+                    <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm space-y-6 text-left">
                       <div>
                         <h3 className="text-base font-extrabold text-slate-905 font-serif">{t('feedbackTitle')}</h3>
                         <p className="text-slate-450 text-[11px] mt-0.5 font-semibold">{t('feedbackSub')}</p>
@@ -2580,14 +2779,14 @@ function App() {
                             className="p-6 bg-emerald-50 border border-emerald-200 rounded-xl text-center flex flex-col items-center gap-3"
                           >
                             <CheckCircle className="w-10 h-10 text-emerald-500" />
-                            <h4 className="font-bold text-slate-900 text-sm font-serif">Feedback Submitted</h4>
-                            <p className="text-xs text-slate-650 font-semibold font-serif">Thank you for rating your experience! We appreciate your input.</p>
+                            <h4 className="font-bold text-slate-900 text-sm font-serif">{t('feedbackSuccessTitle')}</h4>
+                            <p className="text-xs text-slate-650 font-semibold">{t('feedbackSuccessDesc')}</p>
                           </motion.div>
                         ) : (
                           <form onSubmit={handleFeedbackSubmit} className="space-y-6">
                             {/* Star Selection */}
                             <div className="flex flex-col items-center gap-2 py-4 bg-slate-50/60 rounded-xl">
-                              <span className="text-xs font-bold text-slate-500 font-serif">Tap to Rate</span>
+                              <span className="text-xs font-bold text-slate-500 font-serif">{t('tapToRate')}</span>
                               <div className="flex items-center gap-1.5">
                                 {[1, 2, 3, 4, 5].map((star) => (
                                   <button
@@ -2612,7 +2811,7 @@ function App() {
 
                             {/* Tags Selection */}
                             <div className="space-y-2">
-                              <label className="text-xs font-bold text-slate-655 block">Feedback Tags</label>
+                              <label className="text-xs font-bold text-slate-655 block">{t('feedbackTags')}</label>
                               <div className="flex flex-wrap gap-2">
                                 {['#FastRescue', '#CleanLayout', '#ResponsiveSupport', '#ZeroHassle', '#AccurateCalculations'].map(tag => {
                                   const isSelected = selectedTags.includes(tag);
@@ -2670,7 +2869,7 @@ function App() {
                 </div>
 
                 {/* Right Side: Chatbot Widget */}
-                <div className="bg-white rounded-2xl border border-slate-100 shadow-lg flex flex-col h-[480px] overflow-hidden">
+                <div className="bg-white rounded-2xl border border-slate-100 shadow-lg flex flex-col h-[480px] overflow-hidden text-left">
                   {/* Chatbot Header */}
                   <div className="p-4 bg-[#287DFA] text-white flex items-center gap-3">
                     <div className="p-2 bg-white/20 rounded-xl">
@@ -2693,7 +2892,7 @@ function App() {
                           className={`max-w-[85%] rounded-2xl px-3.5 py-2 text-xs leading-relaxed ${
                             msg.sender === 'user'
                               ? 'bg-[#287DFA] text-white rounded-tr-none'
-                              : 'bg-white text-slate-805 border border-slate-100 rounded-tl-none shadow-xs'
+                              : 'bg-white text-slate-850 border border-slate-100 rounded-tl-none shadow-xs'
                           }`}
                         >
                           {msg.text}
@@ -2717,19 +2916,19 @@ function App() {
                       onClick={() => handleQuickChatPrompt("My flight is delayed, what do I do?")}
                       className="px-2.5 py-1 bg-slate-50 hover:bg-slate-105 border border-slate-200 text-[10px] font-bold text-slate-605 rounded-full transition shrink-0 cursor-pointer font-semibold"
                     >
-                      ⏱️ delayed transit
+                      {t('chatbotChipDelay')}
                     </button>
                     <button
                       onClick={() => handleQuickChatPrompt("How do I claim a full refund?")}
                       className="px-2.5 py-1 bg-slate-50 hover:bg-slate-105 border border-slate-200 text-[10px] font-bold text-[#FF7700] rounded-full transition shrink-0 cursor-pointer font-semibold"
                     >
-                      💸 refunds
+                      {t('chatbotChipRefund')}
                     </button>
                     <button
                       onClick={() => handleQuickChatPrompt("Is my hotel stay check-in safe?")}
                       className="px-2.5 py-1 bg-slate-50 hover:bg-slate-105 border border-slate-200 text-[10px] font-bold text-slate-605 rounded-full transition shrink-0 cursor-pointer font-semibold"
                     >
-                      🏨 hotel checks
+                      {t('chatbotChipHotel')}
                     </button>
                   </div>
 
@@ -2744,7 +2943,7 @@ function App() {
                     />
                     <button
                       type="submit"
-                      className="p-2.5 bg-[#287DFA] hover:bg-[#1C6BDB] text-white rounded-lg transition cursor-pointer active:scale-95 flex items-center justify-center"
+                      className="p-2.5 bg-[#287DFA] hover:bg-[#1C6BDB] text-white rounded-lg transition cursor-pointer active:scale-95 flex items-center justify-center animate-pulse"
                     >
                       <Send className="w-3.5 h-3.5" />
                     </button>
@@ -2760,13 +2959,13 @@ function App() {
       </div>
 
       {/* --- Global Footer Area --- */}
-      <footer className="bg-white border-t border-slate-100 py-8 px-6 mt-12 text-center">
+      <footer className="bg-white border-t border-slate-100 py-8 px-6 mt-12 text-center text-left">
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-slate-450 font-mono">
-          <p>© 2026 TripResQ Technologies Inc. All rights reserved.</p>
+          <p>{t('allRightsReserved')}</p>
           <div className="flex gap-4">
-            <a href="#privacy" className="hover:text-slate-600 font-semibold">Privacy Policy</a>
-            <a href="#terms" className="hover:text-slate-600 font-semibold">Terms of Protection</a>
-            <a href="#contact" className="hover:text-slate-600 font-semibold">Contact Help Desk</a>
+            <a href="#privacy" className="hover:text-slate-600 font-semibold">{t('privacyPolicy')}</a>
+            <a href="#terms" className="hover:text-slate-600 font-semibold">{t('termsOfProtection')}</a>
+            <a href="#contact" className="hover:text-slate-600 font-semibold">{t('contactHelpDesk')}</a>
           </div>
         </div>
       </footer>
@@ -2778,7 +2977,7 @@ function App() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/45 backdrop-blur-xs p-6"
+            className="fixed inset-0 z-50 flex items-center justify-center bg-slate-955/45 backdrop-blur-xs p-4 sm:p-6"
           >
             <motion.div
               initial={{ scale: 0.95, y: 10 }}
@@ -2809,10 +3008,10 @@ function App() {
               </div>
 
               {/* Form Body */}
-              <form onSubmit={handleAuthSubmit} className="p-6 space-y-4">
+              <form onSubmit={handleAuthSubmit} className="p-6 space-y-4 text-left">
                 <div className="text-center pb-2">
                   <h3 className="font-bold text-slate-900 font-serif text-base">{t('authTitle')}</h3>
-                  <p className="text-slate-440 text-[10px] mt-0.5 font-semibold">Secure verification via TripResQ Protection Shield</p>
+                  <p className="text-slate-440 text-[10px] mt-0.5 font-semibold">{t('secureVerification')}</p>
                 </div>
 
                 {authTab === 'signup' && (
@@ -2877,24 +3076,24 @@ function App() {
                     <button
                       type="button"
                       onClick={() => {
-                        setUserAuth({ loggedIn: true, user: { name: 'Google Traveler', email: 'traveler@google.com' } });
+                        setUserAuth({ loggedIn: true, user: { name: t('googleUser'), email: 'traveler@google.com' } });
                         setShowAuthModal(false);
                         setCurrentPage('home');
                       }}
-                      className="h-8 border border-slate-200 rounded-lg text-[10px] font-bold hover:bg-slate-50 cursor-pointer transition flex items-center justify-center gap-1.5"
+                      className="h-8 border border-slate-200 rounded-lg text-[10px] font-bold hover:bg-slate-55 cursor-pointer transition flex items-center justify-center gap-1.5"
                     >
                       <Sparkles className="w-3.5 h-3.5 text-[#FF7700]" /> Google
                     </button>
                     <button
                       type="button"
                       onClick={() => {
-                        setUserAuth({ loggedIn: true, user: { name: 'OTP User', email: 'otp@tripresq.com' } });
+                        setUserAuth({ loggedIn: true, user: { name: t('otpUser'), email: 'otp@tripresq.com' } });
                         setShowAuthModal(false);
                         setCurrentPage('home');
                       }}
-                      className="h-8 border border-slate-200 rounded-lg text-[10px] font-bold hover:bg-slate-50 cursor-pointer transition flex items-center justify-center gap-1.5"
+                      className="h-8 border border-slate-200 rounded-lg text-[10px] font-bold hover:bg-slate-55 cursor-pointer transition flex items-center justify-center gap-1.5"
                     >
-                      <Clock className="w-3.5 h-3.5 text-[#287DFA]" /> Mobile OTP
+                      <Clock className="w-3.5 h-3.5 text-[#287DFA]" /> OTP
                     </button>
                   </div>
                 </div>
