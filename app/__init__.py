@@ -28,6 +28,12 @@ def create_app(test_config=None):
     with app.app_context():
         from app import models
         
+    from app.routers.trips import trips_bp
+    from app.routers.nodes import nodes_bp
+    
+    app.register_blueprint(trips_bp)
+    app.register_blueprint(nodes_bp)
+        
     @app.route('/health')
     def health():
         return {'status': 'ok'}
