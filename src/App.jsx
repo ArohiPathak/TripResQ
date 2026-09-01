@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   AlertTriangle,
@@ -893,6 +893,53 @@ function getMinutesBetween(time1, time2) {
   return (h2 * 60 + m2) - (h1 * 60 + m1);
 }
 
+
+// Format graph nodes returned by backend to frontend state
+const formatGraphNodes = (nodes, existingNodes = []) => {
+  return (nodes || []).map(n => {
+    let frontendStatus = 'healthy';
+    if (n.status === 'AT_RISK') frontendStatus = 'delayed';
+    if (n.status === 'BROKEN') frontendStatus = 'broken';
+
+    const actualStartStr = n.start_time && n.start_time.includes('T') ? n.start_time.split('T')[1].substring(0,5) : (n.start_time || '08:00');
+    const actualEndStr = n.end_time && n.end_time.includes('T') ? n.end_time.split('T')[1].substring(0,5) : (n.end_time || '09:00');
+
+    // Find matching existing node to preserve OG baseline scheduled time
+    const existing = (existingNodes || []).find(ex => ex.id === n.id || ex.title === n.title);
+    const scheduledStartStr = existing ? existing.scheduledStart : actualStartStr;
+    const scheduledEndStr = existing ? existing.scheduledEnd : actualEndStr;
+
+    // Calculate exact delay minutes between scheduled and actual start
+    const calcDelay = getMinutesBetween(scheduledStartStr, actualStartStr);
+
+    return {
+      id: n.id,
+      type: (n.type || 'flight').toLowerCase(),
+      title: n.title,
+      sub: n.location || '',
+      scheduledStart: scheduledStartStr,
+      scheduledEnd: scheduledEndStr,
+      actualStart: actualStartStr,
+      actualEnd: actualEndStr,
+      buffer: 0,
+      status: frontendStatus,
+      disruptionReason: frontendStatus !== 'healthy' ? 'Schedule Slippage' : '',
+      delayMinutes: calcDelay > 0 ? calcDelay : 0,
+      info: n.location || ''
+    };
+  });
+};
+
+function addMinutesToISO(isoStr, mins) {
+  try {
+    const dt = new Date(isoStr);
+    dt.setMinutes(dt.getMinutes() + mins);
+    return dt.toISOString();
+  } catch (e) {
+    return isoStr;
+  }
+}
+
 // Generate unique Trip Reference
 function generateTripRef() {
   return "TR-" + Math.floor(100000 + Math.random() * 900000);
@@ -916,7 +963,8 @@ function App() {
   // Custom Node Builder Input States
   const [builderFrom, setBuilderFrom] = useState('');
   const [builderTo, setBuilderTo] = useState('');
-  const [builderDate, setBuilderDate] = useState('2026-08-31');
+  const todayDateStr = new Date().toISOString().split('T')[0];
+  const [builderDate, setBuilderDate] = useState(todayDateStr);
   const [builderTime, setBuilderTime] = useState('08:00');
   const [builderDuration, setBuilderDuration] = useState(75);
   const [builderAirways, setBuilderAirways] = useState('');
@@ -930,6 +978,8 @@ function App() {
   // Active Trip Graph Nodes State
   const [tripRefNum, setTripRefNum] = useState('TR-998827');
   const [currentTrip, setCurrentTrip] = useState(seedInitialTripNodes);
+  const [originalTripNodes, setOriginalTripNodes] = useState([]);
+  const [recoveryProposals, setRecoveryProposals] = useState([]);
 
   // Chaos Lab Disruption Inputs
   const [selectedDisruptNode, setSelectedDisruptNode] = useState('');
@@ -984,6 +1034,94 @@ function App() {
     return TRANSLATIONS[currentLanguage][key] || TRANSLATIONS['en'][key] || key;
   };
 
+  
+  const initializeSeedTrip = async () => {
+    try {
+      const todayStr = new Date().toISOString().split('T')[0];
+      const res = await fetch('http://localhost:5000/api/trips', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: 'Deccan & Hyatt Journey' })
+      });
+      const tripData = await res.json();
+      const tripId = tripData.id;
+
+      const seeds = [
+        { 
+          type: 'TRAIN', 
+          title: 'Deccan Express DEC-809', 
+          location: 'Platform 4 • Main Terminal', 
+          start_time: `${todayStr}T08:00:00Z`, 
+          end_time: `${todayStr}T11:00:00Z` 
+        },
+        { 
+          type: 'CAB', 
+          title: 'Airport/Station Cab Transfer', 
+          location: 'Pickup Zone B • Uber Select', 
+          start_time: `${todayStr}T11:30:00Z`, 
+          end_time: `${todayStr}T12:15:00Z`,
+          hard_cutoff: `${todayStr}T12:00:00Z`
+        },
+        { 
+          type: 'HOTEL', 
+          title: 'Grand Hyatt Check-In', 
+          location: 'Premium Suite Room • Reception Desk', 
+          start_time: `${todayStr}T13:00:00Z`, 
+          end_time: `${todayStr}T23:59:59Z`,
+          hard_cutoff: `${todayStr}T14:00:00Z`
+        }
+      ];
+
+      for (const s of seeds) {
+        const payload = {
+          trip_id: tripId,
+          node_type: s.type,
+          title: s.title,
+          location: s.location,
+          start_time: s.start_time,
+          end_time: s.end_time
+        };
+        if (s.hard_cutoff) {
+          payload.hard_cutoff = s.hard_cutoff;
+        }
+        await fetch('http://localhost:5000/api/nodes', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+      }
+
+      const graphRes = await fetch(`http://localhost:5000/api/trips/${tripId}/graph`);
+      const graphData = await graphRes.json();
+
+      const formattedNodes = formatGraphNodes(graphData.nodes);
+
+      setCurrentTrip(formattedNodes);
+      setOriginalTripNodes(formattedNodes);
+      if (formattedNodes.length > 0) {
+        setSelectedDisruptNode(formattedNodes[0].id);
+      }
+      setTripRefNum(tripId);
+    } catch (err) {
+      console.error('Error seeding trip:', err);
+    }
+  };
+
+  useEffect(() => {
+    initializeSeedTrip();
+  }, []);
+
+  useEffect(() => {
+    if (currentTrip && currentTrip.length > 0) {
+      const exists = currentTrip.some(n => n.id === selectedDisruptNode);
+      if (!exists || !selectedDisruptNode) {
+        setSelectedDisruptNode(currentTrip[0].id);
+      }
+    }
+  }, [currentTrip]);
+
+
+
 
 
   // Add node dynamically as user inputs details in the form
@@ -1036,6 +1174,7 @@ function App() {
       type,
       title,
       sub: type === 'hotel' ? `${to}` : `${from} → ${to}`,
+      date: builderDate || new Date().toISOString().split('T')[0],
       scheduledStart,
       scheduledEnd,
       actualStart: scheduledStart,
@@ -1084,107 +1223,188 @@ function App() {
     });
   };
 
-  const handleLockJourney = () => {
+  const handleLockJourney = async () => {
     if (builderNodes.length === 0) return;
-    setCurrentTrip(builderNodes);
-    setBuilderNodes([]);
-    setTripRefNum(generateTripRef());
-    setDisruptionState('healthy');
-    setImpactMetrics({ delayMinutes: 0, brokenConnections: 0, affectedNodes: 0 });
-    setCurrentPage('my-trip');
+    try {
+      const res = await fetch('http://localhost:5000/api/trips', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: 'Trip Journey' })
+      });
+      const tripData = await res.json();
+      const tripId = tripData.id;
+
+      for (const node of builderNodes) {
+        const nodeDate = node.date || new Date().toISOString().split('T')[0];
+        const st = `${nodeDate}T${node.scheduledStart}:00Z`;
+        const et = node.scheduledEnd === 'Onwards' ? `${nodeDate}T23:59:59Z` : `${nodeDate}T${node.scheduledEnd}:00Z`;
+        
+        let hardCutoff = null;
+        if (node.type === 'cab') {
+          hardCutoff = addMinutesToISO(st, 30);
+        } else if (node.type === 'hotel') {
+          hardCutoff = addMinutesToISO(st, 60);
+        }
+
+        const payload = {
+          trip_id: tripId,
+          node_type: (node.type || 'flight').toUpperCase(),
+          title: node.title,
+          location: node.info || node.sub || '',
+          start_time: st,
+          end_time: et
+        };
+        if (hardCutoff) {
+          payload.hard_cutoff = hardCutoff;
+        }
+
+        await fetch('http://localhost:5000/api/nodes', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+      }
+
+      const graphRes = await fetch(`http://localhost:5000/api/trips/${tripId}/graph`);
+      const graphData = await graphRes.json();
+      
+      const formattedNodes = formatGraphNodes(graphData.nodes);
+
+      setCurrentTrip(formattedNodes);
+      setOriginalTripNodes(formattedNodes);
+      if (formattedNodes.length > 0) {
+        setSelectedDisruptNode(formattedNodes[0].id);
+      }
+      setBuilderNodes([]);
+      setTripRefNum(tripId);
+      setDisruptionState('healthy');
+      setImpactMetrics({ delayMinutes: 0, brokenConnections: 0, affectedNodes: 0 });
+      setCurrentPage('my-trip');
+    } catch (err) {
+      console.error(err);
+      alert('Failed to lock journey with backend');
+    }
   };
 
   // Cascade ripple effects calculation engine
-  const triggerDisruptionCascade = (nodeId, type, delayMins, reason) => {
-    let updatedNodes = currentTrip.map(n => ({ ...n }));
-    let targetIndex = updatedNodes.findIndex(n => n.id === nodeId);
-    
-    if (targetIndex === -1) return;
-
-    let cascadeDelay = 0;
-    let brokenCount = 0;
-    let affectedCount = 0;
-
-    const targetNode = updatedNodes[targetIndex];
-    affectedCount++;
-    targetNode.disruptionReason = reason;
-
-    if (type === 'delay') {
-      targetNode.status = 'delayed';
-      targetNode.delayMinutes = delayMins;
-      targetNode.actualStart = addMinutesToTime(targetNode.scheduledStart, delayMins);
-      if (targetNode.scheduledEnd !== 'Onwards') {
-        targetNode.actualEnd = addMinutesToTime(targetNode.scheduledEnd, delayMins);
-      }
-      cascadeDelay = delayMins;
-    } else {
-      targetNode.status = 'broken';
-      targetNode.delayMinutes = 360;
-      targetNode.actualStart = 'CANCELLED';
-      targetNode.actualEnd = 'CANCELLED';
-      cascadeDelay = 360;
-      brokenCount++;
+  const triggerDisruptionCascade = async (nodeId, type, delayMins, reason) => {
+    const targetId = nodeId || selectedDisruptNode || (currentTrip.length > 0 ? currentTrip[0].id : '');
+    if (!targetId) {
+      alert("Please select a travel node to disrupt!");
+      return;
     }
-
-    for (let i = targetIndex + 1; i < updatedNodes.length; i++) {
-      const prevNode = updatedNodes[i - 1];
-      const currNode = updatedNodes[i];
-
-      if (prevNode.status === 'broken' || prevNode.actualEnd === 'CANCELLED' || prevNode.actualEnd === 'COMPROMISED') {
-        currNode.status = 'broken';
-        currNode.actualStart = 'COMPROMISED';
-        currNode.actualEnd = 'COMPROMISED';
-        currNode.delayMinutes = 360;
-        brokenCount++;
-        affectedCount++;
-      } else {
-        const prevActualEnd = prevNode.actualEnd;
-        const currSchedStart = currNode.scheduledStart;
-
-        if (prevActualEnd !== 'Onwards' && currSchedStart !== 'Onwards') {
-          const bufferRemaining = getMinutesBetween(prevActualEnd, currSchedStart);
-
-          if (bufferRemaining < 0) {
-            currNode.status = 'broken';
-            currNode.delayMinutes = Math.abs(bufferRemaining);
-            currNode.actualStart = addMinutesToTime(currNode.scheduledStart, Math.abs(bufferRemaining));
-            if (currNode.scheduledEnd !== 'Onwards') {
-              currNode.actualEnd = addMinutesToTime(currNode.scheduledEnd, Math.abs(bufferRemaining));
-            }
-            brokenCount++;
-            affectedCount++;
-          } else {
-            currNode.status = 'healthy';
-            currNode.actualStart = currNode.scheduledStart;
-            currNode.actualEnd = currNode.scheduledEnd;
-          }
-        } else if (currNode.scheduledEnd === 'Onwards') {
-          const prevEnd = prevNode.actualEnd;
-          const hotelCheckin = currNode.scheduledStart;
-          const bufferRemaining = getMinutesBetween(prevEnd, hotelCheckin);
-          
-          if (bufferRemaining < -120) {
-            currNode.status = 'delayed';
-            currNode.actualStart = prevEnd;
-            affectedCount++;
-          }
-        }
+    try {
+      const delayToApply = (type === 'cancel' || type === 'lockout') ? 360 : delayMins;
+      const res = await fetch(`http://localhost:5000/api/trips/${tripRefNum}/disrupt`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          node_id: targetId,
+          delay_minutes: delayToApply,
+          reason: reason
+        })
+      });
+      const data = await res.json();
+      if (data.error) {
+         alert(`Disruption Error: ${data.error}`);
+         return;
       }
-    }
+      
+      // Preserve OG scheduled times by passing currentTrip
+      const formattedNodes = formatGraphNodes(data.updated_graph.nodes, currentTrip);
 
-    setCurrentTrip(updatedNodes);
-    setDisruptionState('disrupted');
-    setImpactMetrics({
-      delayMinutes: cascadeDelay,
-      brokenConnections: brokenCount,
-      affectedNodes: affectedCount
-    });
+      const brokenCount = data.updated_graph.nodes.filter(n => n.status === 'BROKEN').length;
+      const affectedCount = data.updated_graph.nodes.filter(n => n.status !== 'OK').length;
+
+      setCurrentTrip(formattedNodes);
+      setDisruptionState('disrupted');
+      setImpactMetrics({
+        delayMinutes: delayToApply,
+        brokenConnections: brokenCount,
+        affectedNodes: affectedCount
+      });
+
+      // Fetch legitimate recovery proposals from backend
+      try {
+        const propRes = await fetch(`http://localhost:5000/api/trips/${tripRefNum}/recover`, { method: 'POST' });
+        const propData = await propRes.json();
+        setRecoveryProposals(propData.proposals || []);
+      } catch (e) {
+        console.error('Error fetching recovery proposals:', e);
+      }
+    } catch (err) {
+      console.error(err);
+      alert('Failed to execute disruption simulation');
+    }
   };
 
-  const handleResetJourney = () => {
-    setCurrentTrip(seedInitialTripNodes());
-    setDisruptionState('healthy');
-    setImpactMetrics({ delayMinutes: 0, brokenConnections: 0, affectedNodes: 0 });
+  
+  
+
+  const handleResetJourney = async () => {
+    const targetNodes = (originalTripNodes && originalTripNodes.length > 0) ? originalTripNodes : currentTrip;
+    if (targetNodes && targetNodes.length > 0) {
+      try {
+        const res = await fetch('http://localhost:5000/api/trips', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name: 'Trip Journey' })
+        });
+        const tripData = await res.json();
+        const tripId = tripData.id;
+
+        for (const node of targetNodes) {
+          const nodeDate = node.date || new Date().toISOString().split('T')[0];
+          const st = `${nodeDate}T${node.scheduledStart}:00Z`;
+          const et = node.scheduledEnd === 'Onwards' ? `${nodeDate}T23:59:59Z` : `${nodeDate}T${node.scheduledEnd}:00Z`;
+          
+          let hardCutoff = null;
+          if (node.type === 'cab') {
+            hardCutoff = addMinutesToISO(st, 30);
+          } else if (node.type === 'hotel') {
+            hardCutoff = addMinutesToISO(st, 60);
+          }
+
+          const payload = {
+            trip_id: tripId,
+            node_type: (node.type || 'flight').toUpperCase(),
+            title: node.title,
+            location: node.info || node.sub || '',
+            start_time: st,
+            end_time: et
+          };
+          if (hardCutoff) {
+            payload.hard_cutoff = hardCutoff;
+          }
+
+          await fetch('http://localhost:5000/api/nodes', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          });
+        }
+
+        const graphRes = await fetch(`http://localhost:5000/api/trips/${tripId}/graph`);
+        const graphData = await graphRes.json();
+        
+        const formattedNodes = formatGraphNodes(graphData.nodes);
+
+        setCurrentTrip(formattedNodes);
+        setTripRefNum(tripId);
+        setDisruptionState('healthy');
+        setImpactMetrics({ delayMinutes: 0, brokenConnections: 0, affectedNodes: 0 });
+      } catch (err) {
+        console.error(err);
+        const resetNodes = targetNodes.map(n => ({ ...n, status: 'healthy', actualStart: n.scheduledStart, actualEnd: n.scheduledEnd, delayMinutes: 0, disruptionReason: '' }));
+        setCurrentTrip(resetNodes);
+        setDisruptionState('healthy');
+        setImpactMetrics({ delayMinutes: 0, brokenConnections: 0, affectedNodes: 0 });
+      }
+    } else {
+      initializeSeedTrip();
+      setDisruptionState('healthy');
+      setImpactMetrics({ delayMinutes: 0, brokenConnections: 0, affectedNodes: 0 });
+    }
   };
 
   const handleAcceptPlan = (planKey) => {
@@ -1496,18 +1716,20 @@ function App() {
                 <div className="absolute top-10 left-10 w-32 h-32 rounded-full bg-blue-100/40 blur-xl pointer-events-none" />
                 <div className="absolute bottom-10 right-10 w-44 h-44 rounded-full bg-orange-100/40 blur-2xl pointer-events-none" />
 
-                <div className="max-w-3xl z-10 px-2">
-                  <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white border border-slate-200 text-[10px] sm:text-xs font-bold text-[#287DFA] mb-4 shadow-sm uppercase tracking-wider font-mono">
-                    <ShieldCheck className="w-3.5 h-3.5 animate-pulse" /> {t('protectionBadge')}
-                  </span>
-                  <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-slate-900 leading-tight mb-4 font-serif">
-                    {t('tagline').split('.')[0]}.<br />
-                    <span className="text-[#287DFA]">{t('tagline').split('.')[1]}</span>
-                  </h1>
-                  <p className="text-slate-650 text-xs sm:text-sm md:text-base max-w-2xl mx-auto mb-8 leading-relaxed font-semibold">
-                    {t('subTagline')}
-                  </p>
-                </div>
+                {!userAuth.loggedIn && (
+                  <div className="max-w-3xl z-10 px-2">
+                    <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white border border-slate-200 text-[10px] sm:text-xs font-bold text-[#287DFA] mb-4 shadow-sm uppercase tracking-wider font-mono">
+                      <ShieldCheck className="w-3.5 h-3.5 animate-pulse" /> {t('protectionBadge')}
+                    </span>
+                    <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-slate-900 leading-tight mb-4 font-serif">
+                      {t('tagline').split('.')[0]}.<br />
+                      <span className="text-[#287DFA]">{t('tagline').split('.')[1]}</span>
+                    </h1>
+                    <p className="text-slate-650 text-xs sm:text-sm md:text-base max-w-2xl mx-auto mb-8 leading-relaxed font-semibold">
+                      {t('subTagline')}
+                    </p>
+                  </div>
+                )}
 
                 {/* Gated Builder Form Render */}
                 <div className="w-full max-w-4xl z-20 px-2">
@@ -1948,24 +2170,20 @@ function App() {
                             className={`w-64 p-4 rounded-xl border transition-all duration-300 shadow-sm flex-shrink-0 ${
                               node.status === 'broken'
                                 ? 'border-red-500 bg-red-50/20 shadow-red-105'
-                                : node.status === 'delayed'
-                                ? 'border-[#FF7700] bg-orange-50/20 shadow-orange-105'
-                                : 'border-slate-205 bg-white hover:border-[#287DFA]'
+                                : node.status === 'delayed' ? 'border-amber-400 bg-amber-50/30 shadow-amber-100' : 'border-emerald-500 bg-emerald-50/20 shadow-emerald-100 hover:border-emerald-600'
                             }`}
                           >
                             <div className="flex items-center justify-between mb-3">
                               <span className={`px-2 py-0.5 rounded text-[9px] font-bold uppercase tracking-wide flex items-center gap-1 ${
                                 node.status === 'broken'
                                   ? 'bg-red-100 text-red-600'
-                                  : node.status === 'delayed'
-                                  ? 'bg-orange-100 text-[#FF7700]'
-                                  : 'bg-[#EAF3FF] text-[#287DFA]'
+                                  : node.status === 'delayed' ? 'bg-amber-100 text-amber-700' : 'bg-emerald-100 text-emerald-700 font-extrabold'
                               }`}>
                                 {node.type === 'flight' ? t('flightTab').split(' ')[1] : node.type === 'train' ? t('trainTab').split(' ')[1] : node.type === 'cab' ? t('cabTab').split(' ')[1] : t('hotelTab').split(' ')[1]}
                               </span>
                               
                               <span className="text-[10px] text-slate-400 font-bold font-mono">
-                                {node.status === 'broken' ? t('connectionBroken') : node.status === 'delayed' ? t('delayed') : t('onTime')}
+                                {node.status === 'broken' ? '❌ ' + t('connectionBroken') : node.status === 'delayed' ? '⚠️ ' + t('delayed') : '✓ SAFE & ON TIME'}
                               </span>
                             </div>
 
@@ -2111,9 +2329,23 @@ function App() {
                       <p className="text-xs text-slate-500 mt-0.5 leading-relaxed">{t('fastestDesc')}</p>
                     </div>
 
-                    <p className="text-slate-505 text-xs leading-relaxed">
-                      {t('fastestDetails')}
-                    </p>
+                    {recoveryProposals && recoveryProposals.length > 0 ? (
+                      <div className="space-y-2 bg-blue-50/60 p-3 rounded-xl border border-blue-100 text-left">
+                        <span className="text-[10px] font-mono font-extrabold uppercase tracking-wider text-[#287DFA] block">
+                          ⚡ Backend Recovery Action Plan ({recoveryProposals.length}):
+                        </span>
+                        {recoveryProposals.map((prop, idx) => (
+                          <div key={idx} className="p-2 bg-white rounded-lg border border-blue-100 text-xs text-slate-800 flex flex-col gap-0.5 shadow-xs">
+                            <span className="font-bold text-[#287DFA] text-[11px]">{prop.node_title} &rarr; {prop.action}</span>
+                            <span className="text-[10px] text-slate-600">{prop.description}</span>
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <p className="text-slate-505 text-xs leading-relaxed">
+                        {t('fastestDetails')}
+                      </p>
+                    )}
 
                     <div className="bg-slate-50 p-3 rounded-xl border border-slate-100 text-[11px] flex flex-col gap-1.5 font-semibold">
                       <div className="flex justify-between">
@@ -2312,17 +2544,32 @@ function App() {
                           key={node.id}
                           type="button"
                           onClick={() => setSelectedDisruptNode(node.id)}
-                          className={`p-3 rounded-xl border text-left transition cursor-pointer flex flex-col gap-1 ${
+                          className={`p-3 rounded-xl border text-left transition cursor-pointer flex flex-col gap-1.5 ${
                             selectedDisruptNode === node.id
-                              ? 'border-[#287DFA] bg-[#EAF3FF]/40 text-[#287DFA]'
-                              : 'border-slate-200 text-slate-650 hover:bg-slate-50'
+                              ? 'border-[#287DFA] bg-[#EAF3FF]/60 ring-2 ring-[#287DFA]/30'
+                              : node.status === 'broken'
+                              ? 'border-red-300 bg-red-50/30 hover:bg-red-50/50'
+                              : node.status === 'delayed'
+                              ? 'border-amber-300 bg-amber-50/30 hover:bg-amber-50/50'
+                              : 'border-emerald-300 bg-emerald-50/30 hover:bg-emerald-50/50'
                           }`}
                         >
-                          <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
-                            {node.type}
-                          </span>
+                          <div className="flex justify-between items-center w-full">
+                            <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500">
+                              {node.type}
+                            </span>
+                            <span className={`text-[9px] font-extrabold px-1.5 py-0.5 rounded uppercase font-mono ${
+                              node.status === 'broken'
+                                ? 'bg-red-100 text-red-700'
+                                : node.status === 'delayed'
+                                ? 'bg-amber-100 text-amber-700'
+                                : 'bg-emerald-100 text-emerald-700'
+                            }`}>
+                              {node.status === 'broken' ? 'BROKEN' : node.status === 'delayed' ? 'AT RISK' : 'SAFE'}
+                            </span>
+                          </div>
                           <span className="font-bold text-xs truncate text-slate-900">{node.title}</span>
-                          <span className="text-[10px] font-semibold text-slate-450">{node.scheduledStart} - {node.scheduledEnd}</span>
+                          <span className="text-[10px] font-semibold text-slate-500 font-mono">{node.scheduledStart} - {node.scheduledEnd}</span>
                         </button>
                       ))}
                     </div>
