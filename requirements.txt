@@ -1,0 +1,8 @@
+Flask
+Flask-SQLAlchemy
+Flask-CORS
+Flask-Migrate
+flasgger
+requests
+pytest
+pytest-flask

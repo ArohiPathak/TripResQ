@@ -1,0 +1,61 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
+@import "tailwindcss";
+
+@theme {
+  --color-brand-primary: #287DFA;
+  --color-brand-accent: #FF7700;
+  --color-brand-light: #EAF3FF;
+  
+  --font-sans: 'Outfit', sans-serif;
+  --font-serif: 'Space Grotesk', sans-serif;
+  
+  --shadow-travel-card: 0 4px 20px rgba(0, 0, 0, 0.04);
+  --shadow-travel-hover: 0 10px 30px rgba(40, 125, 250, 0.08);
+  --shadow-alert-glow: 0 0 15px rgba(255, 119, 0, 0.15);
+  
+  --animate-ripple: ripple 1.5s cubic-bezier(0, 0, 0.2, 1) infinite;
+  
+  @keyframes ripple {
+    0% { transform: scale(1); opacity: 1; }
+    100% { transform: scale(1.5); opacity: 0; }
+  }
+}
+
+@layer base {
+  body {
+    @apply bg-slate-50 text-slate-800 antialiased overflow-x-hidden;
+    font-family: 'Outfit', sans-serif;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Space Grotesk', sans-serif;
+  }
+}
+
+/* Custom Scrollbar for horizontal timeline */
+.custom-scrollbar::-webkit-scrollbar {
+  height: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: rgba(226, 232, 240, 0.5);
+  border-radius: 9999px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(40, 125, 250, 0.15);
+  border-radius: 9999px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(40, 125, 250, 0.3);
+}
+
+/* Glassmorphism/Card styles for Light Theme */
+.travel-glass {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+}
