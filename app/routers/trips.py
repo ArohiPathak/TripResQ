@@ -144,12 +144,12 @@ def disrupt_trip(trip_id):
         "updated_graph": graph_response
     }), 200
 
-from app.services.recovery import generate_recovery_proposals, apply_recovery_plan
+from app.services.recovery import generate_recovery_proposals, generate_recovery_plans, apply_recovery_plan
 
 @trips_bp.route('/<trip_id>/recover', methods=['POST'])
 def recover_trip(trip_id):
     """
-    Generate recovery proposals for broken nodes in the graph
+    Generate recovery proposals for broken nodes in the graph (backwards-compatible)
     ---
     tags:
       - Graph Recovery
@@ -160,13 +160,82 @@ def recover_trip(trip_id):
         required: true
     responses:
       200:
-        description: Proposals generated
+        description: Proposals and plans generated
     """
+    trip = db.session.get(Trip, trip_id)
+    if not trip:
+        return jsonify({"error": "Trip not found"}), 404
+
+    data = request.get_json(silent=True) or {}
+    priority = data.get("priority", "FASTEST")
+
     proposals = generate_recovery_proposals(trip_id)
+    recovery_data = generate_recovery_plans(trip_id=trip_id, priority=priority)
+
     return jsonify({
         "trip_id": trip_id,
-        "proposals": proposals
+        "proposals": proposals,
+        "priority": recovery_data.get("priority"),
+        "recommended_plan": recovery_data.get("recommended_plan"),
+        "plans": recovery_data.get("plans")
     }), 200
+
+from app.services.recovery import (
+    generate_recovery_proposals,
+    generate_recovery_plans,
+    generate_recovery_options,
+    apply_recovery_plan
+)
+
+@trips_bp.route('/<trip_id>/recovery-options', methods=['POST'])
+def get_recovery_options(trip_id):
+    """
+    Generate preference-ranked recovery options for broken nodes in a trip
+    ---
+    tags:
+      - Recovery Control
+    parameters:
+      - in: path
+        name: trip_id
+        type: string
+        required: true
+      - in: body
+        name: body
+        schema:
+          type: object
+          properties:
+            priority:
+              type: string
+              enum: [FASTEST, CHEAPEST, MAX_REFUND, LEAST_DISRUPTION]
+              default: FASTEST
+    responses:
+      200:
+        description: Ranked recovery options returned
+    """
+    trip = db.session.get(Trip, trip_id)
+    if not trip:
+        return jsonify({"error": "Trip not found"}), 404
+
+    data = request.get_json(silent=True) or {}
+    priority = data.get("priority", "FASTEST")
+
+    result = generate_recovery_options(trip_id=trip_id, priority=priority, trip_context=data)
+    return jsonify(result), 200
+
+@trips_bp.route('/<trip_id>/recovery', methods=['POST'])
+def get_recovery_plans(trip_id):
+    """
+    Generate preference-ranked recovery plans for a disrupted trip
+    """
+    trip = db.session.get(Trip, trip_id)
+    if not trip:
+        return jsonify({"error": "Trip not found"}), 404
+
+    data = request.get_json(silent=True) or {}
+    priority = data.get("priority", "FASTEST")
+
+    recovery_data = generate_recovery_options(trip_id=trip_id, priority=priority, trip_context=data)
+    return jsonify(recovery_data), 200
     
 @trips_bp.route('/<trip_id>/apply-plan', methods=['POST'])
 def apply_plan(trip_id):
