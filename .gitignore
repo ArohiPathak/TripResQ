@@ -7,22 +7,42 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-node_modules
-dist
-dist-ssr
+# Node
+node_modules/
+dist/
+dist-ssr/
 *.local
 
-# Editor directories and files
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+
+# Local database
+instance/
+*.sqlite
+*.sqlite3
+
+# Environment
+.env
+
+# Editor files
 .vscode/*
 !.vscode/extensions.json
-.idea
+.idea/
 .DS_Store
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
+<<<<<<< HEAD
 *.sw?
 __pycache__/
 instance/
 
 venv/
+=======
+*.sw?
+>>>>>>> f7e480ef6e98b8b6e3dfbed00ac1662a65e8e55e

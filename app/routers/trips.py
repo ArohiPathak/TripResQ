@@ -64,6 +64,10 @@ def get_trip_graph(trip_id):
             "type": node.node_type,
             "title": node.title,
             "location": node.location,
+            "origin": node.origin,
+            "destination": node.destination,
+            "operator": node.operator,
+            "service_number": node.service_number,
             "start_time": node.start_time.isoformat(),
             "end_time": node.end_time.isoformat(),
             "status": node.status

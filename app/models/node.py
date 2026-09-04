@@ -28,6 +28,12 @@ class ItineraryNode(db.Model):
     start_time = db.Column(db.DateTime, nullable=False)
     end_time = db.Column(db.DateTime, nullable=False)
     
+    # Optional route and operator details (especially for FLIGHT and TRAIN nodes)
+    origin = db.Column(db.String(255), nullable=True)
+    destination = db.Column(db.String(255), nullable=True)
+    operator = db.Column(db.String(255), nullable=True)
+    service_number = db.Column(db.String(255), nullable=True)
+    
     buffer_time = db.Column(db.Integer, default=0) # Intrinsic buffer for this node (in mins)
     hard_cutoff = db.Column(db.DateTime, nullable=True) # e.g., latest possible check-in
     
