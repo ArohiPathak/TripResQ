@@ -60,7 +60,7 @@ def create_app(test_config=None):
         from app import models
         db.create_all()
         
-        from app.routers.trips import trips_bp
+    from app.routers.trips import trips_bp
     from app.routers.nodes import nodes_bp
     from app.routers.cohort import cohort_bp
     from app.routers.risk import risk_bp
@@ -74,8 +74,7 @@ def create_app(test_config=None):
     def health():
         return {'status': 'ok'}
 
-
-        @app.route('/api/seed-demo', methods=['POST'])
+    @app.route('/api/seed-demo', methods=['POST'])
     def seed_demo():
         """
         Seed the deterministic demo trip into the database.

@@ -1,3 +1,4 @@
+from _pytest import main
 from datetime import timedelta, datetime, timezone
 from app.core.db import db
 from app.models.node import ItineraryNode, NodeStatus, NodeType
@@ -86,17 +87,20 @@ def generate_recovery_options(trip_id: str, priority: str = "FASTEST", trip_cont
     """
     norm_priority = priority.upper() if priority else PRIORITY_FASTEST
 
-<<<<<<< HEAD
     # Check for broken or at-risk nodes
-    broken_nodes = ItineraryNode.query.filter_by(trip_id=trip_id, status=NodeStatus.BROKEN.value).all()
-    at_risk_nodes = ItineraryNode.query.filter_by(trip_id=trip_id, status=NodeStatus.AT_RISK.value).all()
+    broken_nodes = ItineraryNode.query.filter_by(
+        trip_id=trip_id,
+        status=NodeStatus.BROKEN.value
+    ).all()
+
+    at_risk_nodes = ItineraryNode.query.filter_by(
+        trip_id=trip_id,
+        status=NodeStatus.AT_RISK.value
+    ).all()
+
     impacted_nodes = broken_nodes + at_risk_nodes
+
     if not impacted_nodes:
-=======
-    # Check for broken nodes
-    broken_nodes = ItineraryNode.query.filter_by(trip_id=trip_id, status=NodeStatus.BROKEN.value).all()
-    if not broken_nodes:
->>>>>>> origin/main
         return {
             "trip_id": trip_id,
             "priority": norm_priority,
@@ -104,8 +108,9 @@ def generate_recovery_options(trip_id: str, priority: str = "FASTEST", trip_cont
             "message": "No recovery options are currently available."
         }
 
-    nodes = ItineraryNode.query.filter_by(trip_id=trip_id).order_by(ItineraryNode.start_time).all()
-
+    nodes = ItineraryNode.query.filter_by(
+        trip_id=trip_id
+    ).order_by(ItineraryNode.start_time).all()
     # Identify primary broken transit node
     transit_nodes = [n for n in nodes if n.node_type in [NodeType.FLIGHT.value, NodeType.TRAIN.value]]
     cab_nodes = [n for n in nodes if n.node_type == NodeType.CAB.value]
@@ -113,22 +118,13 @@ def generate_recovery_options(trip_id: str, priority: str = "FASTEST", trip_cont
 
     primary_transit = None
     for n in transit_nodes:
-<<<<<<< HEAD
         if n.status in [NodeStatus.BROKEN.value, NodeStatus.AT_RISK.value]:
-=======
-        if n in broken_nodes:
->>>>>>> origin/main
             primary_transit = n
             break
     if not primary_transit and transit_nodes:
         primary_transit = transit_nodes[0]
-<<<<<<< HEAD
     elif not primary_transit and impacted_nodes:
         primary_transit = impacted_nodes[0]
-=======
-    elif not primary_transit and broken_nodes:
-        primary_transit = broken_nodes[0]
->>>>>>> origin/main
 
     primary_cab = cab_nodes[0] if cab_nodes else None
     primary_hotel = hotel_nodes[0] if hotel_nodes else None
@@ -455,18 +451,12 @@ def apply_recovery_plan(trip_id: str, proposals: list):
         if "status" in updates:
             node.status = updates["status"]
             
-<<<<<<< HEAD
     # Reset any remaining BROKEN or AT_RISK downstream nodes back to OK
     impacted_nodes = ItineraryNode.query.filter(
         ItineraryNode.trip_id == trip_id,
         ItineraryNode.status.in_([NodeStatus.BROKEN.value, NodeStatus.AT_RISK.value])
     ).all()
     for node in impacted_nodes:
-=======
-    # Reset any AT_RISK downstream nodes back to OK
-    at_risk_nodes = ItineraryNode.query.filter_by(trip_id=trip_id, status=NodeStatus.AT_RISK.value).all()
-    for node in at_risk_nodes:
->>>>>>> origin/main
         node.status = NodeStatus.OK.value
 
     db.session.commit()
