@@ -5,3 +5,4 @@ flasgger
 requests
 pytest
 pytest-flask
+gunicorn
