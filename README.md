@@ -291,30 +291,6 @@ Recovery plans are validated against:
 
 ---
 
-## 🧪 Demo & API Testing
-
-TripResQ includes a deterministic demo-seeding flow:
-
-```text
-POST /api/seed-demo
-```
-
-The backend exposes Swagger documentation for API inspection and testing:
-
-```text
-http://localhost:5000/api/docs
-```
-
-The seeded scenario makes it possible to consistently demonstrate:
-
-- Risk detection
-- Disruption propagation
-- Recovery planning
-- Family fracture detection
-- Cohort rescue
-- Guardian validation
-
----
 
 ## ⚙️ Installation
 
@@ -412,7 +388,6 @@ The test suite covers:
 The React/Vite frontend can be deployed on platforms such as:
 
 - Vercel
-- Netlify
 
 ### Backend
 
@@ -420,7 +395,6 @@ The Flask backend can be deployed on:
 
 - Render
 - Railway
-- Other Python-compatible cloud services
 
 ### Database
 
@@ -475,7 +449,7 @@ Costs can increase depending on traffic, database requirements and cloud infrast
 
 | Name | Role |
 |---|---|
-| Akshata Chettiar | Full Stack / Integration |
+| Akshata Chettiar | Development & Integration |
 | Arohi Pathak | Frontend |
 | Pavitra Boga | Backend |
 | Devanshu Bansode | Backend |
@@ -483,17 +457,6 @@ Costs can increase depending on traffic, database requirements and cloud infrast
 
 ---
 
-## 🤝 Contributing
-
-Contributions are welcome! To contribute:
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/your-feature`)
-3. Commit your changes (`git commit -m "Add your feature"`)
-4. Push to the branch (`git push origin feature/your-feature`)
-5. Open a Pull Request
-
----
 
 ## 📄 License
 
