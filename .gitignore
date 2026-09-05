@@ -41,8 +41,18 @@ instance/
 *.sw?
 __pycache__/
 instance/
+__pycache__/
+*.pyc
+*.sqlite
+*.db
+instance/
+.env
+venv/
+.venv/
+node_modules/
+dist/
 
 venv/
 =======
 *.sw?
->>>>>>> f7e480ef6e98b8b6e3dfbed00ac1662a65e8e55e
+
