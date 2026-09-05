@@ -207,6 +207,10 @@ def get_trip_graph(trip_id):
             "type": node.node_type,
             "title": node.title,
             "location": node.location,
+            "origin": node.origin,
+            "destination": node.destination,
+            "operator": node.operator,
+            "service_number": node.service_number,
             "start_time": node.start_time.isoformat(),
             "end_time": node.end_time.isoformat(),
             "status": node.status
@@ -438,3 +442,142 @@ def apply_plan(trip_id):
         "refund": plan_info.get("estimated_refund", 0),
         "affected_nodes": plan_info.get("affected_nodes", len(data.get("proposals", [])))
     }), 200
+
+
+@trips_bp.route('/<trip_id>/next-stop', methods=['GET'])
+def get_next_stop(trip_id):
+    """
+    Detect the user's next upcoming itinerary stop for travel-aware dining and local services.
+    ---
+    tags:
+      - Trips
+    parameters:
+      - in: path
+        name: trip_id
+        type: string
+        required: true
+      - in: query
+        name: current_time
+        type: string
+        required: false
+    responses:
+      200:
+        description: Next stop details or availability status
+      404:
+        description: Trip not found
+    """
+    from datetime import datetime, timezone
+
+    trip = db.session.get(Trip, trip_id)
+    if not trip:
+        return jsonify({
+            "available": False,
+            "reason": "NO_ACTIVE_TRIP"
+        }), 200
+
+    # Optional reference time for testing or simulation
+    curr_time_str = request.args.get('current_time')
+    if curr_time_str:
+        try:
+            curr_time = datetime.fromisoformat(curr_time_str.replace('Z', '+00:00'))
+        except ValueError:
+            curr_time = datetime.now(timezone.utc)
+    else:
+        curr_time = datetime.now(timezone.utc)
+
+    # Fetch all nodes ordered chronologically by start_time
+    nodes = ItineraryNode.query.filter_by(trip_id=trip_id).order_by(ItineraryNode.start_time.asc()).all()
+    if not nodes:
+        return jsonify({
+            "available": False,
+            "reason": "NO_UPCOMING_STOP"
+        }), 200
+
+    CITY_NAMES = {
+        "BOM": "Mumbai", "DEL": "Delhi", "PUN": "Pune", "BLR": "Bangalore",
+        "HYD": "Hyderabad", "CCU": "Kolkata", "MAA": "Chennai", "AGR": "Agra",
+        "GOI": "Goa", "PNQ": "Pune"
+    }
+
+    # Find the first node whose relevant end_time (or start_time for hotel/activity) is in the future
+    upcoming_node = None
+    for n in nodes:
+        node_end = n.end_time
+        if node_end.tzinfo is None and curr_time.tzinfo is not None:
+            node_end = node_end.replace(tzinfo=timezone.utc)
+        elif node_end.tzinfo is not None and curr_time.tzinfo is None:
+            curr_time = curr_time.replace(tzinfo=timezone.utc)
+
+        if node_end >= curr_time:
+            upcoming_node = n
+            break
+
+    if not upcoming_node:
+        return jsonify({
+            "available": False,
+            "reason": "NO_UPCOMING_STOP"
+        }), 200
+
+    node_type = (upcoming_node.node_type or "").upper()
+    dest = upcoming_node.destination or ""
+    dest_name = CITY_NAMES.get(dest.upper(), dest)
+    loc = upcoming_node.location or ""
+    title = upcoming_node.title or ""
+
+    if node_type == "TRAIN":
+        if dest_name:
+            stop_name = f"{dest_name} Railway Station"
+            stop_location = stop_name
+        elif loc and not loc.startswith("Platform"):
+            stop_name = loc
+            stop_location = loc
+        else:
+            stop_name = title
+            stop_location = loc or title
+        destination = dest_name or dest or loc
+        arrival_time = upcoming_node.end_time.isoformat()
+
+    elif node_type == "FLIGHT":
+        if dest_name:
+            stop_name = f"{dest_name} Airport"
+            stop_location = stop_name
+        elif loc and not loc.startswith("Terminal"):
+            stop_name = loc
+            stop_location = loc
+        else:
+            stop_name = title
+            stop_location = loc or title
+        destination = dest_name or dest or loc
+        arrival_time = upcoming_node.end_time.isoformat()
+
+    elif node_type == "CAB":
+        stop_name = loc or dest_name or title
+        stop_location = loc or dest_name or title
+        destination = dest_name or loc or title
+        arrival_time = upcoming_node.end_time.isoformat()
+
+    elif node_type == "HOTEL":
+        stop_name = title
+        stop_location = loc or title
+        destination = dest_name or loc or title
+        arrival_time = upcoming_node.start_time.isoformat()
+
+    else:  # ACTIVITY or generic
+        stop_name = title
+        stop_location = loc or title
+        destination = dest_name or loc or title
+        arrival_time = upcoming_node.start_time.isoformat()
+
+    return jsonify({
+        "available": True,
+        "trip_id": trip_id,
+        "node_id": upcoming_node.id,
+        "node_type": node_type,
+        "name": stop_name,
+        "location": stop_location,
+        "destination": destination,
+        "arrival_time": arrival_time,
+        "latitude": None,
+        "longitude": None
+    }), 200
+

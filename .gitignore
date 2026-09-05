@@ -37,4 +37,12 @@ instance/
 *.ntvs*
 *.njsproj
 *.sln
+<<<<<<< HEAD
 *.sw?
+__pycache__/
+instance/
+
+venv/
+=======
+*.sw?
+>>>>>>> f7e480ef6e98b8b6e3dfbed00ac1662a65e8e55e

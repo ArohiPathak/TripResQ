@@ -59,13 +59,17 @@ def add_node():
         node_type=data['node_type'],
         title=data['title'],
         location=data.get('location'),
+        origin=data.get('origin'),
+        destination=data.get('destination'),
+        operator=data.get('operator'),
+        service_number=data.get('service_number'),
         start_time=start_dt,
         end_time=end_dt,
         buffer_time=data.get('buffer_time', 0),
         status=NodeStatus.OK.value
     )
     
-    if 'hard_cutoff' in data:
+    if 'hard_cutoff' in data and data['hard_cutoff']:
         try:
             node.hard_cutoff = datetime.fromisoformat(data['hard_cutoff'].replace('Z', '+00:00'))
         except ValueError:

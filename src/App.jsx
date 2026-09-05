@@ -25,7 +25,11 @@ import {
   Calendar
 } from 'lucide-react';
 import './App.css';
+<<<<<<< HEAD
 import { RecoveryControl } from './components/recovery';
+=======
+import { DiningHub } from './components/dining';
+>>>>>>> origin/main
 
 // --- i18n Translation Dictionary ---
 const TRANSLATIONS = {
@@ -39,7 +43,7 @@ const TRANSLATIONS = {
     signIn: "Sign In",
     signOut: "Sign Out",
     welcome: "Welcome",
-    
+
     // Home Page
     tagline: "Book Seamlessly. Travel Resiliently.",
     subTagline: "TripResQ is the world's first consumer travel platform with a built-in Disruption Recovery Engine. If connections fail, we automatically rebook alternatives in seconds—at no cost to you.",
@@ -65,7 +69,7 @@ const TRANSLATIONS = {
     authPromptDesc: "Build your custom travel routes and let our engine automatically safeguard your connections from cascading delays.",
     noNodesYet: "No travel nodes added yet. Add a Flight, Train, Cab, or Hotel above to start building your timeline.",
     typePlaceholder: "Type location...",
-    
+
     freeCancellation: "Free cancellation up to 24h & automatic missed connection protection.",
     howItWorks: "Smart Trip Protection, Reimagined",
     marketingTitle1: "Automatic Rebooking",
@@ -121,7 +125,7 @@ const TRANSLATIONS = {
     tripRecoveredTitle: "Trip Recovered!",
     tripRecoveredDesc: "We've updated your itinerary vouchers and notified the cab operator and hotel staff. Your new boarding pass is on its way.",
     updatingTimeline: "Updating timeline view...",
-    
+
     budgetTitle: "💰 Delayed Coach Reschedule",
     budgetDesc: "Off-Peak Transit Reschedule",
     budgetDetails: "Reschedule to later connecting transit node. Minimizes immediate cost by absorbing longer delay, backed by compensation voucher.",
@@ -263,7 +267,7 @@ const TRANSLATIONS = {
     signIn: "लॉग इन करें",
     signOut: "लॉग आउट",
     welcome: "स्वागत है",
-    
+
     tagline: "सहजता से बुक करें। सुरक्षित यात्रा करें।",
     subTagline: "TripResQ अंतर्निहित व्यवधान सुधार इंजन के साथ दुनिया का पहला यात्रा मंच है। यदि कोई कनेक्शन विफल होता है, तो हम बिना किसी अतिरिक्त लागत के सेकंडों में विकल्प बुक करते हैं।",
     protectionBadge: "ऑटो-रीबुकिंग सुरक्षा शामिल",
@@ -342,7 +346,7 @@ const TRANSLATIONS = {
     tripRecoveredTitle: "यात्रा सुधारी गई!",
     tripRecoveredDesc: "हमने आपके यात्रा वाउचर अपडेट कर दिए हैं और कैब ऑपरेटर तथा होटल कर्मचारियों को सूचित कर दिया है। आपका नया बोर्डिंग पास भेजा जा रहा है।",
     updatingTimeline: "टाइमलाइन अपडेट हो रही है...",
-    
+
     budgetTitle: "💰 विलंबित कोच पुनर्निर्धारण",
     budgetDesc: "ऑफ-पीक पारगमन पुनर्निर्धारण",
     budgetDetails: "बाद के पारगमन नोड में पुनर्निर्धारित करें। मुआवजा वाउचर द्वारा समर्थित, लंबी देरी को अवशोषित करके तत्काल लागत को कम करता है।",
@@ -481,7 +485,7 @@ const TRANSLATIONS = {
     signIn: "लॉग इन करा",
     signOut: "लॉग आउट",
     welcome: "स्वागत आहे",
-    
+
     tagline: "सहजतेने बुक करा. सुरक्षित प्रवास करा.",
     subTagline: "TripResQ हे अंगभूत व्यत्यय दुरुस्ती इंजिन असलेले जगातील पहिले प्रवास प्लॅटफॉर्म आहे. कनेक्शन अयशस्वी झाल्यास, आम्ही कोणत्याही अतिरिक्त खर्चाशिवाय सेकंदात पर्याय बुक करतो.",
     protectionBadge: "ऑटो-रीबुकिंग संरक्षण समाविष्ट",
@@ -560,7 +564,7 @@ const TRANSLATIONS = {
     tripRecoveredTitle: "प्रवास यशस्वीरित्या सुधारला!",
     tripRecoveredDesc: "आम्ही तुमचे प्रवास व्हाउचर अपडेट केले आहेत आणि कॅब ऑपरेटर व हॉटेल कर्मचाऱ्यांना सूचित केले आहे. तुमचे नवीन बोर्डिंग पास पाठवले जात आहे.",
     updatingTimeline: "कालरेषा अपडेट होत आहे...",
-    
+
     budgetTitle: "💰 विलंबित कोच पुनर्निर्धारण",
     budgetDesc: "ऑफ-पीक ट्रान्झिट पुनर्निर्धारण",
     budgetDetails: "नंतरच्या ट्रान्झिट नोडमध्ये पुनर्निर्धारित करा. भरपाई व्हाउचरद्वारे समर्थित, लांब विलंब शोषून तात्काळ खर्च कमी करते.",
@@ -868,6 +872,15 @@ const RESTAURANTS = [
 
 // Seed helper to construct the default trip (Delhi → Goa Family Vacation)
 const seedInitialTripNodes = () => {
+<<<<<<< HEAD
+=======
+  const startTime = "08:00";
+  const transitEnd = "11:00"; // 3 hours duration
+  const cabStart = "11:30"; // 30 mins buffer
+  const cabEnd = "12:15"; // 45 mins cab ride
+  const checkinTime = "13:00"; // 45 mins buffer
+
+>>>>>>> origin/main
   return [
     {
       id: 'node-1',
@@ -951,14 +964,14 @@ function addMinutesToTime(timeStr, mins) {
 // Helper to get buffer minutes between end of node 1 and start of node 2
 function getMinutesBetween(time1, time2) {
   if (!time1 || !time2 || time1 === 'Onwards' || time2 === 'Onwards' || time1.includes('CANCELLED') || time2.includes('CANCELLED') || time1.includes('COMPROMISED') || time2.includes('COMPROMISED')) return 0;
-  
+
   const cleanT1 = time1.split(' ')[0];
   const cleanT2 = time2.split(' ')[0];
-  
+
   const [h1, m1] = cleanT1.split(':').map(Number);
   const [h2, m2] = cleanT2.split(':').map(Number);
   if (isNaN(h1) || isNaN(m1) || isNaN(h2) || isNaN(m2)) return 0;
-  
+
   return (h2 * 60 + m2) - (h1 * 60 + m1);
 }
 
@@ -970,8 +983,8 @@ const formatGraphNodes = (nodes, existingNodes = []) => {
     if (n.status === 'AT_RISK') frontendStatus = 'delayed';
     if (n.status === 'BROKEN') frontendStatus = 'broken';
 
-    const actualStartStr = n.start_time && n.start_time.includes('T') ? n.start_time.split('T')[1].substring(0,5) : (n.start_time || '08:00');
-    const actualEndStr = n.end_time && n.end_time.includes('T') ? n.end_time.split('T')[1].substring(0,5) : (n.end_time || '09:00');
+    const actualStartStr = n.start_time && n.start_time.includes('T') ? n.start_time.split('T')[1].substring(0, 5) : (n.start_time || '08:00');
+    const actualEndStr = n.end_time && n.end_time.includes('T') ? n.end_time.split('T')[1].substring(0, 5) : (n.end_time || '09:00');
 
     // Find matching existing node to preserve OG baseline scheduled time
     let existing = (existingNodes || []).find(ex => ex.id === n.id);
@@ -1021,11 +1034,246 @@ function generateTripRef() {
   return "TR-" + Math.floor(100000 + Math.random() * 900000);
 }
 
+// Risk level -> tailwind color tokens, shared by the card + badges
+const RISK_STYLES = {
+  CRITICAL: { chip: 'bg-red-100 text-red-700 border-red-200', bar: 'bg-red-500', ring: 'border-red-200 bg-red-50/40' },
+  HIGH: { chip: 'bg-orange-100 text-[#E06600] border-orange-200', bar: 'bg-[#FF7700]', ring: 'border-orange-200 bg-orange-50/40' },
+  MEDIUM: { chip: 'bg-amber-100 text-amber-700 border-amber-200', bar: 'bg-amber-400', ring: 'border-amber-200 bg-amber-50/30' },
+  LOW: { chip: 'bg-emerald-100 text-emerald-700 border-emerald-200', bar: 'bg-emerald-500', ring: 'border-emerald-200 bg-emerald-50/20' },
+};
+
+// One connection's proactive Risk Radar card - shows explainable rule-based scoring,
+// historical transport stats (if available), connection buffer analysis, seasonal conditions,
+// data confidence, and pre-computed buffer action.
+// One connection's proactive Risk Radar card - shows explainable rule-based scoring,
+// conditional historical evidence, connection buffer analysis, and seasonal conditions.
+function RiskConnectionCard({ conn, plan, planLoading, applying, onPrecompute, onApply }) {
+  const styles = RISK_STYLES[conn.risk_level] || RISK_STYLES.LOW;
+  const applyResult = plan && plan.applyResult;
+  const hist = conn.factors?.historical;
+  const confidence = conn.data_confidence || { level: 'INSUFFICIENT_DATA', score: 0 };
+  const seas = conn.factors?.seasonal;
+  const hasHistory = hist?.available;
+
+  return (
+    <div className={`rounded-xl border p-4 sm:p-5 flex flex-col gap-4 ${styles.ring}`}>
+      {/* Top Header: Badge & Score */}
+      <div className="flex items-start justify-between gap-3 flex-wrap">
+        <div>
+          <div className="text-[10px] font-mono font-bold uppercase tracking-widest text-slate-400 mb-1">
+            RISK RADAR
+          </div>
+          <div className="flex items-center gap-2 flex-wrap">
+            <span className={`px-2.5 py-0.5 rounded-full text-xs font-extrabold uppercase tracking-wide border ${styles.chip}`}>
+              {conn.risk_level} • {conn.risk_score}/100
+            </span>
+            {conn.proactively_flagged && (
+              <span className="px-2 py-0.5 rounded-full text-[9px] font-extrabold uppercase tracking-wide bg-slate-900 text-white flex items-center gap-1">
+                <AlertTriangle className="w-2.5 h-2.5 text-amber-400" /> Flagged Pre-Disruption
+              </span>
+            )}
+          </div>
+        </div>
+
+        {/* Historical Data Quality pill (rendered ONLY when historical data exists) */}
+        {hasHistory && (
+          <div className="text-right shrink-0">
+            <div className="text-xs font-bold text-slate-800">
+              Historical Data Quality: <span className="font-extrabold text-[#287DFA]">{confidence.level}</span>
+            </div>
+            <div className="text-[10px] text-slate-400">
+              {hist.sample_size} journeys analyzed
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Connection Flow Description */}
+      <div className="bg-white/80 rounded-lg p-3 border border-slate-200/60 flex flex-col gap-1 text-xs">
+        <div className="font-bold text-slate-900 flex items-center gap-1.5 flex-wrap">
+          <span>{conn.source_title}</span>
+          {conn.source_origin && conn.source_destination && (
+            <span className="text-[11px] font-mono px-1.5 py-0.5 rounded bg-slate-100 text-slate-700 font-semibold">
+              {conn.source_origin} → {conn.source_destination}
+            </span>
+          )}
+        </div>
+        <div className="text-slate-400 text-[11px] font-mono pl-2 flex items-center gap-1">
+          <span>↓ connects to</span>
+        </div>
+        <div className="font-bold text-slate-800 flex items-center gap-1.5 flex-wrap">
+          <span>{conn.target_title}</span>
+          {conn.target_location && (
+            <span className="font-normal text-slate-500 text-[11px]">
+              ({conn.target_location.split('•')[0].trim()})
+            </span>
+          )}
+        </div>
+      </div>
+
+      {/* Factor Cards: 3-column when history exists, 2-column when history is absent */}
+      {hasHistory ? (
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+          {/* 1. Historical Delay Evidence */}
+          <div className="p-3 bg-white/70 rounded-lg border border-slate-200/50 flex flex-col gap-1.5">
+            <div className="text-[10px] font-bold uppercase tracking-wider text-slate-500">
+              Historical Delay Evidence
+            </div>
+            <div className="flex flex-col gap-1 text-[11px] text-slate-700 mt-0.5">
+              <div><b className="text-slate-900 font-extrabold">{Math.round(hist.delayed_30_rate * 100)}%</b> delayed 30+ min</div>
+              <div><b className="text-slate-900 font-extrabold">{hist.avg_delay_minutes} min</b> avg delay</div>
+              <div><b className="text-slate-900 font-extrabold">{hist.sample_size}</b> journeys</div>
+              <div className="text-[10px] text-slate-500 mt-0.5 pt-1 border-t border-slate-200/40">
+                Data quality: <b className="text-slate-800">{confidence.level}</b>
+              </div>
+            </div>
+          </div>
+
+          {/* 2. Connection Buffer */}
+          <div className="p-3 bg-white/70 rounded-lg border border-slate-200/50 flex flex-col gap-1.5">
+            <div className="text-[10px] font-bold uppercase tracking-wider text-slate-500">
+              Connection Buffer
+            </div>
+            <div className="flex flex-col gap-1 text-[11px] text-slate-700 mt-0.5">
+              <div><b className="text-slate-900 font-extrabold">{conn.connection_buffer_minutes} min</b> available</div>
+              <div><b className="text-slate-900 font-extrabold">{conn.safe_buffer_minutes || 30} min</b> safe target</div>
+              <div className="mt-0.5 pt-1 border-t border-slate-200/40">
+                {conn.recommended_extra_buffer_minutes > 0 ? (
+                  <span className="text-amber-600 font-bold">Tight buffer (+{conn.recommended_extra_buffer_minutes}m needed)</span>
+                ) : (
+                  <span className="text-emerald-700 font-bold">Comfortably buffered</span>
+                )}
+              </div>
+            </div>
+          </div>
+
+          {/* 3. Seasonal Conditions */}
+          <div className="p-3 bg-white/70 rounded-lg border border-slate-200/50 flex flex-col gap-1.5">
+            <div className="text-[10px] font-bold uppercase tracking-wider text-slate-500">
+              Seasonal Conditions
+            </div>
+            <div className="flex flex-col gap-1 text-[11px] text-slate-700 mt-0.5">
+              <div>Conditions: <b className="text-slate-900 font-extrabold">
+                {seas?.raw_score >= 0.5 ? 'Severe' : seas?.raw_score >= 0.3 ? 'Moderate' : 'Favorable'}
+              </b></div>
+              <div>Severity: <b className="text-slate-900 font-extrabold">
+                {seas?.raw_score >= 0.5 ? 'High seasonal risk' : seas?.raw_score >= 0.3 ? 'Moderate seasonal risk' : 'Low seasonal risk'}
+              </b></div>
+              <div className="text-[10px] text-slate-400 font-mono mt-0.5 pt-1 border-t border-slate-200/40">
+                Region: {seas?.location_keyword || 'standard'}
+              </div>
+            </div>
+          </div>
+        </div>
+      ) : (
+        <div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+            {/* 1. Connection Buffer */}
+            <div className="p-3 bg-white/70 rounded-lg border border-slate-200/50 flex flex-col gap-1.5">
+              <div className="text-[10px] font-bold uppercase tracking-wider text-slate-500">
+                Connection Buffer
+              </div>
+              <div className="flex flex-col gap-1 text-[11px] text-slate-700 mt-0.5">
+                <div><b className="text-slate-900 font-extrabold">{conn.connection_buffer_minutes} min</b> available</div>
+                <div><b className="text-slate-900 font-extrabold">{conn.safe_buffer_minutes || 30} min</b> recommended safe buffer</div>
+                <div className="mt-0.5 pt-1 border-t border-slate-200/40">
+                  {conn.recommended_extra_buffer_minutes > 0 ? (
+                    <span className="text-amber-600 font-bold">Tight buffer (+{conn.recommended_extra_buffer_minutes}m needed)</span>
+                  ) : (
+                    <span className="text-emerald-700 font-bold">Comfortably buffered</span>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            {/* 2. Seasonal Conditions */}
+            <div className="p-3 bg-white/70 rounded-lg border border-slate-200/50 flex flex-col gap-1.5">
+              <div className="text-[10px] font-bold uppercase tracking-wider text-slate-500">
+                Seasonal Conditions
+              </div>
+              <div className="flex flex-col gap-1 text-[11px] text-slate-700 mt-0.5">
+                <div>Conditions: <b className="text-slate-900 font-extrabold">
+                  {seas?.raw_score >= 0.5 ? 'Severe' : seas?.raw_score >= 0.3 ? 'Moderate' : 'Favorable'}
+                </b></div>
+                <div>Severity: <b className="text-slate-900 font-extrabold">
+                  {seas?.raw_score >= 0.5 ? 'High seasonal risk' : seas?.raw_score >= 0.3 ? 'Moderate seasonal risk' : 'Low seasonal risk'}
+                </b></div>
+                <div className="text-[10px] text-slate-400 font-mono mt-0.5 pt-1 border-t border-slate-200/40">
+                  Region: {seas?.location_keyword || 'standard'}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <p className="text-[11px] text-slate-400 mt-2.5 flex items-center gap-1.5 font-sans">
+            <span className="text-slate-400">ⓘ</span>
+            <span>Historical route evidence is not available for this connection. Score currently uses available factors.</span>
+          </p>
+        </div>
+      )}
+
+      {/* Footer: Last evaluated timestamp & Action */}
+      <div className="flex items-center justify-between flex-wrap gap-2 pt-1 border-t border-slate-200/50">
+        <div className="text-[10px] text-slate-400 font-mono">
+          Last evaluated {conn.last_evaluated_at ? new Date(conn.last_evaluated_at).toLocaleTimeString() : 'Just now'}
+        </div>
+
+        {!plan && (
+          <button
+            onClick={onPrecompute}
+            disabled={planLoading}
+            className="px-3 py-1.5 bg-slate-950 text-white text-[11px] font-bold rounded-lg hover:bg-slate-900 transition cursor-pointer disabled:opacity-50 flex items-center gap-1.5"
+          >
+            {planLoading ? <RefreshCw className="w-3 h-3 animate-spin" /> : <Sparkles className="w-3 h-3" />}
+            {planLoading ? 'Pre-computing…' : 'Pre-compute Buffer Plan'}
+          </button>
+        )}
+      </div>
+
+      {/* Buffer Plan Drawer */}
+      {plan && !applyResult && (
+        <div className="border-t border-slate-200/70 pt-3 flex flex-col gap-2 bg-slate-50/70 -mx-4 -mb-4 p-4 rounded-b-xl">
+          <div className="flex items-center gap-3 text-xs">
+            <span className="text-slate-600">Buffer: <b>{plan.current.buffer_minutes}m</b> → <b className="text-emerald-600">{plan.projected.buffer_minutes}m</b></span>
+            <span className="text-slate-300">|</span>
+            <span className="text-slate-600">Risk Radar: <b>{plan.current.risk_score}/100</b> → <b className="text-emerald-600">{plan.projected.risk_score}/100</b></span>
+          </div>
+          <ul className="flex flex-col gap-1 mt-1">
+            {plan.steps.map((s, i) => (
+              <li key={i} className="text-[11px] text-slate-700 flex items-start gap-1.5">
+                <ChevronRight className="w-3 h-3 mt-0.5 text-slate-400 shrink-0" />
+                <span>{s.detail}</span>
+              </li>
+            ))}
+          </ul>
+          {plan.can_auto_apply && (
+            <button
+              onClick={onApply}
+              disabled={applying}
+              className="self-start px-3.5 py-1.5 bg-[#287DFA] text-white text-[11px] font-bold rounded-lg hover:bg-[#1C6BDB] transition cursor-pointer disabled:opacity-50 flex items-center gap-1.5 mt-1"
+            >
+              {applying ? <RefreshCw className="w-3 h-3 animate-spin" /> : <ShieldCheck className="w-3 h-3" />}
+              {applying ? 'Applying…' : 'Apply buffer plan now'}
+            </button>
+          )}
+        </div>
+      )}
+
+      {applyResult && (
+        <div className="border-t border-slate-200/70 pt-3 flex items-center gap-2 text-[11px] font-bold text-emerald-700 bg-emerald-50/60 -mx-4 -mb-4 p-3 rounded-b-xl">
+          <CheckCircle className="w-4 h-4 text-emerald-600" />
+          {applyResult.applied ? applyResult.message : applyResult.reason}
+        </div>
+      )}
+    </div>
+  );
+}
+
 function App() {
   const [currentLanguage, setCurrentLanguage] = useState('en');
   const [currentPage, setCurrentPage] = useState('home');
   const [disruptionState, setDisruptionState] = useState('healthy'); // 'healthy' | 'disrupted' | 'resolved'
-  
+
   // Auth state
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [userAuth, setUserAuth] = useState({
@@ -1035,7 +1283,7 @@ function App() {
 
   // Search State Tab: flights | trains | cabs | hotels
   const [searchTab, setSearchTab] = useState('flights');
-  
+
   // Custom Node Builder Input States
   const [builderFrom, setBuilderFrom] = useState('');
   const [builderTo, setBuilderTo] = useState('');
@@ -1058,6 +1306,15 @@ function App() {
   const [recoveryResult, setRecoveryResult] = useState(null);
   const [riskRadar, setRiskRadar] = useState(null);
   const [recentTrips, setRecentTrips] = useState([]);
+
+  // --- Risk Radar / Confidence Score (proactive, pre-disruption) ---
+  const [riskRadar, setRiskRadar] = useState(null);
+  const [riskRadarLoading, setRiskRadarLoading] = useState(false);
+  const [riskAlerts, setRiskAlerts] = useState([]);
+  const [riskToast, setRiskToast] = useState(null); // most recent newly-detected alert, shown briefly
+  const [bufferPlans, setBufferPlans] = useState({}); // edgeId -> plan
+  const [bufferPlanLoadingId, setBufferPlanLoadingId] = useState(null);
+  const [bufferApplyingId, setBufferApplyingId] = useState(null);
 
   // Chaos Lab Disruption Inputs
   const [selectedDisruptNode, setSelectedDisruptNode] = useState('');
@@ -1109,6 +1366,7 @@ function App() {
     return TRANSLATIONS[currentLanguage][key] || TRANSLATIONS['en'][key] || key;
   };
 
+<<<<<<< HEAD
   
   // Fetch recent trips from backend
   const fetchRecentTrips = async () => {
@@ -1135,6 +1393,8 @@ function App() {
       console.error('Error fetching risk radar:', err);
     }
   };
+=======
+>>>>>>> origin/main
 
   const initializeSeedTrip = async () => {
     try {
@@ -1145,9 +1405,70 @@ function App() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ force: false })
       });
+<<<<<<< HEAD
       const seedData = await res.json();
       const tripId = seedData.trip_id;
       const graphData = seedData.graph;
+=======
+      const tripData = await res.json();
+      const tripId = tripData.id;
+
+      const seeds = [
+        {
+          type: 'TRAIN',
+          title: 'Deccan Express DEC-809',
+          location: 'Platform 4 • Main Terminal',
+          origin: 'BOM',
+          destination: 'PUN',
+          operator: 'Central Railway',
+          service_number: 'DEC-809',
+          start_time: `${todayStr}T08:00:00Z`,
+          end_time: `${todayStr}T11:00:00Z`
+        },
+        {
+          type: 'CAB',
+          title: 'Airport/Station Cab Transfer',
+          location: 'Pickup Zone B • Uber Select',
+          start_time: `${todayStr}T11:30:00Z`,
+          end_time: `${todayStr}T12:15:00Z`,
+          hard_cutoff: `${todayStr}T12:00:00Z`
+        },
+        {
+          type: 'HOTEL',
+          title: 'Grand Hyatt Check-In',
+          location: 'Premium Suite Room • Reception Desk',
+          start_time: `${todayStr}T13:00:00Z`,
+          end_time: `${todayStr}T23:59:59Z`,
+          hard_cutoff: `${todayStr}T14:00:00Z`
+        }
+      ];
+
+      for (const s of seeds) {
+        const payload = {
+          trip_id: tripId,
+          node_type: s.type,
+          title: s.title,
+          location: s.location,
+          origin: s.origin || null,
+          destination: s.destination || null,
+          operator: s.operator || null,
+          service_number: s.service_number || null,
+          start_time: s.start_time,
+          end_time: s.end_time
+        };
+        if (s.hard_cutoff) {
+          payload.hard_cutoff = s.hard_cutoff;
+        }
+        await fetch('http://localhost:5000/api/nodes', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+      }
+
+      const graphRes = await fetch(`http://localhost:5000/api/trips/${tripId}/graph`);
+      const graphData = await graphRes.json();
+>>>>>>> origin/main
 
       const formattedNodes = formatGraphNodes(graphData.nodes);
 
@@ -1167,9 +1488,106 @@ function App() {
     }
   };
 
+  // --- Risk Radar: proactive background scoring (BEFORE disruption happens) ---
+  const fetchRiskRadar = async (tripId, force = false) => {
+    if (!tripId) return;
+    setRiskRadarLoading(true);
+    try {
+      const url = `http://localhost:5000/api/trips/${tripId}/risk-radar${force ? '?refresh=true' : ''}`;
+      const res = await fetch(url);
+      if (!res.ok) return;
+      const data = await res.json();
+      setRiskRadar(data);
+    } catch (err) {
+      console.error('Error fetching risk radar:', err);
+    } finally {
+      setRiskRadarLoading(false);
+    }
+  };
+
+  const fetchRiskAlerts = async (tripId) => {
+    if (!tripId) return;
+    try {
+      const res = await fetch(`http://localhost:5000/api/trips/${tripId}/risk-radar/alerts`);
+      if (!res.ok) return;
+      const data = await res.json();
+      setRiskAlerts(prev => {
+        const prevIds = new Set(prev.map(a => a.target_node_id + a.detected_at));
+        const incoming = data.alerts || [];
+        const brandNew = incoming.find(a => !prevIds.has(a.target_node_id + a.detected_at));
+        if (brandNew && prev.length > 0) {
+          setRiskToast(brandNew);
+          setTimeout(() => setRiskToast(null), 8000);
+        }
+        return incoming;
+      });
+    } catch (err) {
+      console.error('Error fetching risk alerts:', err);
+    }
+  };
+
+  const fetchBufferPlan = async (tripId, edgeId) => {
+    setBufferPlanLoadingId(edgeId);
+    try {
+      const res = await fetch(`http://localhost:5000/api/trips/${tripId}/connections/${edgeId}/buffer-plan`, {
+        method: 'POST'
+      });
+      if (!res.ok) return;
+      const plan = await res.json();
+      setBufferPlans(prev => ({ ...prev, [edgeId]: plan }));
+    } catch (err) {
+      console.error('Error generating buffer plan:', err);
+    } finally {
+      setBufferPlanLoadingId(null);
+    }
+  };
+
+  const applyBufferPlanForEdge = async (tripId, edgeId) => {
+    setBufferApplyingId(edgeId);
+    try {
+      const res = await fetch(`http://localhost:5000/api/trips/${tripId}/connections/${edgeId}/buffer-plan/apply`, {
+        method: 'POST'
+      });
+      if (!res.ok) return;
+      const result = await res.json();
+      setBufferPlans(prev => ({
+        ...prev,
+        [edgeId]: { ...prev[edgeId], applyResult: result }
+      }));
+      // Refresh the graph + risk radar so the shifted node/buffer show up everywhere
+      const graphRes = await fetch(`http://localhost:5000/api/trips/${tripId}/graph`);
+      const graphData = await graphRes.json();
+      const formattedNodes = formatGraphNodes(graphData.nodes, currentTrip);
+      setCurrentTrip(formattedNodes);
+      fetchRiskRadar(tripId, true);
+    } catch (err) {
+      console.error('Error applying buffer plan:', err);
+    } finally {
+      setBufferApplyingId(null);
+    }
+  };
+
   useEffect(() => {
     initializeSeedTrip();
   }, []);
+
+  // Poll the Risk Radar + proactive alert feed while viewing the trip page.
+  // The heavy lifting (rescoring every connection) happens in a background
+  // thread on the server every ~45s - this just polls the cheap cache.
+  useEffect(() => {
+    const isRealTripId = tripRefNum && !tripRefNum.startsWith('TR-');
+    if (currentPage !== 'my-trip' || !isRealTripId) return;
+
+    fetchRiskRadar(tripRefNum);
+    fetchRiskAlerts(tripRefNum);
+
+    const interval = setInterval(() => {
+      fetchRiskRadar(tripRefNum);
+      fetchRiskAlerts(tripRefNum);
+    }, 20000);
+
+    return () => clearInterval(interval);
+  }, [currentPage, tripRefNum]);
 
   useEffect(() => {
     if (currentTrip && currentTrip.length > 0) {
@@ -1187,30 +1605,50 @@ function App() {
   // Add node dynamically as user inputs details in the form
   const handleAddBuilderNode = (e) => {
     e.preventDefault();
-    
+
     let title = '';
     let info = '';
     let type = searchTab; // flights | trains | cabs | hotels
     let from = builderFrom.trim();
     let to = builderTo.trim();
-    
+
+    let origin = null;
+    let destination = null;
+    let operator = null;
+    let service_number = null;
+
     if (type === 'flights') {
       type = 'flight';
       title = builderAirways.trim() || 'Custom Flight';
       info = 'Terminal Gateway';
+      origin = from;
+      destination = to;
+      operator = builderAirways.trim() || 'Airline';
+      const svcMatch = title.match(/([A-Z0-9]{2,3}[-\s]?\d{3,4})/i);
+      service_number = svcMatch ? svcMatch[0].replace(' ', '-') : '';
     } else if (type === 'trains') {
       type = 'train';
       title = builderTrainName.trim() || 'Custom Train';
       info = 'Platform Route';
+      origin = from;
+      destination = to;
+      operator = 'Indian Railways';
+      const svcMatch = title.match(/([A-Z0-9]{2,6}[-\s]?\d{3,5})/i);
+      service_number = svcMatch ? svcMatch[0].replace(' ', '-') : '';
     } else if (type === 'cabs') {
       type = 'cab';
       title = builderCabService.trim() || 'Custom Cab';
       info = 'Pickup Area';
+      origin = from;
+      destination = to;
+      operator = builderCabService.trim() || 'Cab Service';
     } else if (type === 'hotels') {
       type = 'hotel';
       title = builderHotelName.trim() || 'Custom Hotel Stay';
       info = 'Reception Lobby';
-      to = from; 
+      to = from;
+      origin = from;
+      destination = from;
     }
 
     if (!from && type !== 'hotel') {
@@ -1233,6 +1671,10 @@ function App() {
       id: `node-${Date.now()}-${Math.floor(Math.random() * 1000)}`,
       type,
       title,
+      origin,
+      destination,
+      operator,
+      service_number,
       sub: type === 'hotel' ? `${to}` : `${from} → ${to}`,
       date: builderDate || new Date().toISOString().split('T')[0],
       scheduledStart,
@@ -1298,7 +1740,7 @@ function App() {
         const nodeDate = node.date || new Date().toISOString().split('T')[0];
         const st = `${nodeDate}T${node.scheduledStart}:00Z`;
         const et = node.scheduledEnd === 'Onwards' ? `${nodeDate}T23:59:59Z` : `${nodeDate}T${node.scheduledEnd}:00Z`;
-        
+
         let hardCutoff = null;
         if (node.type === 'cab') {
           hardCutoff = addMinutesToISO(st, 30);
@@ -1311,6 +1753,10 @@ function App() {
           node_type: (node.type || 'flight').toUpperCase(),
           title: node.title,
           location: node.info || node.sub || '',
+          origin: node.origin || null,
+          destination: node.destination || null,
+          operator: node.operator || null,
+          service_number: node.service_number || null,
           start_time: st,
           end_time: et
         };
@@ -1327,7 +1773,7 @@ function App() {
 
       const graphRes = await fetch(`http://localhost:5000/api/trips/${tripId}/graph`);
       const graphData = await graphRes.json();
-      
+
       const formattedNodes = formatGraphNodes(graphData.nodes);
 
       setCurrentTrip(formattedNodes);
@@ -1367,13 +1813,19 @@ function App() {
       });
       const data = await res.json();
       if (data.error) {
-         alert(`Disruption Error: ${data.error}`);
-         return;
+        alert(`Disruption Error: ${data.error}`);
+        return;
       }
+<<<<<<< HEAD
       
       // Preserve OG scheduled times by passing originalTripNodes baseline
       const targetBaseline = (originalTripNodes && originalTripNodes.length > 0) ? originalTripNodes : currentTrip;
       const formattedNodes = formatGraphNodes(data.updated_graph?.nodes || [], targetBaseline);
+=======
+
+      // Preserve OG scheduled times by passing currentTrip
+      const formattedNodes = formatGraphNodes(data.updated_graph.nodes, currentTrip);
+>>>>>>> origin/main
 
       const backendMetrics = data.metrics || {};
       const brokenCount = backendMetrics.brokenConnections ?? backendMetrics.broken_connections ?? (data.updated_graph?.nodes || []).filter(n => n.status === 'BROKEN').length;
@@ -1394,8 +1846,8 @@ function App() {
     }
   };
 
-  
-  
+
+
 
   const handleResetJourney = async () => {
     try {
@@ -1410,12 +1862,61 @@ function App() {
       const tripId = seedData.trip_id;
       const graphData = seedData.graph;
 
+<<<<<<< HEAD
       const formattedNodes = formatGraphNodes(graphData.nodes);
 
       setCurrentTrip(formattedNodes);
       setOriginalTripNodes(formattedNodes);
       if (formattedNodes.length > 0) {
         setSelectedDisruptNode(formattedNodes[0].id);
+=======
+        for (const node of targetNodes) {
+          const nodeDate = node.date || new Date().toISOString().split('T')[0];
+          const st = `${nodeDate}T${node.scheduledStart}:00Z`;
+          const et = node.scheduledEnd === 'Onwards' ? `${nodeDate}T23:59:59Z` : `${nodeDate}T${node.scheduledEnd}:00Z`;
+
+          let hardCutoff = null;
+          if (node.type === 'cab') {
+            hardCutoff = addMinutesToISO(st, 30);
+          } else if (node.type === 'hotel') {
+            hardCutoff = addMinutesToISO(st, 60);
+          }
+
+          const payload = {
+            trip_id: tripId,
+            node_type: (node.type || 'flight').toUpperCase(),
+            title: node.title,
+            location: node.info || node.sub || '',
+            start_time: st,
+            end_time: et
+          };
+          if (hardCutoff) {
+            payload.hard_cutoff = hardCutoff;
+          }
+
+          await fetch('http://localhost:5000/api/nodes', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          });
+        }
+
+        const graphRes = await fetch(`http://localhost:5000/api/trips/${tripId}/graph`);
+        const graphData = await graphRes.json();
+
+        const formattedNodes = formatGraphNodes(graphData.nodes);
+
+        setCurrentTrip(formattedNodes);
+        setTripRefNum(tripId);
+        setDisruptionState('healthy');
+        setImpactMetrics({ delayMinutes: 0, brokenConnections: 0, affectedNodes: 0 });
+      } catch (err) {
+        console.error(err);
+        const resetNodes = targetNodes.map(n => ({ ...n, status: 'healthy', actualStart: n.scheduledStart, actualEnd: n.scheduledEnd, delayMinutes: 0, disruptionReason: '' }));
+        setCurrentTrip(resetNodes);
+        setDisruptionState('healthy');
+        setImpactMetrics({ delayMinutes: 0, brokenConnections: 0, affectedNodes: 0 });
+>>>>>>> origin/main
       }
       setTripRefNum(tripId);
       setDisruptionState('healthy');
@@ -1507,7 +2008,7 @@ function App() {
 
     setTimeout(() => {
       let botResponse = t('chatbotDefaultResponse');
-      
+
       if (textQuery.includes('delay') || textQuery.includes('late')) {
         botResponse = t('chatbotDelayResponse');
       } else if (textQuery.includes('refund') || textQuery.includes('cancel')) {
@@ -1567,9 +2068,10 @@ function App() {
     setAuthName('');
     setAuthEmail('');
     setAuthPassword('');
-    setCurrentPage('home'); 
+    setCurrentPage('home');
   };
 
+<<<<<<< HEAD
   // Restaurant destination: use LAST node's destination or hotel city
   const lastNode = currentTrip[currentTrip.length - 1];
   const activeDestination = (() => {
@@ -1594,6 +2096,11 @@ function App() {
     return 'Goa';
   })();
   
+=======
+  // Restaurant details filtered
+  const activeDestination = currentTrip[0]?.sub?.split('→')[1]?.trim()?.split(' ')[0] || 'Pune';
+
+>>>>>>> origin/main
   const filteredRestaurants = RESTAURANTS.filter(r => {
     const isCity = r.city.toLowerCase() === activeDestination.toLowerCase();
     if (!isCity) return false;
@@ -1603,12 +2110,41 @@ function App() {
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-850 flex flex-col justify-between selection:bg-[#287DFA] selection:text-white font-sans antialiased overflow-x-hidden">
-      
+
+      {/* --- Proactive Risk Radar Toast (fires when a connection newly crosses into HIGH/CRITICAL) --- */}
+      <AnimatePresence>
+        {riskToast && (
+          <motion.div
+            key="risk-toast"
+            initial={{ opacity: 0, y: -20, x: '-50%' }}
+            animate={{ opacity: 1, y: 0, x: '-50%' }}
+            exit={{ opacity: 0, y: -20, x: '-50%' }}
+            className="fixed top-4 left-1/2 z-50 w-[92%] sm:w-auto sm:max-w-md bg-slate-950 text-white rounded-xl shadow-2xl px-4 py-3 flex items-start gap-3"
+          >
+            <div className="p-1.5 rounded-lg bg-[#FF7700] shrink-0">
+              <Zap className="w-4 h-4" />
+            </div>
+            <div className="flex-1">
+              <p className="text-[10px] font-bold uppercase tracking-wider text-orange-300">
+                Risk Radar caught this before it happened
+              </p>
+              <p className="text-xs mt-0.5 leading-relaxed">{riskToast.message}</p>
+            </div>
+            <button
+              onClick={() => setRiskToast(null)}
+              className="text-slate-400 hover:text-white transition cursor-pointer shrink-0 text-xs font-bold"
+            >
+              ✕
+            </button>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* --- Global Navigation Header --- */}
       <header className="sticky top-0 z-40 bg-white border-b border-slate-105 shadow-sm px-4 sm:px-6 py-4 flex flex-row items-center justify-between gap-4">
         <div className="flex items-center gap-4 sm:gap-8">
           {/* Logo */}
-          <button 
+          <button
             onClick={() => setCurrentPage('home')}
             className="flex items-center gap-2 text-xl sm:text-2xl font-bold tracking-tight text-[#287DFA] focus:outline-none cursor-pointer"
           >
@@ -1621,13 +2157,13 @@ function App() {
           {/* Desktop Nav Links - Gated by Login */}
           {userAuth.loggedIn && (
             <nav className="hidden md:flex items-center gap-6 text-sm font-semibold text-slate-655">
-              <button 
+              <button
                 onClick={() => setCurrentPage('home')}
                 className={`hover:text-[#287DFA] transition py-1 cursor-pointer ${currentPage === 'home' ? 'text-[#287DFA] border-b-2 border-[#287DFA]' : ''}`}
               >
                 {t('navHome')}
               </button>
-              <button 
+              <button
                 onClick={() => setCurrentPage('my-trip')}
                 className={`hover:text-[#287DFA] transition py-1 flex items-center gap-1.5 cursor-pointer ${currentPage === 'my-trip' ? 'text-[#287DFA] border-b-2 border-[#287DFA]' : ''}`}
               >
@@ -1639,13 +2175,13 @@ function App() {
                   </span>
                 )}
               </button>
-              <button 
+              <button
                 onClick={() => setCurrentPage('restaurants')}
                 className={`hover:text-[#287DFA] transition py-1 cursor-pointer ${currentPage === 'restaurants' ? 'text-[#287DFA] border-b-2 border-[#287DFA]' : ''}`}
               >
                 {t('navRestaurants')}
               </button>
-              <button 
+              <button
                 onClick={() => setCurrentPage('support')}
                 className={`hover:text-[#287DFA] transition py-1 cursor-pointer ${currentPage === 'support' ? 'text-[#287DFA] border-b-2 border-[#287DFA]' : ''}`}
               >
@@ -1659,13 +2195,12 @@ function App() {
         <div className="flex items-center gap-2 sm:gap-4 flex-wrap">
           {/* Chaos Sandbox badge - Gated by Login */}
           {userAuth.loggedIn && (
-            <button 
+            <button
               onClick={() => setCurrentPage('chaos-lab')}
-              className={`flex items-center gap-1 px-2.5 py-1.5 text-[10px] sm:text-xs font-bold rounded-full transition duration-200 cursor-pointer ${
-                currentPage === 'chaos-lab' 
+              className={`flex items-center gap-1 px-2.5 py-1.5 text-[10px] sm:text-xs font-bold rounded-full transition duration-200 cursor-pointer ${currentPage === 'chaos-lab'
                   ? 'bg-[#FF7700] text-white shadow-md shadow-[#FF7700]/20'
                   : 'bg-orange-50 text-[#FF7700] hover:bg-orange-100 border border-orange-200/20'
-              }`}
+                }`}
             >
               {t('navChaos')}
             </button>
@@ -1678,19 +2213,19 @@ function App() {
               <span>{currentLanguage === 'en' ? 'EN' : currentLanguage === 'hi' ? 'हिन्दी' : 'मराठी'}</span>
             </button>
             <div className="absolute right-0 top-full mt-1.5 w-28 bg-white border border-slate-105 rounded-lg shadow-xl py-1 opacity-0 pointer-events-none group-focus-within:opacity-100 group-focus-within:pointer-events-auto group-hover:opacity-100 group-hover:pointer-events-auto transition duration-150 z-50">
-              <button 
+              <button
                 onClick={() => setCurrentLanguage('en')}
                 className="w-full text-left px-3 py-1.5 text-xs font-medium hover:bg-slate-50 hover:text-[#287DFA]"
               >
                 English
               </button>
-              <button 
+              <button
                 onClick={() => setCurrentLanguage('hi')}
                 className="w-full text-left px-3 py-1.5 text-xs font-medium hover:bg-slate-50 hover:text-[#287DFA]"
               >
                 हिन्दी
               </button>
-              <button 
+              <button
                 onClick={() => setCurrentLanguage('mr')}
                 className="w-full text-left px-3 py-1.5 text-xs font-medium hover:bg-slate-50 hover:text-[#287DFA]"
               >
@@ -1712,7 +2247,7 @@ function App() {
                 <div className="px-3 py-2 border-b border-slate-50 text-[10px] text-slate-400 truncate">
                   {userAuth.user?.email}
                 </div>
-                <button 
+                <button
                   onClick={() => setUserAuth({ loggedIn: false, user: null })}
                   className="w-full text-left px-3 py-2 text-xs font-medium text-rose-600 hover:bg-rose-50 flex items-center gap-1.5"
                 >
@@ -1721,7 +2256,7 @@ function App() {
               </div>
             </div>
           ) : (
-            <button 
+            <button
               onClick={() => {
                 setAuthTab('signin');
                 setShowAuthModal(true);
@@ -1737,13 +2272,13 @@ function App() {
       {/* Mobile navigation row (only shown when logged in on small screens) */}
       {userAuth.loggedIn && (
         <nav className="md:hidden bg-white border-b border-slate-100 px-4 py-2 flex items-center justify-around text-xs font-bold text-slate-500">
-          <button 
+          <button
             onClick={() => setCurrentPage('home')}
             className={`hover:text-[#287DFA] transition pb-1 ${currentPage === 'home' ? 'text-[#287DFA] border-b-2 border-[#287DFA]' : ''}`}
           >
             {t('navHome')}
           </button>
-          <button 
+          <button
             onClick={() => setCurrentPage('my-trip')}
             className={`hover:text-[#287DFA] transition pb-1 flex items-center gap-1 ${currentPage === 'my-trip' ? 'text-[#287DFA] border-b-2 border-[#287DFA]' : ''}`}
           >
@@ -1752,13 +2287,13 @@ function App() {
               <span className="w-1.5 h-1.5 rounded-full bg-[#FF7700]" />
             )}
           </button>
-          <button 
+          <button
             onClick={() => setCurrentPage('restaurants')}
             className={`hover:text-[#287DFA] transition pb-1 ${currentPage === 'restaurants' ? 'text-[#287DFA] border-b-2 border-[#287DFA]' : ''}`}
           >
             {t('navRestaurants')}
           </button>
-          <button 
+          <button
             onClick={() => setCurrentPage('support')}
             className={`hover:text-[#287DFA] transition pb-1 ${currentPage === 'support' ? 'text-[#287DFA] border-b-2 border-[#287DFA]' : ''}`}
           >
@@ -1770,7 +2305,7 @@ function App() {
       {/* --- Main Content Stage --- */}
       <div className="flex-1 w-full relative">
         <AnimatePresence mode="wait">
-          
+
           {/* ================= PAGE 1: HOMEPAGE WITH AUTH GATED BUILDER ================= */}
           {currentPage === 'home' && (
             <motion.div
@@ -1818,14 +2353,13 @@ function App() {
                               else if (tab === 'cabs') setBuilderDuration(45);
                               else setBuilderDuration(0);
                             }}
-                            className={`px-3 py-2 rounded-full text-[10px] sm:text-xs font-extrabold tracking-wider uppercase flex items-center gap-1 transition cursor-pointer ${
-                              searchTab === tab ? 'bg-[#EAF3FF] text-[#287DFA]' : 'text-slate-500 hover:bg-slate-55'
-                            }`}
+                            className={`px-3 py-2 rounded-full text-[10px] sm:text-xs font-extrabold tracking-wider uppercase flex items-center gap-1 transition cursor-pointer ${searchTab === tab ? 'bg-[#EAF3FF] text-[#287DFA]' : 'text-slate-500 hover:bg-slate-55'
+                              }`}
                           >
                             {tab === 'flights' ? t('flightTab')
                               : tab === 'trains' ? t('trainTab')
-                              : tab === 'cabs' ? t('cabTab')
-                              : t('hotelTab')}
+                                : tab === 'cabs' ? t('cabTab')
+                                  : t('hotelTab')}
                           </button>
                         ))}
                       </div>
@@ -1833,7 +2367,7 @@ function App() {
                       <form onSubmit={handleAddBuilderNode} className="space-y-6">
                         {/* Dynamic Input Fields based on Active Tab */}
                         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-                          
+
                           {/* From location (Not for Hotels) */}
                           {searchTab !== 'hotels' && (
                             <div className="flex flex-col gap-1">
@@ -2008,7 +2542,7 @@ function App() {
                             <div className="flex items-center">
                               {builderNodes.map((node, idx) => (
                                 <div key={node.id} className="flex items-center">
-                                  
+
                                   {/* Preview Node Card */}
                                   <div className="w-56 p-3 bg-slate-50 border border-slate-200 rounded-xl relative hover:border-[#287DFA] transition group flex-shrink-0 shadow-xs">
                                     <button
@@ -2029,7 +2563,7 @@ function App() {
                                     </div>
                                     <h5 className="font-extrabold text-xs text-slate-900 truncate font-serif">{node.title}</h5>
                                     <p className="text-[10px] text-slate-450 truncate mt-0.5">{node.sub}</p>
-                                    
+
                                     {node.type !== 'hotel' && (
                                       <span className="text-[9px] text-slate-400 block mt-2 font-mono">
                                         {t('actual').split(' ')[0]} End: {node.scheduledEnd}
@@ -2148,7 +2682,7 @@ function App() {
                   <h2 className="text-2xl font-bold tracking-tight text-center text-slate-900 mb-10 font-serif">
                     {t('howItWorks')}
                   </h2>
-                  
+
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                     <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex flex-col items-start gap-4 hover:shadow-md transition">
                       <div className="p-3 rounded-xl bg-[#EAF3FF] text-[#287DFA]">
@@ -2210,7 +2744,7 @@ function App() {
                   >
                     {t('backToBookings')}
                   </button>
-                  <button 
+                  <button
                     onClick={() => alert('Itinerary emailed to your account!')}
                     className="flex-1 sm:flex-initial px-4 py-2 bg-slate-950 text-white text-xs font-bold rounded-full hover:bg-slate-900 transition cursor-pointer text-center"
                   >
@@ -2575,27 +3109,25 @@ function App() {
                   <div className="flex items-center min-w-full lg:min-w-0">
                     {currentTrip.map((node, index) => {
                       const isTargetDisrupted = node.status === 'delayed' || node.status === 'broken';
-                      
+
                       return (
                         <div key={node.id} className="flex items-center">
                           {/* Node Card */}
                           <motion.div
                             layout
-                            className={`w-64 p-4 rounded-xl border transition-all duration-300 shadow-sm flex-shrink-0 ${
-                              node.status === 'broken'
+                            className={`w-64 p-4 rounded-xl border transition-all duration-300 shadow-sm flex-shrink-0 ${node.status === 'broken'
                                 ? 'border-red-500 bg-red-50/20 shadow-red-105'
                                 : node.status === 'delayed' ? 'border-amber-400 bg-amber-50/30 shadow-amber-100' : 'border-emerald-500 bg-emerald-50/20 shadow-emerald-100 hover:border-emerald-600'
-                            }`}
+                              }`}
                           >
                             <div className="flex items-center justify-between mb-3">
-                              <span className={`px-2 py-0.5 rounded text-[9px] font-bold uppercase tracking-wide flex items-center gap-1 ${
-                                node.status === 'broken'
+                              <span className={`px-2 py-0.5 rounded text-[9px] font-bold uppercase tracking-wide flex items-center gap-1 ${node.status === 'broken'
                                   ? 'bg-red-100 text-red-600'
                                   : node.status === 'delayed' ? 'bg-amber-100 text-amber-700' : 'bg-emerald-100 text-emerald-700 font-extrabold'
-                              }`}>
+                                }`}>
                                 {node.type === 'flight' ? t('flightTab').split(' ')[1] : node.type === 'train' ? t('trainTab').split(' ')[1] : node.type === 'cab' ? t('cabTab').split(' ')[1] : t('hotelTab').split(' ')[1]}
                               </span>
-                              
+
                               <span className="text-[10px] text-slate-400 font-bold font-mono">
                                 {node.status === 'broken'
                                   ? '❌ ' + t('connectionBroken')
@@ -2618,12 +3150,18 @@ function App() {
                                 <span className="text-xs font-semibold text-slate-555 font-mono">{node.scheduledStart} - {node.scheduledEnd}</span>
                               </div>
                               <div>
+<<<<<<< HEAD
                                 <span className="text-[9px] font-bold text-slate-400 block uppercase tracking-wider">
                                   {disruptionState === 'resolved' && node.actualStart !== node.scheduledStart ? 'RECOVERED' : t('actual')}
                                 </span>
                                 <span className={`text-xs font-extrabold font-mono ${
                                   node.status === 'broken' ? 'text-red-500' : node.status === 'delayed' ? 'text-[#FF7700]' : (disruptionState === 'resolved' && node.actualStart !== node.scheduledStart ? 'text-emerald-700' : 'text-emerald-600')
                                 }`}>
+=======
+                                <span className="text-[9px] font-bold text-slate-400 block uppercase tracking-wider">{t('actual')}</span>
+                                <span className={`text-xs font-extrabold font-mono ${node.status === 'broken' ? 'text-red-500' : node.status === 'delayed' ? 'text-[#FF7700]' : 'text-emerald-600'
+                                  }`}>
+>>>>>>> origin/main
                                   {node.actualStart} - {node.actualEnd}
                                 </span>
                               </div>
@@ -2664,7 +3202,7 @@ function App() {
                           {index < currentTrip.length - 1 && (
                             <div className="relative flex items-center justify-center w-20 flex-shrink-0">
                               <div className="h-[2px] w-full bg-slate-205">
-                                <motion.div 
+                                <motion.div
                                   className={`h-full ${isTargetDisrupted ? 'bg-red-400' : 'bg-emerald-400'}`}
                                   initial={{ width: 0 }}
                                   animate={{ width: '100%' }}
@@ -2689,6 +3227,70 @@ function App() {
                     })}
                   </div>
                 </div>
+              </div>
+
+              {/* ================= RISK RADAR / CONFIDENCE SCORE (proactive) ================= */}
+              <div className="bg-white p-4 sm:p-6 rounded-2xl border border-slate-100 shadow-sm flex flex-col gap-4">
+                <div className="flex items-center justify-between flex-wrap gap-3">
+                  <div className="flex items-center gap-2">
+                    <div className="p-1.5 rounded-lg bg-[#EAF3FF] text-[#287DFA]">
+                      <Zap className="w-4 h-4" />
+                    </div>
+                    <h3 className="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-400">
+                      Risk Radar — Proactive Connection Guard
+                    </h3>
+                  </div>
+                  {riskRadar && (
+                    <div className="flex items-center gap-2">
+                      <span className={`px-3 py-1 rounded-full text-xs font-extrabold ${riskRadar.overall_risk_level === 'CRITICAL' ? 'bg-red-100 text-red-700'
+                          : riskRadar.overall_risk_level === 'HIGH' ? 'bg-orange-100 text-[#E06600]'
+                            : riskRadar.overall_risk_level === 'MEDIUM' ? 'bg-amber-100 text-amber-700'
+                              : 'bg-emerald-100 text-emerald-700'
+                        }`}>
+                        Trip Risk: {riskRadar.overall_risk_level} • {riskRadar.overall_risk_score}/100
+                        {riskRadar.connections && riskRadar.connections.length > 0 && (
+                          <span className="font-normal opacity-80 ml-1.5">
+                            · {riskRadar.connections.length} {riskRadar.connections.length === 1 ? 'connection' : 'connections'} monitored
+                          </span>
+                        )}
+                      </span>
+                      <button
+                        onClick={() => fetchRiskRadar(tripRefNum, true)}
+                        disabled={riskRadarLoading}
+                        className="p-1.5 rounded-lg border border-slate-200 hover:bg-slate-50 transition cursor-pointer disabled:opacity-50"
+                        title="Refresh Risk Radar"
+                      >
+                        <RefreshCw className={`w-3.5 h-3.5 text-slate-500 ${riskRadarLoading ? 'animate-spin' : ''}`} />
+                      </button>
+                    </div>
+                  )}
+                </div>
+
+                {!riskRadar && (
+                  <p className="text-xs text-slate-400">Scanning connections for proactive risk before anything goes wrong…</p>
+                )}
+
+                {riskRadar && riskRadar.connections.length === 0 && (
+                  <p className="text-xs text-slate-400">Add at least two connected legs to your itinerary to see proactive risk scoring.</p>
+                )}
+
+                {riskRadar && riskRadar.connections.map((conn) => (
+                  <RiskConnectionCard
+                    key={conn.target_node_id}
+                    conn={conn}
+                    plan={bufferPlans[conn.edge_id]}
+                    planLoading={bufferPlanLoadingId === conn.edge_id}
+                    applying={bufferApplyingId === conn.edge_id}
+                    onPrecompute={() => fetchBufferPlan(tripRefNum, conn.edge_id)}
+                    onApply={() => applyBufferPlanForEdge(tripRefNum, conn.edge_id)}
+                  />
+                ))}
+
+                {riskRadar && (riskRadar.last_evaluated_at || riskRadar.generated_at) && (
+                  <p className="text-[10px] text-slate-400 font-mono">
+                    Background model last evaluated {new Date(riskRadar.last_evaluated_at || riskRadar.generated_at).toLocaleTimeString()} · re-scans automatically every 45s
+                  </p>
+                )}
               </div>
 
               {/* Quick instructions to use Chaos Sandbox */}
@@ -2724,6 +3326,7 @@ function App() {
               transition={{ duration: 0.25 }}
               className="max-w-5xl mx-auto w-full px-4 sm:px-6 py-6 flex flex-col gap-6"
             >
+<<<<<<< HEAD
               <RecoveryControl
                 tripId={tripRefNum}
                 currentTrip={currentTrip}
@@ -2731,6 +3334,232 @@ function App() {
                 onPlanApplied={handlePlanApplied}
                 onBackToTimeline={() => setCurrentPage('my-trip')}
               />
+=======
+              {/* Rescue Portal Alert Banner */}
+              <div className="p-6 rounded-2xl bg-[#FF7700] text-white flex flex-col md:flex-row items-start md:items-center justify-between gap-6 shadow-md relative overflow-hidden">
+                <div className="absolute right-0 bottom-0 translate-x-10 translate-y-10 w-44 h-44 rounded-full bg-white/10 blur-xl pointer-events-none" />
+                <div className="absolute left-1/3 top-0 w-24 h-24 rounded-full bg-white/5 blur-lg pointer-events-none" />
+
+                <div className="z-10 max-w-2xl text-left">
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/20 text-xs font-bold text-white mb-3 tracking-wider uppercase font-mono">
+                    🛡️ TripResQ Guard Active
+                  </span>
+                  <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight mb-2 font-serif">{t('rescueHeader')}</h1>
+                  <p className="text-white/95 text-xs md:text-sm leading-relaxed">
+                    {t('rescueSub')}
+                  </p>
+                </div>
+                <button
+                  onClick={() => setCurrentPage('my-trip')}
+                  className="px-4 py-2 bg-white text-[#FF7700] font-extrabold hover:bg-slate-100 text-xs rounded-xl transition shrink-0 z-10 shadow cursor-pointer w-full md:w-auto text-center"
+                >
+                  {t('backToTimeline')}
+                </button>
+              </div>
+
+              {/* 3 Recovery alternatives */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-4">
+
+                {/* Fastest Plan */}
+                <div className="bg-white rounded-2xl border-2 border-[#287DFA] shadow-lg flex flex-col justify-between relative overflow-hidden hover:scale-[1.01] transition duration-200">
+                  <div className="bg-[#287DFA] text-white text-[9px] font-extrabold text-center py-1 tracking-wider uppercase font-mono">
+                    ⭐ {t('fastestTitle').split(' ')[0]} Recommended
+                  </div>
+
+                  <div className="p-6 flex-1 flex flex-col gap-4 text-left">
+                    <div className="flex items-center justify-between">
+                      <div className="p-2.5 rounded-xl bg-[#EAF3FF] text-[#287DFA]">
+                        <Zap className="w-6 h-6 animate-pulse" />
+                      </div>
+                      <span className="text-[10px] font-bold text-[#287DFA] bg-[#EAF3FF] px-2.5 py-1 rounded-full uppercase tracking-wider font-mono">Fastest</span>
+                    </div>
+
+                    <div>
+                      <h3 className="font-extrabold text-base text-slate-900 font-serif">{t('fastestTitle')}</h3>
+                      <p className="text-xs text-slate-500 mt-0.5 leading-relaxed">{t('fastestDesc')}</p>
+                    </div>
+
+                    {recoveryProposals && recoveryProposals.length > 0 ? (
+                      <div className="space-y-2 bg-blue-50/60 p-3 rounded-xl border border-blue-100 text-left">
+                        <span className="text-[10px] font-mono font-extrabold uppercase tracking-wider text-[#287DFA] block">
+                          ⚡ Backend Recovery Action Plan ({recoveryProposals.length}):
+                        </span>
+                        {recoveryProposals.map((prop, idx) => (
+                          <div key={idx} className="p-2 bg-white rounded-lg border border-blue-100 text-xs text-slate-800 flex flex-col gap-0.5 shadow-xs">
+                            <span className="font-bold text-[#287DFA] text-[11px]">{prop.node_title} &rarr; {prop.action}</span>
+                            <span className="text-[10px] text-slate-600">{prop.description}</span>
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <p className="text-slate-505 text-xs leading-relaxed">
+                        {t('fastestDetails')}
+                      </p>
+                    )}
+
+                    <div className="bg-slate-50 p-3 rounded-xl border border-slate-100 text-[11px] flex flex-col gap-1.5 font-semibold">
+                      <div className="flex justify-between">
+                        <span className="text-slate-400">{t('transitShift')}</span>
+                        <span className="text-slate-700">{t('nextDepartureRescheduled')}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-slate-400">{t('cabPickup')}</span>
+                        <span className="text-emerald-600">{t('updatedAutomatically')}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-slate-400">{t('hotelCheckin')}</span>
+                        <span className="text-emerald-600">{t('warningAlertDispatched')}</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="p-6 bg-slate-50/60 border-t border-slate-100 flex flex-col gap-3 text-left">
+                    <div className="flex justify-between items-baseline">
+                      <span className="text-slate-550 text-xs font-semibold">{t('tripresqCost')}</span>
+                      <span className="text-base font-extrabold text-[#287DFA]">
+                        {t('free')} <span className="text-[10px] text-slate-400 line-through font-normal">₹1,500</span>
+                      </span>
+                    </div>
+                    <button
+                      onClick={() => handleAcceptPlan('fastest')}
+                      disabled={successPlanAccepted !== null}
+                      className="w-full h-10 bg-[#287DFA] hover:bg-[#1C6BDB] text-white font-bold text-xs rounded-xl shadow-md transition cursor-pointer flex items-center justify-center gap-1.5 active:scale-98"
+                    >
+                      {successPlanAccepted === 'fastest' ? t('processing') : t('acceptPlan')}
+                    </button>
+                  </div>
+                </div>
+
+                {/* Budget Plan */}
+                <div className="bg-white rounded-2xl border border-slate-205 shadow-sm flex flex-col justify-between overflow-hidden hover:scale-[1.01] transition duration-200">
+                  <div className="p-6 flex-1 flex flex-col gap-4 text-left">
+                    <div className="flex items-center justify-between">
+                      <div className="p-2.5 rounded-xl bg-orange-50 text-[#FF7700]">
+                        <RefreshCw className="w-6 h-6" />
+                      </div>
+                      <span className="text-[10px] font-bold text-[#FF7700] bg-orange-50 px-2.5 py-1 rounded-full uppercase tracking-wider font-mono">Budget</span>
+                    </div>
+
+                    <div>
+                      <h3 className="font-extrabold text-base text-slate-900 font-serif">{t('budgetTitle')}</h3>
+                      <p className="text-xs text-slate-405 mt-0.5 font-semibold">{t('budgetDesc')}</p>
+                    </div>
+
+                    <p className="text-slate-505 text-xs leading-relaxed">
+                      {t('budgetDetails')}
+                    </p>
+
+                    <div className="bg-slate-50 p-3 rounded-xl border border-slate-100 text-[11px] flex flex-col gap-1.5 font-semibold">
+                      <div className="flex justify-between">
+                        <span className="text-slate-400">{t('transitShift')}</span>
+                        <span className="text-slate-700">{t('delayedByHours')}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-slate-400">{t('compensation')}</span>
+                        <span className="text-emerald-600">{t('travelVoucher')}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-slate-400">{t('hotelCheckin')}</span>
+                        <span className="text-orange-500">{t('postponedReservation')}</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="p-6 bg-slate-55/60 border-t border-slate-100 flex flex-col gap-3 text-left">
+                    <div className="flex justify-between items-baseline">
+                      <span className="text-slate-550 text-xs font-semibold">{t('compensationCredit')}</span>
+                      <span className="text-base font-extrabold text-slate-800">{t('creditBack')}</span>
+                    </div>
+                    <button
+                      onClick={() => handleAcceptPlan('cheapest')}
+                      disabled={successPlanAccepted !== null}
+                      className="w-full h-10 bg-slate-950 hover:bg-slate-900 text-white font-bold text-xs rounded-xl shadow-sm transition cursor-pointer active:scale-98"
+                    >
+                      {successPlanAccepted === 'cheapest' ? t('processing') : t('acceptPlan')}
+                    </button>
+                  </div>
+                </div>
+
+                {/* Refund Plan */}
+                <div className="bg-white rounded-2xl border border-slate-205 shadow-sm flex flex-col justify-between overflow-hidden hover:scale-[1.01] transition duration-200">
+                  <div className="p-6 flex-1 flex flex-col gap-4 text-left">
+                    <div className="flex items-center justify-between">
+                      <div className="p-2.5 rounded-xl bg-red-50 text-red-500">
+                        <Trash2 className="w-6 h-6" />
+                      </div>
+                      <span className="text-[10px] font-bold text-red-655 bg-red-50 px-2.5 py-1 rounded-full uppercase tracking-wider font-mono">Cancellation</span>
+                    </div>
+
+                    <div>
+                      <h3 className="font-extrabold text-base text-slate-900 font-serif">{t('refundTitle')}</h3>
+                      <p className="text-xs text-slate-450 mt-0.5 font-semibold">{t('refundDesc')}</p>
+                    </div>
+
+                    <p className="text-slate-505 text-xs leading-relaxed">
+                      {t('refundDetails')}
+                    </p>
+
+                    <div className="bg-slate-50 p-3 rounded-xl border border-slate-100 text-[11px] flex flex-col gap-1.5 font-semibold">
+                      <div className="flex justify-between">
+                        <span className="text-slate-400">{t('refundEligible')}</span>
+                        <span className="text-emerald-600">{t('fullRefund')}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-slate-400">Processing</span>
+                        <span className="text-slate-700">{t('immediateInitiated')}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-slate-400">{t('cancellationCost')}</span>
+                        <span className="text-slate-700">{t('freeFee')}</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="p-6 bg-slate-50/60 border-t border-slate-100 flex flex-col gap-3 text-left">
+                    <div className="flex justify-between items-baseline">
+                      <span className="text-slate-550 text-xs font-semibold">{t('refundAmount')}</span>
+                      <span className="text-base font-extrabold text-emerald-600">{t('fullRefundClaim')}</span>
+                    </div>
+                    <button
+                      onClick={() => handleAcceptPlan('refund')}
+                      disabled={successPlanAccepted !== null}
+                      className="w-full h-10 border border-slate-300 hover:bg-slate-55 text-slate-700 font-bold text-xs rounded-xl shadow-xs transition cursor-pointer active:scale-98"
+                    >
+                      {successPlanAccepted === 'refund' ? t('processing') : t('acceptPlan')}
+                    </button>
+                  </div>
+                </div>
+
+              </div>
+
+              {/* Success Feedback Modal Simulation */}
+              <AnimatePresence>
+                {successPlanAccepted && (
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/45 backdrop-blur-xs p-6"
+                  >
+                    <motion.div
+                      initial={{ scale: 0.9, y: 20 }}
+                      animate={{ scale: 1, y: 0 }}
+                      exit={{ scale: 0.9, y: 20 }}
+                      className="bg-white p-8 rounded-2xl shadow-2xl max-w-sm w-full text-center border border-slate-100 flex flex-col items-center gap-4"
+                    >
+                      <div className="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center text-emerald-555 mb-2">
+                        <Check className="w-8 h-8 stroke-[3]" />
+                      </div>
+                      <h3 className="text-xl font-bold text-slate-900 font-serif">{t('tripRecoveredTitle')}</h3>
+                      <p className="text-xs text-slate-550 leading-relaxed px-2">
+                        {t('tripRecoveredDesc')}
+                      </p>
+                      <span className="text-[10px] text-slate-400 font-mono tracking-wider animate-pulse">{t('updatingTimeline')}</span>
+                    </motion.div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+>>>>>>> origin/main
             </motion.div>
           )}
 
@@ -2766,27 +3595,25 @@ function App() {
                           key={node.id}
                           type="button"
                           onClick={() => setSelectedDisruptNode(node.id)}
-                          className={`p-3 rounded-xl border text-left transition cursor-pointer flex flex-col gap-1.5 ${
-                            selectedDisruptNode === node.id
+                          className={`p-3 rounded-xl border text-left transition cursor-pointer flex flex-col gap-1.5 ${selectedDisruptNode === node.id
                               ? 'border-[#287DFA] bg-[#EAF3FF]/60 ring-2 ring-[#287DFA]/30'
                               : node.status === 'broken'
-                              ? 'border-red-300 bg-red-50/30 hover:bg-red-50/50'
-                              : node.status === 'delayed'
-                              ? 'border-amber-300 bg-amber-50/30 hover:bg-amber-50/50'
-                              : 'border-emerald-300 bg-emerald-50/30 hover:bg-emerald-50/50'
-                          }`}
+                                ? 'border-red-300 bg-red-50/30 hover:bg-red-50/50'
+                                : node.status === 'delayed'
+                                  ? 'border-amber-300 bg-amber-50/30 hover:bg-amber-50/50'
+                                  : 'border-emerald-300 bg-emerald-50/30 hover:bg-emerald-50/50'
+                            }`}
                         >
                           <div className="flex justify-between items-center w-full">
                             <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500">
                               {node.type}
                             </span>
-                            <span className={`text-[9px] font-extrabold px-1.5 py-0.5 rounded uppercase font-mono ${
-                              node.status === 'broken'
+                            <span className={`text-[9px] font-extrabold px-1.5 py-0.5 rounded uppercase font-mono ${node.status === 'broken'
                                 ? 'bg-red-100 text-red-700'
                                 : node.status === 'delayed'
-                                ? 'bg-amber-100 text-amber-700'
-                                : 'bg-emerald-100 text-emerald-700'
-                            }`}>
+                                  ? 'bg-amber-100 text-amber-700'
+                                  : 'bg-emerald-100 text-emerald-700'
+                              }`}>
                               {node.status === 'broken' ? 'BROKEN' : node.status === 'delayed' ? 'AT RISK' : 'SAFE'}
                             </span>
                           </div>
@@ -2804,33 +3631,30 @@ function App() {
                       <button
                         type="button"
                         onClick={() => setDisruptType('delay')}
-                        className={`py-2 px-3 rounded-lg border text-center text-xs font-bold transition cursor-pointer ${
-                          disruptType === 'delay'
+                        className={`py-2 px-3 rounded-lg border text-center text-xs font-bold transition cursor-pointer ${disruptType === 'delay'
                             ? 'border-[#FF7700] bg-orange-50 text-[#FF7700]'
                             : 'border-slate-205 text-slate-600 hover:bg-slate-50'
-                        }`}
+                          }`}
                       >
                         {t('delayOption')}
                       </button>
                       <button
                         type="button"
                         onClick={() => setDisruptType('cancel')}
-                        className={`py-2 px-3 rounded-lg border text-center text-xs font-bold transition cursor-pointer ${
-                          disruptType === 'cancel'
+                        className={`py-2 px-3 rounded-lg border text-center text-xs font-bold transition cursor-pointer ${disruptType === 'cancel'
                             ? 'border-red-500 bg-red-50 text-red-655'
                             : 'border-slate-205 text-slate-600 hover:bg-slate-50'
-                        }`}
+                          }`}
                       >
                         {t('cancelOption')}
                       </button>
                       <button
                         type="button"
                         onClick={() => setDisruptType('lockout')}
-                        className={`py-2 px-3 rounded-lg border text-center text-xs font-bold transition cursor-pointer ${
-                          disruptType === 'lockout'
+                        className={`py-2 px-3 rounded-lg border text-center text-xs font-bold transition cursor-pointer ${disruptType === 'lockout'
                             ? 'border-red-500 bg-red-50 text-red-655'
                             : 'border-slate-205 text-slate-600 hover:bg-slate-50'
-                        }`}
+                          }`}
                       >
                         {t('lockoutOption')}
                       </button>
@@ -2842,7 +3666,7 @@ function App() {
                     <div className="space-y-2">
                       <div className="flex justify-between items-baseline">
                         <label className="text-xs font-bold text-slate-655">{t('delayAmount')}</label>
-                        <span className="text-sm font-mono font-extrabold text-[#FF7700]">{disruptDelay} {t('minsLabel')} ({(disruptDelay/60).toFixed(1)} hrs)</span>
+                        <span className="text-sm font-mono font-extrabold text-[#FF7700]">{disruptDelay} {t('minsLabel')} ({(disruptDelay / 60).toFixed(1)} hrs)</span>
                       </div>
                       <input
                         type="range"
@@ -2883,6 +3707,7 @@ function App() {
                       <Flame className="w-4 h-4" /> {t('triggerBtn')}
                     </button>
 
+<<<<<<< HEAD
                     <button
                       type="button"
                       onClick={() => setCurrentPage('rescue')}
@@ -2899,6 +3724,8 @@ function App() {
                       <span>{t('navMyTrips')} →</span>
                     </button>
                     
+=======
+>>>>>>> origin/main
                     <button
                       type="button"
                       onClick={handleResetJourney}
@@ -2912,7 +3739,7 @@ function App() {
                 {/* Metrics & Impact Panel */}
                 <div className="bg-slate-900 text-white p-6 rounded-2xl flex flex-col justify-between relative overflow-hidden shadow-xl border border-slate-800 text-left">
                   <div className="absolute right-0 top-0 translate-x-10 -translate-y-10 w-36 h-36 rounded-full bg-[#FF7700]/10 blur-xl pointer-events-none" />
-                  
+
                   <div className="space-y-6 z-10">
                     <div className="flex items-center gap-2 text-orange-400">
                       <Sparkles className="w-5 h-5" />
@@ -2967,95 +3794,12 @@ function App() {
               transition={{ duration: 0.25 }}
               className="max-w-5xl mx-auto w-full px-4 sm:px-6 py-10 flex flex-col gap-6"
             >
-              <div className="border-b border-slate-205 pb-5 text-left">
-                <span className="px-3 py-1 rounded-full bg-[#EAF3FF] text-[#287DFA] text-xs font-bold font-mono uppercase tracking-wider">
-                  🍽️ Transit Dining
-                </span>
-                <h1 className="text-2xl font-extrabold text-slate-900 mt-2 font-serif">{t('diningTitle')}</h1>
-                <p className="text-slate-500 text-xs mt-1">{t('diningDesc')} Near <span className="font-extrabold text-[#287DFA]">{activeDestination}</span> Hub.</p>
-              </div>
-
-              {/* Filters list */}
-              <div className="flex flex-wrap items-center gap-2 border-b border-slate-100 pb-4">
-                <span className="text-xs font-bold text-slate-400 uppercase tracking-wider mr-2">{t('all')}:</span>
-                {['All', 'Pure Veg', 'Local Specialties', 'Fast Delivery', 'Open 24/7'].map(filterOption => (
-                  <button
-                    key={filterOption}
-                    type="button"
-                    onClick={() => setRestaurantFilter(filterOption)}
-                    className={`px-4 py-1.5 rounded-full text-xs font-bold transition cursor-pointer ${
-                      restaurantFilter === filterOption
-                        ? 'bg-[#287DFA] text-white shadow-sm'
-                        : 'bg-white border border-slate-200 text-slate-655 hover:bg-slate-50'
-                    }`}
-                  >
-                    {filterOption === 'Pure Veg' ? t('vegOnly')
-                     : filterOption === 'Local Specialties' ? t('specialties')
-                     : filterOption === 'Fast Delivery' ? t('fastDelivery')
-                     : filterOption === 'Open 24/7' ? t('open247')
-                     : filterOption === 'All' ? t('all')
-                     : filterOption}
-                  </button>
-                ))}
-              </div>
-
-              {/* Restaurant Cards Grid */}
-              {filteredRestaurants.length > 0 ? (
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-                  {filteredRestaurants.map(restaurant => (
-                    <motion.div
-                      layout
-                      key={restaurant.id}
-                      className="bg-white rounded-xl overflow-hidden border border-slate-100 shadow-sm flex flex-col hover:shadow-md transition text-left"
-                    >
-                      <div className="h-44 relative bg-slate-100 overflow-hidden">
-                        <img
-                          src={restaurant.image}
-                          alt={restaurant.name}
-                          className="w-full h-full object-cover hover:scale-105 transition duration-500"
-                        />
-                        {restaurant.open247 && (
-                          <span className="absolute top-3 right-3 bg-red-500 text-white text-[9px] font-extrabold px-2 py-0.5 rounded-full uppercase tracking-wider shadow-sm flex items-center gap-1 font-mono">
-                            <span className="w-1.5 h-1.5 rounded-full bg-white animate-ping" /> {t('open247')}
-                          </span>
-                        )}
-                        <span className="absolute bottom-3 left-3 bg-slate-900/85 backdrop-blur-xs text-white text-[9px] font-bold px-2 py-0.5 rounded-md uppercase tracking-wider font-mono">
-                          📍 {restaurant.distance} {t('kmAway')}
-                        </span>
-                      </div>
-
-                      <div className="p-4 flex-1 flex flex-col justify-between gap-3">
-                        <div className="space-y-1">
-                          <div className="flex items-start justify-between gap-2">
-                            <h3 className="font-extrabold text-sm text-slate-955 font-serif line-clamp-1">{restaurant.name}</h3>
-                            <div className="flex items-center gap-1 shrink-0 text-amber-500 font-bold text-xs">
-                              <Star className="w-3.5 h-3.5 fill-current" />
-                              <span>{restaurant.rating}</span>
-                            </div>
-                          </div>
-                          <p className="text-[11px] font-semibold text-slate-500 line-clamp-1">{restaurant.cuisine}</p>
-                        </div>
-
-                        <div className="flex justify-between items-center border-t border-slate-50 pt-3">
-                          <span className="text-[10px] text-slate-400 font-semibold">{t('avgCost')}: <span className="font-extrabold text-slate-800 font-mono">₹{restaurant.cost}</span></span>
-                          <button
-                            onClick={() => alert(`${t('tableBookedSuccess')} ${restaurant.name}!`)}
-                            className="px-3 py-1.5 bg-[#EAF3FF] hover:bg-[#287DFA] hover:text-white text-[#287DFA] text-[10px] font-bold rounded-lg transition cursor-pointer"
-                          >
-                            {t('bookTable')}
-                          </button>
-                        </div>
-                      </div>
-                    </motion.div>
-                  ))}
-                </div>
-              ) : (
-                <div className="text-center py-16 bg-white rounded-2xl border border-slate-100 flex flex-col items-center gap-2">
-                  <Filter className="w-8 h-8 text-slate-350" />
-                  <h4 className="font-bold text-slate-800 text-sm">{t('noDiningTitle')}</h4>
-                  <p className="text-xs text-slate-450">{t('noDiningDesc')}</p>
-                </div>
-              )}
+              <DiningHub
+                tripId={tripRefNum}
+                tripRef={tripRefNum}
+                currentTripNodes={currentTrip}
+                activeDestination={activeDestination}
+              />
             </motion.div>
           )}
 
@@ -3081,35 +3825,32 @@ function App() {
               <div className="flex gap-2 border-b border-slate-200 pb-2">
                 <button
                   onClick={() => setSupportTab('faq')}
-                  className={`px-4 py-2 text-xs font-bold transition cursor-pointer ${
-                    supportTab === 'faq' ? 'text-[#287DFA] border-b-2 border-[#287DFA]' : 'text-slate-505'
-                  }`}
+                  className={`px-4 py-2 text-xs font-bold transition cursor-pointer ${supportTab === 'faq' ? 'text-[#287DFA] border-b-2 border-[#287DFA]' : 'text-slate-505'
+                    }`}
                 >
                   {t('faqTab')}
                 </button>
                 <button
                   onClick={() => setSupportTab('bug')}
-                  className={`px-4 py-2 text-xs font-bold transition cursor-pointer ${
-                    supportTab === 'bug' ? 'text-[#287DFA] border-b-2 border-[#287DFA]' : 'text-slate-505'
-                  }`}
+                  className={`px-4 py-2 text-xs font-bold transition cursor-pointer ${supportTab === 'bug' ? 'text-[#287DFA] border-b-2 border-[#287DFA]' : 'text-slate-505'
+                    }`}
                 >
                   {t('bugTab')}
                 </button>
                 <button
                   onClick={() => setSupportTab('feedback')}
-                  className={`px-4 py-2 text-xs font-bold transition cursor-pointer ${
-                    supportTab === 'feedback' ? 'text-[#287DFA] border-b-2 border-[#287DFA]' : 'text-slate-505'
-                  }`}
+                  className={`px-4 py-2 text-xs font-bold transition cursor-pointer ${supportTab === 'feedback' ? 'text-[#287DFA] border-b-2 border-[#287DFA]' : 'text-slate-505'
+                    }`}
                 >
                   {t('feedbackTab')}
                 </button>
               </div>
 
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
-                
+
                 {/* Left Side: Content Tab Panels */}
                 <div className="lg:col-span-2">
-                  
+
                   {/* Tab 1: FAQs & Helpline */}
                   {supportTab === 'faq' && (
                     <div className="space-y-6 text-left">
@@ -3137,7 +3878,7 @@ function App() {
                       {/* FAQs Grid */}
                       <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm space-y-4">
                         <h3 className="text-base font-extrabold text-slate-900 border-b border-slate-50 pb-2 font-serif">{t('faqTitle')}</h3>
-                        
+
                         <div className="space-y-4">
                           <div className="space-y-1">
                             <h4 className="text-xs font-extrabold text-slate-900 font-serif">Q: How does the automatic rebooking guard work?</h4>
@@ -3224,7 +3965,7 @@ function App() {
 
                               <div className="flex flex-col gap-1">
                                 <label className="text-xs font-bold text-slate-655">Mock Screenshot Upload</label>
-                                <div 
+                                <div
                                   onClick={() => setBugScreenshot('tripresq_screenshot.png')}
                                   className="h-10 px-3 border border-dashed border-slate-300 rounded-lg flex items-center justify-center gap-1.5 text-xs text-slate-555 cursor-pointer hover:bg-slate-50 transition"
                                 >
@@ -3281,12 +4022,11 @@ function App() {
                                     onMouseLeave={() => setFeedbackHover(0)}
                                     className="p-1 cursor-pointer transition active:scale-90"
                                   >
-                                    <Star 
-                                      className={`w-8 h-8 ${
-                                        star <= (feedbackHover || feedbackRating) 
-                                          ? 'text-amber-450 fill-amber-400 stroke-amber-500' 
+                                    <Star
+                                      className={`w-8 h-8 ${star <= (feedbackHover || feedbackRating)
+                                          ? 'text-amber-450 fill-amber-400 stroke-amber-500'
                                           : 'text-slate-300 stroke-slate-300'
-                                      }`} 
+                                        }`}
                                     />
                                   </button>
                                 ))}
@@ -3310,11 +4050,10 @@ function App() {
                                           setSelectedTags(prev => [...prev, tag]);
                                         }
                                       }}
-                                      className={`px-3 py-1 rounded-full text-xs font-bold transition cursor-pointer ${
-                                        isSelected 
-                                          ? 'bg-slate-900 text-white' 
+                                      className={`px-3 py-1 rounded-full text-xs font-bold transition cursor-pointer ${isSelected
+                                          ? 'bg-slate-900 text-white'
                                           : 'bg-slate-105 hover:bg-slate-200 text-slate-605'
-                                      }`}
+                                        }`}
                                     >
                                       {tag}
                                     </button>
@@ -3338,9 +4077,8 @@ function App() {
                             <button
                               type="submit"
                               disabled={feedbackRating === 0}
-                              className={`w-full h-10 text-white text-xs font-bold rounded-lg transition shadow-sm cursor-pointer ${
-                                feedbackRating > 0 ? 'bg-[#287DFA] hover:bg-[#1C6BDB]' : 'bg-slate-300 text-slate-555 cursor-not-allowed'
-                              }`}
+                              className={`w-full h-10 text-white text-xs font-bold rounded-lg transition shadow-sm cursor-pointer ${feedbackRating > 0 ? 'bg-[#287DFA] hover:bg-[#1C6BDB]' : 'bg-slate-300 text-slate-555 cursor-not-allowed'
+                                }`}
                             >
                               {t('feedbackSubmit')}
                             </button>
@@ -3373,11 +4111,10 @@ function App() {
                         className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}
                       >
                         <div
-                          className={`max-w-[85%] rounded-2xl px-3.5 py-2 text-xs leading-relaxed ${
-                            msg.sender === 'user'
+                          className={`max-w-[85%] rounded-2xl px-3.5 py-2 text-xs leading-relaxed ${msg.sender === 'user'
                               ? 'bg-[#287DFA] text-white rounded-tr-none'
                               : 'bg-white text-slate-850 border border-slate-100 rounded-tl-none shadow-xs'
-                          }`}
+                            }`}
                         >
                           {msg.text}
                         </div>
@@ -3474,18 +4211,16 @@ function App() {
                 <button
                   type="button"
                   onClick={() => setAuthTab('signin')}
-                  className={`flex-1 py-3 text-xs font-bold uppercase tracking-wider text-center cursor-pointer transition ${
-                    authTab === 'signin' ? 'bg-white text-[#287DFA] border-r border-slate-100 font-extrabold' : 'text-slate-455 hover:bg-slate-100/50'
-                  }`}
+                  className={`flex-1 py-3 text-xs font-bold uppercase tracking-wider text-center cursor-pointer transition ${authTab === 'signin' ? 'bg-white text-[#287DFA] border-r border-slate-100 font-extrabold' : 'text-slate-455 hover:bg-slate-100/50'
+                    }`}
                 >
                   {t('signInTab')}
                 </button>
                 <button
                   type="button"
                   onClick={() => setAuthTab('signup')}
-                  className={`flex-1 py-3 text-xs font-bold uppercase tracking-wider text-center cursor-pointer transition ${
-                    authTab === 'signup' ? 'bg-white text-[#287DFA] border-l border-slate-100 font-extrabold' : 'text-slate-455 hover:bg-slate-100/50'
-                  }`}
+                  className={`flex-1 py-3 text-xs font-bold uppercase tracking-wider text-center cursor-pointer transition ${authTab === 'signup' ? 'bg-white text-[#287DFA] border-l border-slate-100 font-extrabold' : 'text-slate-455 hover:bg-slate-100/50'
+                    }`}
                 >
                   {t('signUpTab')}
                 </button>
