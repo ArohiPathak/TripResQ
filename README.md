@@ -476,8 +476,10 @@ Costs can increase depending on traffic, database requirements and cloud infrast
 | Name | Role |
 |---|---|
 | Akshata Chettiar | Full Stack / Integration |
-| Kaveesh Kadirvel | Frontend |
+| Arohi Pathak | Frontend |
 | Pavitra Boga | Backend |
+| Devanshu Bansode | Backend |
+| Kaveesh Kadirvel | Frontend |
 
 ---
 
