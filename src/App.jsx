@@ -4,7 +4,6 @@ import {
   AlertTriangle,
   ShieldCheck,
   Zap,
-  RefreshCw,
   Clock,
   Trash2,
   Check,
@@ -26,6 +25,7 @@ import {
   Calendar
 } from 'lucide-react';
 import './App.css';
+import { RecoveryControl } from './components/recovery';
 
 // --- i18n Translation Dictionary ---
 const TRANSLATIONS = {
@@ -803,62 +803,131 @@ const RESTAURANTS = [
     tags: ['Fast Delivery', 'Open 24/7'],
     open247: true,
     image: 'https://images.unsplash.com/photo-1551782450-a2132b4ba21d?w=500&auto=format&fit=crop&q=60'
+  },
+  {
+    id: 'r-goa-1',
+    city: 'Goa',
+    name: 'Fisherman\'s Wharf',
+    cuisine: 'Goan Seafood, Prawn Curry, Xacuti',
+    distance: 0.6,
+    cost: 1200,
+    rating: 4.7,
+    tags: ['Local Specialties'],
+    open247: false,
+    image: 'https://images.unsplash.com/photo-1544025162-d76694265947?w=500&auto=format&fit=crop&q=60'
+  },
+  {
+    id: 'r-goa-2',
+    city: 'Goa',
+    name: 'Gunpowder',
+    cuisine: 'South Indian & Kerala Cuisine, Dosa, Appam',
+    distance: 1.3,
+    cost: 900,
+    rating: 4.5,
+    tags: ['Pure Veg', 'Local Specialties'],
+    open247: false,
+    image: 'https://images.unsplash.com/photo-1601050690597-df056fb4ce78?w=500&auto=format&fit=crop&q=60'
+  },
+  {
+    id: 'r-goa-3',
+    city: 'Goa',
+    name: 'Baba Au Rhum',
+    cuisine: 'French Bakery, Croissants, Artisan Coffee',
+    distance: 0.8,
+    cost: 700,
+    rating: 4.4,
+    tags: ['Fast Delivery'],
+    open247: true,
+    image: 'https://images.unsplash.com/photo-1509440159596-0249088772ff?w=500&auto=format&fit=crop&q=60'
+  },
+  {
+    id: 'r-goa-4',
+    city: 'Goa',
+    name: 'Thalassa Greek Taverna',
+    cuisine: 'Greek Mediterranean, Seafood, Sunset Dining',
+    distance: 3.5,
+    cost: 2200,
+    rating: 4.8,
+    tags: ['Local Specialties'],
+    open247: false,
+    image: 'https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=500&auto=format&fit=crop&q=60'
+  },
+  {
+    id: 'r-goa-5',
+    city: 'Goa',
+    name: '24x7 Beach Shack Express',
+    cuisine: 'Quick Bites, Fish Fry, Cold Drinks',
+    distance: 0.3,
+    cost: 350,
+    rating: 4.0,
+    tags: ['Fast Delivery', 'Open 24/7'],
+    open247: true,
+    image: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=500&auto=format&fit=crop&q=60'
   }
 ];
 
-// Seed helper to construct the default trip
+// Seed helper to construct the default trip (Delhi → Goa Family Vacation)
 const seedInitialTripNodes = () => {
-  const startTime = "08:00";
-  const transitEnd = "11:00"; // 3 hours duration
-  const cabStart = "11:30"; // 30 mins buffer
-  const cabEnd = "12:15"; // 45 mins cab ride
-  const checkinTime = "13:00"; // 45 mins buffer
-  
   return [
     {
       id: 'node-1',
-      type: 'train',
-      title: 'Deccan Express DEC-809',
-      sub: 'Mumbai (CST) → Pune (PNQ)',
-      scheduledStart: startTime,
-      scheduledEnd: transitEnd,
-      actualStart: startTime,
-      actualEnd: transitEnd,
+      type: 'flight',
+      title: 'Flight AI-502 (Air India)',
+      sub: 'Delhi (DEL) → Mumbai (BOM)',
+      scheduledStart: '06:00',
+      scheduledEnd: '08:15',
+      actualStart: '06:00',
+      actualEnd: '08:15',
+      buffer: 75,
+      status: 'healthy',
+      disruptionReason: '',
+      delayMinutes: 0,
+      info: 'Delhi DEL T3 → Mumbai BOM T2'
+    },
+    {
+      id: 'node-2',
+      type: 'flight',
+      title: 'Flight 6E-301 (IndiGo)',
+      sub: 'Mumbai (BOM) → Goa (GOI)',
+      scheduledStart: '09:30',
+      scheduledEnd: '11:00',
+      actualStart: '09:30',
+      actualEnd: '11:00',
       buffer: 30,
       status: 'healthy',
       disruptionReason: '',
       delayMinutes: 0,
-      info: 'Platform 4 • Main Terminal'
+      info: 'Mumbai BOM T1 → Goa GOI'
     },
     {
-      id: 'node-2',
+      id: 'node-3',
       type: 'cab',
-      title: 'Airport/Station Cab Transfer',
-      sub: 'Pune Hub → Grand Hyatt',
-      scheduledStart: cabStart,
-      scheduledEnd: cabEnd,
-      actualStart: cabStart,
-      actualEnd: cabEnd,
+      title: 'Airport Cab Transfer (Uber Select)',
+      sub: 'Goa Airport → Taj Fort Aguada',
+      scheduledStart: '11:30',
+      scheduledEnd: '12:15',
+      actualStart: '11:30',
+      actualEnd: '12:15',
       buffer: 45,
       status: 'healthy',
       disruptionReason: '',
       delayMinutes: 0,
-      info: 'Pickup Zone B • Uber Select'
+      info: 'Goa Airport Pickup Zone → Taj Fort Aguada'
     },
     {
-      id: 'node-3',
+      id: 'node-4',
       type: 'hotel',
-      title: 'Grand Hyatt Check-In',
-      sub: 'Pune Premium Stay',
-      scheduledStart: checkinTime,
+      title: 'Taj Fort Aguada Check-In',
+      sub: 'Goa Premium Stay',
+      scheduledStart: '13:00',
       scheduledEnd: 'Onwards',
-      actualStart: checkinTime,
+      actualStart: '13:00',
       actualEnd: 'Onwards',
       buffer: 0,
       status: 'healthy',
       disruptionReason: '',
       delayMinutes: 0,
-      info: 'Premium Suite Room • Reception Desk'
+      info: 'Taj Fort Aguada, Sinquerim, Goa'
     }
   ];
 };
@@ -896,7 +965,7 @@ function getMinutesBetween(time1, time2) {
 
 // Format graph nodes returned by backend to frontend state
 const formatGraphNodes = (nodes, existingNodes = []) => {
-  return (nodes || []).map(n => {
+  return (nodes || []).map((n, idx) => {
     let frontendStatus = 'healthy';
     if (n.status === 'AT_RISK') frontendStatus = 'delayed';
     if (n.status === 'BROKEN') frontendStatus = 'broken';
@@ -905,7 +974,14 @@ const formatGraphNodes = (nodes, existingNodes = []) => {
     const actualEndStr = n.end_time && n.end_time.includes('T') ? n.end_time.split('T')[1].substring(0,5) : (n.end_time || '09:00');
 
     // Find matching existing node to preserve OG baseline scheduled time
-    const existing = (existingNodes || []).find(ex => ex.id === n.id || ex.title === n.title);
+    let existing = (existingNodes || []).find(ex => ex.id === n.id);
+    if (!existing) {
+      existing = (existingNodes || []).find(ex => ex.title === n.title);
+    }
+    if (!existing && existingNodes && existingNodes[idx]) {
+      existing = existingNodes[idx];
+    }
+
     const scheduledStartStr = existing ? existing.scheduledStart : actualStartStr;
     const scheduledEndStr = existing ? existing.scheduledEnd : actualEndStr;
 
@@ -979,7 +1055,9 @@ function App() {
   const [tripRefNum, setTripRefNum] = useState('TR-998827');
   const [currentTrip, setCurrentTrip] = useState(seedInitialTripNodes);
   const [originalTripNodes, setOriginalTripNodes] = useState([]);
-  const [recoveryProposals, setRecoveryProposals] = useState([]);
+  const [recoveryResult, setRecoveryResult] = useState(null);
+  const [riskRadar, setRiskRadar] = useState(null);
+  const [recentTrips, setRecentTrips] = useState([]);
 
   // Chaos Lab Disruption Inputs
   const [selectedDisruptNode, setSelectedDisruptNode] = useState('');
@@ -993,9 +1071,6 @@ function App() {
     brokenConnections: 0,
     affectedNodes: 0
   });
-
-  // Success rebooking state
-  const [successPlanAccepted, setSuccessPlanAccepted] = useState(null); // 'fastest' | 'cheapest' | 'refund'
 
   // Restaurant Filters
   const [restaurantFilter, setRestaurantFilter] = useState('All');
@@ -1035,64 +1110,44 @@ function App() {
   };
 
   
+  // Fetch recent trips from backend
+  const fetchRecentTrips = async () => {
+    try {
+      const res = await fetch('http://localhost:5000/api/trips');
+      if (res.ok) {
+        const data = await res.json();
+        setRecentTrips(data.slice(0, 6));
+      }
+    } catch (err) {
+      console.error('Error fetching recent trips:', err);
+    }
+  };
+
+  // Fetch risk radar data for current trip
+  const fetchRiskRadar = async (tripId) => {
+    try {
+      const res = await fetch(`http://localhost:5000/api/trips/${tripId}/risk-radar`);
+      if (res.ok) {
+        const data = await res.json();
+        setRiskRadar(data);
+      }
+    } catch (err) {
+      console.error('Error fetching risk radar:', err);
+    }
+  };
+
   const initializeSeedTrip = async () => {
     try {
-      const todayStr = new Date().toISOString().split('T')[0];
-      const res = await fetch('http://localhost:5000/api/trips', {
+      // Call backend seed-demo endpoint — this creates the trip, nodes, edges,
+      // and cohort in the SQLite database through the existing models.
+      const res = await fetch('http://localhost:5000/api/seed-demo', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name: 'Deccan & Hyatt Journey' })
+        body: JSON.stringify({ force: false })
       });
-      const tripData = await res.json();
-      const tripId = tripData.id;
-
-      const seeds = [
-        { 
-          type: 'TRAIN', 
-          title: 'Deccan Express DEC-809', 
-          location: 'Platform 4 • Main Terminal', 
-          start_time: `${todayStr}T08:00:00Z`, 
-          end_time: `${todayStr}T11:00:00Z` 
-        },
-        { 
-          type: 'CAB', 
-          title: 'Airport/Station Cab Transfer', 
-          location: 'Pickup Zone B • Uber Select', 
-          start_time: `${todayStr}T11:30:00Z`, 
-          end_time: `${todayStr}T12:15:00Z`,
-          hard_cutoff: `${todayStr}T12:00:00Z`
-        },
-        { 
-          type: 'HOTEL', 
-          title: 'Grand Hyatt Check-In', 
-          location: 'Premium Suite Room • Reception Desk', 
-          start_time: `${todayStr}T13:00:00Z`, 
-          end_time: `${todayStr}T23:59:59Z`,
-          hard_cutoff: `${todayStr}T14:00:00Z`
-        }
-      ];
-
-      for (const s of seeds) {
-        const payload = {
-          trip_id: tripId,
-          node_type: s.type,
-          title: s.title,
-          location: s.location,
-          start_time: s.start_time,
-          end_time: s.end_time
-        };
-        if (s.hard_cutoff) {
-          payload.hard_cutoff = s.hard_cutoff;
-        }
-        await fetch('http://localhost:5000/api/nodes', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload)
-        });
-      }
-
-      const graphRes = await fetch(`http://localhost:5000/api/trips/${tripId}/graph`);
-      const graphData = await graphRes.json();
+      const seedData = await res.json();
+      const tripId = seedData.trip_id;
+      const graphData = seedData.graph;
 
       const formattedNodes = formatGraphNodes(graphData.nodes);
 
@@ -1102,6 +1157,11 @@ function App() {
         setSelectedDisruptNode(formattedNodes[0].id);
       }
       setTripRefNum(tripId);
+
+      // Fetch risk radar for the seeded trip
+      fetchRiskRadar(tripId);
+      // Fetch recent trips list
+      fetchRecentTrips();
     } catch (err) {
       console.error('Error seeding trip:', err);
     }
@@ -1294,13 +1354,14 @@ function App() {
       return;
     }
     try {
-      const delayToApply = (type === 'cancel' || type === 'lockout') ? 360 : delayMins;
+      const delayToApply = (type === 'cancel' || type === 'lockout') ? 360 : (delayMins || 180);
       const res = await fetch(`http://localhost:5000/api/trips/${tripRefNum}/disrupt`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           node_id: targetId,
           delay_minutes: delayToApply,
+          disruption_type: type,
           reason: reason
         })
       });
@@ -1310,28 +1371,23 @@ function App() {
          return;
       }
       
-      // Preserve OG scheduled times by passing currentTrip
-      const formattedNodes = formatGraphNodes(data.updated_graph.nodes, currentTrip);
+      // Preserve OG scheduled times by passing originalTripNodes baseline
+      const targetBaseline = (originalTripNodes && originalTripNodes.length > 0) ? originalTripNodes : currentTrip;
+      const formattedNodes = formatGraphNodes(data.updated_graph?.nodes || [], targetBaseline);
 
-      const brokenCount = data.updated_graph.nodes.filter(n => n.status === 'BROKEN').length;
-      const affectedCount = data.updated_graph.nodes.filter(n => n.status !== 'OK').length;
+      const backendMetrics = data.metrics || {};
+      const brokenCount = backendMetrics.brokenConnections ?? backendMetrics.broken_connections ?? (data.updated_graph?.nodes || []).filter(n => n.status === 'BROKEN').length;
+      const affectedCount = backendMetrics.affectedNodes ?? backendMetrics.affected_nodes ?? (data.updated_graph?.nodes || []).filter(n => n.status !== 'OK').length;
+      const downstreamDelay = backendMetrics.delayMinutes ?? backendMetrics.delay_minutes ?? delayToApply;
 
       setCurrentTrip(formattedNodes);
       setDisruptionState('disrupted');
+      setRecoveryResult(null);
       setImpactMetrics({
-        delayMinutes: delayToApply,
+        delayMinutes: downstreamDelay,
         brokenConnections: brokenCount,
         affectedNodes: affectedCount
       });
-
-      // Fetch legitimate recovery proposals from backend
-      try {
-        const propRes = await fetch(`http://localhost:5000/api/trips/${tripRefNum}/recover`, { method: 'POST' });
-        const propData = await propRes.json();
-        setRecoveryProposals(propData.proposals || []);
-      } catch (e) {
-        console.error('Error fetching recovery proposals:', e);
-      }
     } catch (err) {
       console.error(err);
       alert('Failed to execute disruption simulation');
@@ -1342,107 +1398,100 @@ function App() {
   
 
   const handleResetJourney = async () => {
-    const targetNodes = (originalTripNodes && originalTripNodes.length > 0) ? originalTripNodes : currentTrip;
-    if (targetNodes && targetNodes.length > 0) {
-      try {
-        const res = await fetch('http://localhost:5000/api/trips', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ name: 'Trip Journey' })
-        });
-        const tripData = await res.json();
-        const tripId = tripData.id;
+    try {
+      // Re-seed the demo trip using the backend endpoint
+      // force: true deletes and re-creates the demo trip cleanly
+      const res = await fetch('http://localhost:5000/api/seed-demo', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ force: true })
+      });
+      const seedData = await res.json();
+      const tripId = seedData.trip_id;
+      const graphData = seedData.graph;
 
-        for (const node of targetNodes) {
-          const nodeDate = node.date || new Date().toISOString().split('T')[0];
-          const st = `${nodeDate}T${node.scheduledStart}:00Z`;
-          const et = node.scheduledEnd === 'Onwards' ? `${nodeDate}T23:59:59Z` : `${nodeDate}T${node.scheduledEnd}:00Z`;
-          
-          let hardCutoff = null;
-          if (node.type === 'cab') {
-            hardCutoff = addMinutesToISO(st, 30);
-          } else if (node.type === 'hotel') {
-            hardCutoff = addMinutesToISO(st, 60);
-          }
+      const formattedNodes = formatGraphNodes(graphData.nodes);
 
-          const payload = {
-            trip_id: tripId,
-            node_type: (node.type || 'flight').toUpperCase(),
-            title: node.title,
-            location: node.info || node.sub || '',
-            start_time: st,
-            end_time: et
-          };
-          if (hardCutoff) {
-            payload.hard_cutoff = hardCutoff;
-          }
-
-          await fetch('http://localhost:5000/api/nodes', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload)
-          });
-        }
-
-        const graphRes = await fetch(`http://localhost:5000/api/trips/${tripId}/graph`);
-        const graphData = await graphRes.json();
-        
-        const formattedNodes = formatGraphNodes(graphData.nodes);
-
-        setCurrentTrip(formattedNodes);
-        setTripRefNum(tripId);
-        setDisruptionState('healthy');
-        setImpactMetrics({ delayMinutes: 0, brokenConnections: 0, affectedNodes: 0 });
-      } catch (err) {
-        console.error(err);
-        const resetNodes = targetNodes.map(n => ({ ...n, status: 'healthy', actualStart: n.scheduledStart, actualEnd: n.scheduledEnd, delayMinutes: 0, disruptionReason: '' }));
-        setCurrentTrip(resetNodes);
-        setDisruptionState('healthy');
-        setImpactMetrics({ delayMinutes: 0, brokenConnections: 0, affectedNodes: 0 });
+      setCurrentTrip(formattedNodes);
+      setOriginalTripNodes(formattedNodes);
+      if (formattedNodes.length > 0) {
+        setSelectedDisruptNode(formattedNodes[0].id);
       }
-    } else {
-      initializeSeedTrip();
+      setTripRefNum(tripId);
       setDisruptionState('healthy');
+      setRecoveryResult(null);
+      setRiskRadar(null);
+      setImpactMetrics({ delayMinutes: 0, brokenConnections: 0, affectedNodes: 0 });
+
+      // Re-fetch risk radar
+      fetchRiskRadar(tripId);
+    } catch (err) {
+      console.error(err);
+      // Fallback: reset frontend state using original nodes
+      const targetNodes = (originalTripNodes && originalTripNodes.length > 0) ? originalTripNodes : currentTrip;
+      const resetNodes = targetNodes.map(n => ({ ...n, status: 'healthy', actualStart: n.scheduledStart, actualEnd: n.scheduledEnd, delayMinutes: 0, disruptionReason: '' }));
+      setCurrentTrip(resetNodes);
+      if (resetNodes.length > 0) {
+        setSelectedDisruptNode(resetNodes[0].id);
+      }
+      setDisruptionState('healthy');
+      setRecoveryResult(null);
       setImpactMetrics({ delayMinutes: 0, brokenConnections: 0, affectedNodes: 0 });
     }
   };
 
-  const handleAcceptPlan = (planKey) => {
-    setSuccessPlanAccepted(planKey);
-    setTimeout(() => {
-      const restored = currentTrip.map((node, index) => {
-        if (index === 0 && planKey === 'fastest') {
-          return {
-            ...node,
-            title: node.type === 'flight' ? '⚡ Premium Rescheduled Flight' : '⚡ Express Intercity Rail',
-            status: 'healthy',
-            actualStart: node.scheduledStart,
-            actualEnd: node.scheduledEnd,
-            delayMinutes: 0,
-            disruptionReason: ''
-          };
-        }
-        return {
-          ...node,
-          status: 'healthy',
-          actualStart: node.scheduledStart,
-          actualEnd: node.scheduledEnd,
-          delayMinutes: 0,
-          disruptionReason: ''
-        };
-      });
+  // Applied recovery plan handler called by RecoveryControl
+  const handlePlanApplied = (updatedGraph, plan, responseData) => {
+    const rawNodes = updatedGraph?.nodes || [];
+    const targetBaseline = (originalTripNodes && originalTripNodes.length > 0) ? originalTripNodes : currentTrip;
+    const formattedNodes = formatGraphNodes(rawNodes, targetBaseline);
 
-      if (planKey === 'refund') {
-        setCurrentPage('home');
-        setCurrentTrip(seedInitialTripNodes());
-        setDisruptionState('healthy');
-      } else {
-        setCurrentTrip(restored);
-        setDisruptionState('resolved');
-        setCurrentPage('my-trip');
+    const comparison = formattedNodes.map((fn, idx) => {
+      let orig = targetBaseline.find(o => o.id === fn.id);
+      if (!orig && targetBaseline && targetBaseline[idx]) {
+        orig = targetBaseline[idx];
       }
-      setSuccessPlanAccepted(null);
-    }, 2200);
+      if (!orig) orig = fn;
+
+      const timeChanged = orig.scheduledStart !== fn.actualStart || orig.scheduledEnd !== fn.actualEnd;
+      const titleChanged = orig.title !== fn.title;
+      const isRebooked = timeChanged || titleChanged;
+
+      return {
+        id: fn.id,
+        type: fn.type,
+        originalTitle: orig.title,
+        newTitle: fn.title,
+        originalStart: orig.scheduledStart,
+        originalEnd: orig.scheduledEnd,
+        newStart: fn.actualStart,
+        newEnd: fn.actualEnd,
+        timeChanged,
+        titleChanged,
+        isRebooked,
+        actionType: isRebooked ? (timeChanged ? 'RESCHEDULED' : 'UPDATED') : 'PRESERVED'
+      };
+    });
+
+    const appliedInfo = {
+      strategy: plan?.title || responseData?.strategy || "Intelligent Personalized Recovery",
+      priority: plan?.priority || responseData?.priority || "FASTEST",
+      replacement: plan?.subtitle || (plan?.details?.transit || plan?.action || "Synchronized Alternative Connection"),
+      cost: plan?.estimated_cost ?? responseData?.cost ?? 0,
+      timeSaved: plan?.time_saved_minutes ?? responseData?.time_saved ?? 0,
+      refund: plan?.estimated_refund ?? responseData?.refund ?? 0,
+      affectedNodes: plan?.affected_nodes ?? responseData?.affected_nodes ?? comparison.filter(c => c.isRebooked).length,
+      reason: plan?.reason || "Restored schedule integrity with minimum passenger friction.",
+      details: plan?.details || {},
+      appliedAt: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+      comparison: comparison
+    };
+
+    setRecoveryResult(appliedInfo);
+    setCurrentTrip(formattedNodes);
+    setDisruptionState('resolved');
+    setImpactMetrics({ delayMinutes: 0, brokenConnections: 0, affectedNodes: 0 });
+    setCurrentPage('my-trip');
   };
 
   // Chatbot Query Submit Handler
@@ -1521,8 +1570,29 @@ function App() {
     setCurrentPage('home'); 
   };
 
-  // Restaurant details filtered
-  const activeDestination = currentTrip[0]?.sub?.split('→')[1]?.trim()?.split(' ')[0] || 'Pune';
+  // Restaurant destination: use LAST node's destination or hotel city
+  const lastNode = currentTrip[currentTrip.length - 1];
+  const activeDestination = (() => {
+    // Try hotel/destination node's location for city
+    if (lastNode?.type === 'hotel') {
+      const loc = lastNode.info || lastNode.sub || '';
+      if (loc.toLowerCase().includes('goa')) return 'Goa';
+      if (loc.toLowerCase().includes('pune')) return 'Pune';
+      if (loc.toLowerCase().includes('mumbai')) return 'Mumbai';
+      if (loc.toLowerCase().includes('delhi')) return 'Delhi';
+    }
+    // Try last node's destination from sub field
+    const lastSub = lastNode?.sub || '';
+    if (lastSub.includes('→')) {
+      return lastSub.split('→').pop().trim().split(' ')[0].split('(')[0].trim();
+    }
+    // Fallback to first node's arrival
+    const firstSub = currentTrip[0]?.sub || '';
+    if (firstSub.includes('→')) {
+      return firstSub.split('→').pop().trim().split(' ')[0].split('(')[0].trim();
+    }
+    return 'Goa';
+  })();
   
   const filteredRestaurants = RESTAURANTS.filter(r => {
     const isCity = r.city.toLowerCase() === activeDestination.toLowerCase();
@@ -2013,6 +2083,65 @@ function App() {
                 </div>
               </section>
 
+              {/* Recent Trips Section (logged-in only) */}
+              {userAuth.loggedIn && recentTrips.length > 0 && (
+                <section className="max-w-4xl w-full px-4 sm:px-6 py-6">
+                  <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-5 sm:p-6">
+                    <div className="flex items-center justify-between mb-4">
+                      <div className="flex items-center gap-2">
+                        <span className="text-lg">🕐</span>
+                        <h3 className="text-sm font-extrabold text-slate-900 tracking-tight">Recent Trips</h3>
+                      </div>
+                      <span className="text-[10px] font-mono text-slate-400 uppercase">{recentTrips.length} trips</span>
+                    </div>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                      {recentTrips.map((trip) => (
+                        <button
+                          key={trip.id}
+                          type="button"
+                          onClick={async () => {
+                            try {
+                              const graphRes = await fetch(`http://localhost:5000/api/trips/${trip.id}/graph`);
+                              if (!graphRes.ok) return;
+                              const graphData = await graphRes.json();
+                              const formattedNodes = formatGraphNodes(graphData.nodes);
+                              if (formattedNodes.length > 0) {
+                                setCurrentTrip(formattedNodes);
+                                setOriginalTripNodes(formattedNodes);
+                                setSelectedDisruptNode(formattedNodes[0].id);
+                                setTripRefNum(trip.id);
+                                setDisruptionState('healthy');
+                                setRecoveryResult(null);
+                                setRiskRadar(null);
+                                setImpactMetrics({ delayMinutes: 0, brokenConnections: 0, affectedNodes: 0 });
+                                setCurrentPage('my-trip');
+                                fetchRiskRadar(trip.id);
+                              }
+                            } catch (err) {
+                              console.error('Error loading trip:', err);
+                            }
+                          }}
+                          className="p-3.5 rounded-xl border border-slate-200 hover:border-[#287DFA] hover:bg-[#EAF3FF]/30 transition text-left cursor-pointer group flex flex-col gap-1.5"
+                        >
+                          <div className="flex items-center justify-between">
+                            <span className="text-xs font-extrabold text-slate-900 truncate pr-2 group-hover:text-[#287DFA] transition">
+                              {trip.name}
+                            </span>
+                            <ChevronRight className="w-3.5 h-3.5 text-slate-300 group-hover:text-[#287DFA] transition shrink-0" />
+                          </div>
+                          <div className="flex items-center gap-2 text-[10px] text-slate-400 font-mono">
+                            <span>{trip.id.length > 15 ? trip.id.substring(0, 12) + '...' : trip.id}</span>
+                            {trip.created_at && (
+                              <span>• {new Date(trip.created_at).toLocaleDateString()}</span>
+                            )}
+                          </div>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                </section>
+              )}
+
               {/* Marketing Perks Grid - Hidden for logged-in users to fulfill "home page should only have that input boxes" */}
               {!userAuth.loggedIn && (
                 <section className="max-w-6xl w-full px-6 py-12 sm:py-16">
@@ -2090,6 +2219,151 @@ function App() {
                 </div>
               </div>
 
+              {/* 🔮 Risk Radar Section */}
+              {riskRadar && riskRadar.nodes && riskRadar.nodes.length > 0 && disruptionState === 'healthy' && (
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="rounded-2xl border border-slate-200 bg-white shadow-sm overflow-hidden"
+                >
+                  <div className="px-5 py-3.5 bg-gradient-to-r from-indigo-600 to-purple-600 text-white flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <span className="text-lg">🔮</span>
+                      <div>
+                        <h3 className="font-extrabold text-sm tracking-tight">Risk Radar</h3>
+                        <p className="text-[10px] text-white/80 font-mono">Real-time weather + buffer risk analysis</p>
+                      </div>
+                    </div>
+                    <span className={`text-[10px] font-mono font-bold uppercase px-2.5 py-1 rounded-full border ${
+                      riskRadar.risk_level === 'HIGH' ? 'bg-red-500/20 border-red-300 text-red-100' :
+                      riskRadar.risk_level === 'MEDIUM' ? 'bg-amber-500/20 border-amber-300 text-amber-100' :
+                      'bg-emerald-500/20 border-emerald-300 text-emerald-100'
+                    }`}>
+                      Overall: {riskRadar.risk_level} ({riskRadar.overall_risk}%)
+                    </span>
+                  </div>
+                  <div className="p-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+                    {riskRadar.nodes.map((nr) => {
+                      const riskColor = nr.risk_level === 'HIGH' ? 'red' : nr.risk_level === 'MEDIUM' ? 'amber' : 'emerald';
+                      const weatherIcon = nr.weather?.icon || nr.weather?.origin?.icon || '🌤️';
+                      const weatherCondition = nr.weather?.condition || nr.weather?.origin?.condition || 'Clear';
+                      const weatherAdvisory = nr.weather?.advisory || nr.weather?.origin?.advisory || '';
+                      return (
+                        <div key={nr.node_id} className={`p-3.5 rounded-xl border bg-${riskColor}-50/50 border-${riskColor}-200/60`}>
+                          <div className="flex items-center justify-between mb-2">
+                            <span className="text-xs font-bold text-slate-700 truncate pr-2">
+                              {nr.type === 'FLIGHT' ? '✈️' : nr.type === 'CAB' ? '🚕' : nr.type === 'HOTEL' ? '🏨' : '🚆'} {nr.title.split('(')[0].trim()}
+                            </span>
+                            <span className={`text-[9px] font-mono font-bold uppercase px-1.5 py-0.5 rounded ${
+                              nr.risk_level === 'HIGH' ? 'bg-red-100 text-red-700' :
+                              nr.risk_level === 'MEDIUM' ? 'bg-amber-100 text-amber-700' :
+                              'bg-emerald-100 text-emerald-700'
+                            }`}>
+                              {nr.risk_level}
+                            </span>
+                          </div>
+                          <div className="flex items-center gap-1.5 mb-2">
+                            <span className="text-sm">{weatherIcon}</span>
+                            <span className="text-[11px] text-slate-600 font-medium">{weatherCondition}</span>
+                          </div>
+                          {/* Risk bar */}
+                          <div className="w-full h-2 bg-slate-100 rounded-full overflow-hidden mb-1.5">
+                            <div
+                              className={`h-full rounded-full transition-all duration-700 ${
+                                nr.risk_level === 'HIGH' ? 'bg-red-500' :
+                                nr.risk_level === 'MEDIUM' ? 'bg-amber-400' :
+                                'bg-emerald-400'
+                              }`}
+                              style={{ width: `${Math.min(nr.combined_risk, 100)}%` }}
+                            />
+                          </div>
+                          <div className="flex justify-between text-[9px] text-slate-400 font-mono">
+                            <span>Weather: {nr.weather_risk}%</span>
+                            <span>Buffer: {nr.buffer_risk}%</span>
+                          </div>
+                          {weatherAdvisory && (
+                            <p className="text-[10px] text-slate-500 mt-1.5 leading-snug">{weatherAdvisory}</p>
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
+                </motion.div>
+              )}
+
+              {/* 👨‍👩‍👦 Family & Group Protection Card */}
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="rounded-2xl border border-slate-200 bg-white shadow-sm overflow-hidden"
+              >
+                <div className="px-5 py-3.5 bg-gradient-to-r from-amber-500 to-orange-500 text-white flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <span className="text-lg">👨‍👩‍👦</span>
+                    <div>
+                      <h3 className="font-extrabold text-sm tracking-tight">Family & Group Protection</h3>
+                      <p className="text-[10px] text-white/80 font-mono">Split-party prevention • Child guardian enforcement</p>
+                    </div>
+                  </div>
+                  <span className="text-[10px] font-mono font-bold uppercase px-2.5 py-1 rounded-full border bg-white/15 border-white/30 text-white">
+                    3 Travelers
+                  </span>
+                </div>
+                <div className="p-4">
+                  <div className="grid grid-cols-3 gap-3 mb-4">
+                    <div className="p-2.5 rounded-lg bg-slate-50 border border-slate-100 text-center">
+                      <span className="text-xl">👨</span>
+                      <div className="text-[10px] font-bold text-slate-700 mt-1">Rahul</div>
+                      <div className="text-[9px] font-mono text-slate-400">PNR-A123</div>
+                    </div>
+                    <div className="p-2.5 rounded-lg bg-slate-50 border border-slate-100 text-center">
+                      <span className="text-xl">👩</span>
+                      <div className="text-[10px] font-bold text-slate-700 mt-1">Priya</div>
+                      <div className="text-[9px] font-mono text-slate-400">PNR-B456</div>
+                    </div>
+                    <div className="p-2.5 rounded-lg bg-amber-50 border border-amber-200 text-center">
+                      <span className="text-xl">👦</span>
+                      <div className="text-[10px] font-bold text-amber-800 mt-1">Aarav (8)</div>
+                      <div className="text-[9px] font-mono text-amber-600 font-bold">CHILD</div>
+                    </div>
+                  </div>
+
+                  {disruptionState === 'disrupted' ? (
+                    <div className="p-3 rounded-lg bg-red-50 border border-red-200 flex items-center justify-between gap-3">
+                      <div className="flex items-center gap-2">
+                        <AlertTriangle className="w-4 h-4 text-red-500 shrink-0 animate-pulse" />
+                        <div>
+                          <p className="text-xs font-bold text-red-800">⚠️ Family may be split by rebooking</p>
+                          <p className="text-[10px] text-red-600 mt-0.5">Airlines rebook each PNR independently — Aarav could be separated from guardians</p>
+                        </div>
+                      </div>
+                      <button
+                        onClick={() => setCurrentPage('rescue')}
+                        className="px-3 py-2 bg-red-600 hover:bg-red-700 text-white text-[10px] font-bold rounded-lg transition cursor-pointer whitespace-nowrap"
+                      >
+                        🛡️ View Rescue
+                      </button>
+                    </div>
+                  ) : (
+                    <div className="p-3 rounded-lg bg-emerald-50 border border-emerald-200 flex items-center justify-between gap-3">
+                      <div className="flex items-center gap-2">
+                        <ShieldCheck className="w-4 h-4 text-emerald-500 shrink-0" />
+                        <div>
+                          <p className="text-xs font-bold text-emerald-800">All travelers protected</p>
+                          <p className="text-[10px] text-emerald-600 mt-0.5">CHILD_GUARDIAN + COHORT_COHESION rules active • Group will not be split</p>
+                        </div>
+                      </div>
+                      <button
+                        onClick={() => setCurrentPage('rescue')}
+                        className="px-3 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-[10px] font-bold rounded-lg transition cursor-pointer whitespace-nowrap"
+                      >
+                        View Details
+                      </button>
+                    </div>
+                  )}
+                </div>
+              </motion.div>
+
               {/* Dynamic Alerts Banner */}
               <AnimatePresence mode="wait">
                 {disruptionState === 'disrupted' ? (
@@ -2124,14 +2398,154 @@ function App() {
                     initial={{ opacity: 0, scale: 0.98 }}
                     animate={{ opacity: 1, scale: 1 }}
                     exit={{ opacity: 0, scale: 0.98 }}
-                    className="p-4 rounded-xl bg-emerald-50 border border-emerald-250 text-emerald-805 flex items-center gap-3 shadow-sm"
+                    className="rounded-2xl bg-white border-2 border-emerald-500/50 shadow-md overflow-hidden text-left"
                   >
-                    <div className="p-2 bg-emerald-555 text-white rounded-lg shrink-0">
-                      <CheckCircle className="w-5 h-5" />
+                    {/* Top status banner */}
+                    <div className="bg-emerald-600 text-white px-5 py-3 flex flex-wrap items-center justify-between gap-2">
+                      <div className="flex items-center gap-2">
+                        <CheckCircle className="w-5 h-5 text-emerald-100" />
+                        <span className="text-xs font-mono font-extrabold tracking-wider uppercase">
+                          RECOVERY COMPLETE
+                        </span>
+                      </div>
+                      <span className="text-[11px] font-mono bg-emerald-700/80 px-2.5 py-0.5 rounded-full text-emerald-100">
+                        {recoveryResult?.appliedAt ? `Applied at ${recoveryResult.appliedAt}` : 'Live Backend Restored'}
+                      </span>
                     </div>
-                    <div>
-                      <h4 className="font-extrabold text-sm text-slate-900 font-serif">{t('tripRecoveredTitle')}</h4>
-                      <p className="text-xs text-slate-600 mt-0.5">Your replacement bookings are verified. All buffers are back in safe parameters.</p>
+
+                    <div className="p-5 sm:p-6 flex flex-col gap-5">
+                      {/* Strategy & Replacement Title */}
+                      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 pb-4 border-b border-slate-100">
+                        <div>
+                          <span className="text-[10px] font-bold text-slate-400 font-mono uppercase tracking-wider block">
+                            Strategy: <span className="text-[#287DFA]">{recoveryResult?.strategy || 'Intelligent Personalized Recovery'}</span>
+                          </span>
+                          <h3 className="text-lg sm:text-xl font-extrabold text-slate-900 font-serif mt-0.5">
+                            Replacement: {recoveryResult?.replacement || 'Synchronized Transit & Lodging Realignment'}
+                          </h3>
+                          {recoveryResult?.reason && (
+                            <p className="text-xs text-slate-500 mt-1">
+                              {recoveryResult.reason}
+                            </p>
+                          )}
+                        </div>
+
+                        <span className="px-3 py-1 rounded-full text-xs font-mono font-bold bg-emerald-50 border border-emerald-200 text-emerald-700 shrink-0">
+                          ✓ All Buffers Realigned
+                        </span>
+                      </div>
+
+                      {/* 4 Metrics Grid */}
+                      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                        <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-100 flex flex-col">
+                          <span className="text-[10px] font-bold text-slate-400 font-mono uppercase">Additional Cost</span>
+                          <span className="text-base sm:text-lg font-extrabold text-slate-900 font-mono mt-0.5">
+                            {recoveryResult ? (recoveryResult.cost === 0 ? '₹0 (Free)' : `₹${recoveryResult.cost.toLocaleString()}`) : '₹0'}
+                          </span>
+                        </div>
+
+                        <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-100 flex flex-col">
+                          <span className="text-[10px] font-bold text-slate-400 font-mono uppercase">Time Saved</span>
+                          <span className="text-base sm:text-lg font-extrabold text-[#287DFA] font-mono mt-0.5">
+                            {recoveryResult?.timeSaved > 0 ? `${recoveryResult.timeSaved} Mins` : 'Schedule Preserved'}
+                          </span>
+                        </div>
+
+                        <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-100 flex flex-col">
+                          <span className="text-[10px] font-bold text-slate-400 font-mono uppercase">Refund</span>
+                          <span className="text-base sm:text-lg font-extrabold text-emerald-600 font-mono mt-0.5">
+                            {recoveryResult?.refund > 0 ? `₹${recoveryResult.refund.toLocaleString()}` : '₹0'}
+                          </span>
+                        </div>
+
+                        <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-100 flex flex-col">
+                          <span className="text-[10px] font-bold text-slate-400 font-mono uppercase">Affected Nodes</span>
+                          <span className="text-base sm:text-lg font-extrabold text-slate-900 font-mono mt-0.5">
+                            {recoveryResult?.affectedNodes ?? currentTrip.length} Nodes
+                          </span>
+                        </div>
+                      </div>
+
+                      {/* ORIGINAL → RESCHEDULED Comparison Sub-Section */}
+                      <div className="mt-1">
+                        <div className="flex items-center justify-between mb-3">
+                          <h4 className="text-xs font-mono font-bold uppercase tracking-wider text-slate-500">
+                            ORIGINAL → RESCHEDULED COMPARISON
+                          </h4>
+                          <span className="text-[10px] text-slate-400 font-mono">
+                            {recoveryResult?.comparison?.filter(c => c.isRebooked).length || 0} Rebooked / Modified
+                          </span>
+                        </div>
+
+                        <div className="space-y-2.5">
+                          {(recoveryResult?.comparison || currentTrip.map((node, i) => {
+                            const orig = originalTripNodes[i] || node;
+                            const isChanged = orig.scheduledStart !== node.actualStart || orig.scheduledEnd !== node.actualEnd;
+                            return {
+                              id: node.id,
+                              originalTitle: orig.title,
+                              newTitle: node.title,
+                              originalStart: orig.scheduledStart,
+                              originalEnd: orig.scheduledEnd,
+                              newStart: node.actualStart,
+                              newEnd: node.actualEnd,
+                              isRebooked: isChanged
+                            };
+                          })).map((item, idx) => (
+                            <div
+                              key={item.id || idx}
+                              className={`p-3 rounded-xl border transition-all ${
+                                item.isRebooked
+                                  ? 'border-emerald-200 bg-emerald-50/40'
+                                  : 'border-slate-100 bg-slate-50/50'
+                              }`}
+                            >
+                              <div className="grid grid-cols-1 md:grid-cols-11 gap-2 md:gap-3 items-center text-xs">
+                                {/* Original */}
+                                <div className="md:col-span-5 flex flex-col gap-0.5">
+                                  <div className="flex items-center gap-2">
+                                    <span className="px-1.5 py-0.2 rounded text-[9px] font-mono font-bold bg-slate-200 text-slate-600 uppercase">
+                                      Original
+                                    </span>
+                                    <span className="font-mono font-bold text-slate-500">
+                                      {item.originalStart} → {item.originalEnd}
+                                    </span>
+                                  </div>
+                                  <span className="font-semibold text-slate-800 font-serif truncate mt-0.5">
+                                    {item.originalTitle}
+                                  </span>
+                                </div>
+
+                                {/* Arrow */}
+                                <div className="md:col-span-1 flex items-center justify-center">
+                                  <span className="w-6 h-6 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold text-xs">
+                                    →
+                                  </span>
+                                </div>
+
+                                {/* Rescheduled */}
+                                <div className="md:col-span-5 flex flex-col gap-0.5">
+                                  <div className="flex items-center gap-2">
+                                    <span className={`px-1.5 py-0.2 rounded text-[9px] font-mono font-bold uppercase ${
+                                      item.isRebooked ? 'bg-emerald-100 text-emerald-700' : 'bg-blue-100 text-[#287DFA]'
+                                    }`}>
+                                      {item.isRebooked ? 'Rescheduled' : 'Preserved'}
+                                    </span>
+                                    <span className={`font-mono font-bold ${
+                                      item.isRebooked ? 'text-emerald-700 font-extrabold' : 'text-slate-700'
+                                    }`}>
+                                      {item.newStart} → {item.newEnd}
+                                    </span>
+                                  </div>
+                                  <span className="font-bold text-slate-900 font-serif truncate mt-0.5">
+                                    {item.newTitle}
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
                     </div>
                   </motion.div>
                 ) : (
@@ -2183,7 +2597,15 @@ function App() {
                               </span>
                               
                               <span className="text-[10px] text-slate-400 font-bold font-mono">
-                                {node.status === 'broken' ? '❌ ' + t('connectionBroken') : node.status === 'delayed' ? '⚠️ ' + t('delayed') : '✓ SAFE & ON TIME'}
+                                {node.status === 'broken'
+                                  ? '❌ ' + t('connectionBroken')
+                                  : node.status === 'delayed'
+                                  ? '⚠️ ' + t('delayed')
+                                  : (disruptionState === 'resolved' && node.actualStart !== node.scheduledStart
+                                    ? '✓ RECOVERED'
+                                    : (node.title.includes('LATE CHECK-IN APPROVED')
+                                      ? '✓ LATE CHECK-IN'
+                                      : '✓ SAFE & ON TIME'))}
                               </span>
                             </div>
 
@@ -2196,14 +2618,31 @@ function App() {
                                 <span className="text-xs font-semibold text-slate-555 font-mono">{node.scheduledStart} - {node.scheduledEnd}</span>
                               </div>
                               <div>
-                                <span className="text-[9px] font-bold text-slate-400 block uppercase tracking-wider">{t('actual')}</span>
+                                <span className="text-[9px] font-bold text-slate-400 block uppercase tracking-wider">
+                                  {disruptionState === 'resolved' && node.actualStart !== node.scheduledStart ? 'RECOVERED' : t('actual')}
+                                </span>
                                 <span className={`text-xs font-extrabold font-mono ${
-                                  node.status === 'broken' ? 'text-red-500' : node.status === 'delayed' ? 'text-[#FF7700]' : 'text-emerald-600'
+                                  node.status === 'broken' ? 'text-red-500' : node.status === 'delayed' ? 'text-[#FF7700]' : (disruptionState === 'resolved' && node.actualStart !== node.scheduledStart ? 'text-emerald-700' : 'text-emerald-600')
                                 }`}>
                                   {node.actualStart} - {node.actualEnd}
                                 </span>
                               </div>
                             </div>
+
+                            {/* Recovered replacement note */}
+                            {disruptionState === 'resolved' && node.actualStart !== node.scheduledStart && (
+                              <div className="mt-3 p-1.5 rounded bg-emerald-100/40 text-[9px] font-bold text-emerald-800 flex items-center gap-1">
+                                <CheckCircle className="w-3.5 h-3.5 text-emerald-600" />
+                                <span>✓ Replacement: {node.actualStart} - {node.actualEnd}</span>
+                              </div>
+                            )}
+
+                            {disruptionState === 'resolved' && node.actualStart === node.scheduledStart && node.title.includes('LATE CHECK-IN APPROVED') && (
+                              <div className="mt-3 p-1.5 rounded bg-blue-100/40 text-[9px] font-bold text-[#287DFA] flex items-center gap-1">
+                                <Check className="w-3.5 h-3.5 text-[#287DFA]" />
+                                <span>✓ Room Hold Guaranteed (Late Arrival)</span>
+                              </div>
+                            )}
 
                             {/* Node Alert message */}
                             {node.status === 'delayed' && (
@@ -2283,232 +2722,15 @@ function App() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -15 }}
               transition={{ duration: 0.25 }}
-              className="max-w-5xl mx-auto w-full px-4 sm:px-6 py-10 flex flex-col gap-6"
+              className="max-w-5xl mx-auto w-full px-4 sm:px-6 py-6 flex flex-col gap-6"
             >
-              {/* Rescue Portal Alert Banner */}
-              <div className="p-6 rounded-2xl bg-[#FF7700] text-white flex flex-col md:flex-row items-start md:items-center justify-between gap-6 shadow-md relative overflow-hidden">
-                <div className="absolute right-0 bottom-0 translate-x-10 translate-y-10 w-44 h-44 rounded-full bg-white/10 blur-xl pointer-events-none" />
-                <div className="absolute left-1/3 top-0 w-24 h-24 rounded-full bg-white/5 blur-lg pointer-events-none" />
-
-                <div className="z-10 max-w-2xl text-left">
-                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/20 text-xs font-bold text-white mb-3 tracking-wider uppercase font-mono">
-                    🛡️ TripResQ Guard Active
-                  </span>
-                  <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight mb-2 font-serif">{t('rescueHeader')}</h1>
-                  <p className="text-white/95 text-xs md:text-sm leading-relaxed">
-                    {t('rescueSub')}
-                  </p>
-                </div>
-                <button
-                  onClick={() => setCurrentPage('my-trip')}
-                  className="px-4 py-2 bg-white text-[#FF7700] font-extrabold hover:bg-slate-100 text-xs rounded-xl transition shrink-0 z-10 shadow cursor-pointer w-full md:w-auto text-center"
-                >
-                  {t('backToTimeline')}
-                </button>
-              </div>
-
-              {/* 3 Recovery alternatives */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-4">
-                
-                {/* Fastest Plan */}
-                <div className="bg-white rounded-2xl border-2 border-[#287DFA] shadow-lg flex flex-col justify-between relative overflow-hidden hover:scale-[1.01] transition duration-200">
-                  <div className="bg-[#287DFA] text-white text-[9px] font-extrabold text-center py-1 tracking-wider uppercase font-mono">
-                    ⭐ {t('fastestTitle').split(' ')[0]} Recommended
-                  </div>
-                  
-                  <div className="p-6 flex-1 flex flex-col gap-4 text-left">
-                    <div className="flex items-center justify-between">
-                      <div className="p-2.5 rounded-xl bg-[#EAF3FF] text-[#287DFA]">
-                        <Zap className="w-6 h-6 animate-pulse" />
-                      </div>
-                      <span className="text-[10px] font-bold text-[#287DFA] bg-[#EAF3FF] px-2.5 py-1 rounded-full uppercase tracking-wider font-mono">Fastest</span>
-                    </div>
-
-                    <div>
-                      <h3 className="font-extrabold text-base text-slate-900 font-serif">{t('fastestTitle')}</h3>
-                      <p className="text-xs text-slate-500 mt-0.5 leading-relaxed">{t('fastestDesc')}</p>
-                    </div>
-
-                    {recoveryProposals && recoveryProposals.length > 0 ? (
-                      <div className="space-y-2 bg-blue-50/60 p-3 rounded-xl border border-blue-100 text-left">
-                        <span className="text-[10px] font-mono font-extrabold uppercase tracking-wider text-[#287DFA] block">
-                          ⚡ Backend Recovery Action Plan ({recoveryProposals.length}):
-                        </span>
-                        {recoveryProposals.map((prop, idx) => (
-                          <div key={idx} className="p-2 bg-white rounded-lg border border-blue-100 text-xs text-slate-800 flex flex-col gap-0.5 shadow-xs">
-                            <span className="font-bold text-[#287DFA] text-[11px]">{prop.node_title} &rarr; {prop.action}</span>
-                            <span className="text-[10px] text-slate-600">{prop.description}</span>
-                          </div>
-                        ))}
-                      </div>
-                    ) : (
-                      <p className="text-slate-505 text-xs leading-relaxed">
-                        {t('fastestDetails')}
-                      </p>
-                    )}
-
-                    <div className="bg-slate-50 p-3 rounded-xl border border-slate-100 text-[11px] flex flex-col gap-1.5 font-semibold">
-                      <div className="flex justify-between">
-                        <span className="text-slate-400">{t('transitShift')}</span>
-                        <span className="text-slate-700">{t('nextDepartureRescheduled')}</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-slate-400">{t('cabPickup')}</span>
-                        <span className="text-emerald-600">{t('updatedAutomatically')}</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-slate-400">{t('hotelCheckin')}</span>
-                        <span className="text-emerald-600">{t('warningAlertDispatched')}</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="p-6 bg-slate-50/60 border-t border-slate-100 flex flex-col gap-3 text-left">
-                    <div className="flex justify-between items-baseline">
-                      <span className="text-slate-550 text-xs font-semibold">{t('tripresqCost')}</span>
-                      <span className="text-base font-extrabold text-[#287DFA]">
-                        {t('free')} <span className="text-[10px] text-slate-400 line-through font-normal">₹1,500</span>
-                      </span>
-                    </div>
-                    <button
-                      onClick={() => handleAcceptPlan('fastest')}
-                      disabled={successPlanAccepted !== null}
-                      className="w-full h-10 bg-[#287DFA] hover:bg-[#1C6BDB] text-white font-bold text-xs rounded-xl shadow-md transition cursor-pointer flex items-center justify-center gap-1.5 active:scale-98"
-                    >
-                      {successPlanAccepted === 'fastest' ? t('processing') : t('acceptPlan')}
-                    </button>
-                  </div>
-                </div>
-
-                {/* Budget Plan */}
-                <div className="bg-white rounded-2xl border border-slate-205 shadow-sm flex flex-col justify-between overflow-hidden hover:scale-[1.01] transition duration-200">
-                  <div className="p-6 flex-1 flex flex-col gap-4 text-left">
-                    <div className="flex items-center justify-between">
-                      <div className="p-2.5 rounded-xl bg-orange-50 text-[#FF7700]">
-                        <RefreshCw className="w-6 h-6" />
-                      </div>
-                      <span className="text-[10px] font-bold text-[#FF7700] bg-orange-50 px-2.5 py-1 rounded-full uppercase tracking-wider font-mono">Budget</span>
-                    </div>
-
-                    <div>
-                      <h3 className="font-extrabold text-base text-slate-900 font-serif">{t('budgetTitle')}</h3>
-                      <p className="text-xs text-slate-405 mt-0.5 font-semibold">{t('budgetDesc')}</p>
-                    </div>
-
-                    <p className="text-slate-505 text-xs leading-relaxed">
-                      {t('budgetDetails')}
-                    </p>
-
-                    <div className="bg-slate-50 p-3 rounded-xl border border-slate-100 text-[11px] flex flex-col gap-1.5 font-semibold">
-                      <div className="flex justify-between">
-                        <span className="text-slate-400">{t('transitShift')}</span>
-                        <span className="text-slate-700">{t('delayedByHours')}</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-slate-400">{t('compensation')}</span>
-                        <span className="text-emerald-600">{t('travelVoucher')}</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-slate-400">{t('hotelCheckin')}</span>
-                        <span className="text-orange-500">{t('postponedReservation')}</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="p-6 bg-slate-55/60 border-t border-slate-100 flex flex-col gap-3 text-left">
-                    <div className="flex justify-between items-baseline">
-                      <span className="text-slate-550 text-xs font-semibold">{t('compensationCredit')}</span>
-                      <span className="text-base font-extrabold text-slate-800">{t('creditBack')}</span>
-                    </div>
-                    <button
-                      onClick={() => handleAcceptPlan('cheapest')}
-                      disabled={successPlanAccepted !== null}
-                      className="w-full h-10 bg-slate-950 hover:bg-slate-900 text-white font-bold text-xs rounded-xl shadow-sm transition cursor-pointer active:scale-98"
-                    >
-                      {successPlanAccepted === 'cheapest' ? t('processing') : t('acceptPlan')}
-                    </button>
-                  </div>
-                </div>
-
-                {/* Refund Plan */}
-                <div className="bg-white rounded-2xl border border-slate-205 shadow-sm flex flex-col justify-between overflow-hidden hover:scale-[1.01] transition duration-200">
-                  <div className="p-6 flex-1 flex flex-col gap-4 text-left">
-                    <div className="flex items-center justify-between">
-                      <div className="p-2.5 rounded-xl bg-red-50 text-red-500">
-                        <Trash2 className="w-6 h-6" />
-                      </div>
-                      <span className="text-[10px] font-bold text-red-655 bg-red-50 px-2.5 py-1 rounded-full uppercase tracking-wider font-mono">Cancellation</span>
-                    </div>
-
-                    <div>
-                      <h3 className="font-extrabold text-base text-slate-900 font-serif">{t('refundTitle')}</h3>
-                      <p className="text-xs text-slate-450 mt-0.5 font-semibold">{t('refundDesc')}</p>
-                    </div>
-
-                    <p className="text-slate-505 text-xs leading-relaxed">
-                      {t('refundDetails')}
-                    </p>
-
-                    <div className="bg-slate-50 p-3 rounded-xl border border-slate-100 text-[11px] flex flex-col gap-1.5 font-semibold">
-                      <div className="flex justify-between">
-                        <span className="text-slate-400">{t('refundEligible')}</span>
-                        <span className="text-emerald-600">{t('fullRefund')}</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-slate-400">Processing</span>
-                        <span className="text-slate-700">{t('immediateInitiated')}</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-slate-400">{t('cancellationCost')}</span>
-                        <span className="text-slate-700">{t('freeFee')}</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="p-6 bg-slate-50/60 border-t border-slate-100 flex flex-col gap-3 text-left">
-                    <div className="flex justify-between items-baseline">
-                      <span className="text-slate-550 text-xs font-semibold">{t('refundAmount')}</span>
-                      <span className="text-base font-extrabold text-emerald-600">{t('fullRefundClaim')}</span>
-                    </div>
-                    <button
-                      onClick={() => handleAcceptPlan('refund')}
-                      disabled={successPlanAccepted !== null}
-                      className="w-full h-10 border border-slate-300 hover:bg-slate-55 text-slate-700 font-bold text-xs rounded-xl shadow-xs transition cursor-pointer active:scale-98"
-                    >
-                      {successPlanAccepted === 'refund' ? t('processing') : t('acceptPlan')}
-                    </button>
-                  </div>
-                </div>
-
-              </div>
-
-              {/* Success Feedback Modal Simulation */}
-              <AnimatePresence>
-                {successPlanAccepted && (
-                  <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/45 backdrop-blur-xs p-6"
-                  >
-                    <motion.div
-                      initial={{ scale: 0.9, y: 20 }}
-                      animate={{ scale: 1, y: 0 }}
-                      exit={{ scale: 0.9, y: 20 }}
-                      className="bg-white p-8 rounded-2xl shadow-2xl max-w-sm w-full text-center border border-slate-100 flex flex-col items-center gap-4"
-                    >
-                      <div className="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center text-emerald-555 mb-2">
-                        <Check className="w-8 h-8 stroke-[3]" />
-                      </div>
-                      <h3 className="text-xl font-bold text-slate-900 font-serif">{t('tripRecoveredTitle')}</h3>
-                      <p className="text-xs text-slate-550 leading-relaxed px-2">
-                        {t('tripRecoveredDesc')}
-                      </p>
-                      <span className="text-[10px] text-slate-400 font-mono tracking-wider animate-pulse">{t('updatingTimeline')}</span>
-                    </motion.div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
+              <RecoveryControl
+                tripId={tripRefNum}
+                currentTrip={currentTrip}
+                disruptionState={disruptionState}
+                onPlanApplied={handlePlanApplied}
+                onBackToTimeline={() => setCurrentPage('my-trip')}
+              />
             </motion.div>
           )}
 
@@ -2655,11 +2877,26 @@ function App() {
                       type="button"
                       onClick={() => {
                         triggerDisruptionCascade(selectedDisruptNode, disruptType, disruptDelay, disruptReason);
-                        setCurrentPage('my-trip');
                       }}
                       className="flex-1 px-6 h-11 bg-[#FF7700] hover:bg-[#E06600] text-white font-extrabold rounded-xl transition shadow-md shadow-[#FF7700]/10 active:scale-98 flex items-center justify-center gap-2 cursor-pointer text-xs"
                     >
                       <Flame className="w-4 h-4" /> {t('triggerBtn')}
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() => setCurrentPage('rescue')}
+                      className="px-4 h-11 border border-blue-200 bg-blue-50 hover:bg-blue-100 text-[#287DFA] font-bold rounded-xl transition cursor-pointer text-xs flex items-center justify-center gap-1.5"
+                    >
+                      <span>🎛️ Recovery Control →</span>
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() => setCurrentPage('my-trip')}
+                      className="px-4 h-11 border border-orange-200 bg-orange-50 hover:bg-orange-100 text-orange-800 font-bold rounded-xl transition cursor-pointer text-xs flex items-center justify-center gap-1.5"
+                    >
+                      <span>{t('navMyTrips')} →</span>
                     </button>
                     
                     <button

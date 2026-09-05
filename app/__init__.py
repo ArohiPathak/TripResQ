@@ -51,15 +51,95 @@ def create_app(test_config=None):
     # Import models so they are registered with SQLAlchemy
     with app.app_context():
         from app import models
+        db.create_all()
         
     from app.routers.trips import trips_bp
     from app.routers.nodes import nodes_bp
+    from app.routers.cohort import cohort_bp
     
     app.register_blueprint(trips_bp)
     app.register_blueprint(nodes_bp)
+    app.register_blueprint(cohort_bp)
         
     @app.route('/health')
     def health():
         return {'status': 'ok'}
+
+    @app.route('/api/seed-demo', methods=['POST'])
+    def seed_demo():
+        """
+        Seed the deterministic demo trip into the database.
+        ---
+        tags:
+          - Demo
+        parameters:
+          - in: body
+            name: body
+            schema:
+              type: object
+              properties:
+                force:
+                  type: boolean
+                  default: false
+        responses:
+          200:
+            description: Demo trip seeded
+        """
+        from flask import request, jsonify
+        from app.mock_data import seed_demo_trip
+        data = request.get_json(silent=True) or {}
+        force = data.get('force', False)
+        result = seed_demo_trip(force=force)
+
+        # Return the full graph so the frontend can render immediately
+        from app.models.trip import Trip
+        from app.models.node import ItineraryNode
+        from app.models.edge import DependencyEdge
+
+        trip_id = result["trip_id"]
+        trip = db.session.get(Trip, trip_id)
+        nodes = ItineraryNode.query.filter_by(trip_id=trip_id).order_by(
+            ItineraryNode.start_time
+        ).all()
+        node_ids = [n.id for n in nodes]
+        edges = DependencyEdge.query.filter(
+            DependencyEdge.source_node_id.in_(node_ids)
+        ).all()
+
+        node_list = []
+        for n in nodes:
+            nd = {
+                "id": n.id,
+                "type": n.node_type,
+                "title": n.title,
+                "location": n.location,
+                "start_time": n.start_time.isoformat(),
+                "end_time": n.end_time.isoformat(),
+                "status": n.status,
+            }
+            if n.hard_cutoff:
+                nd["hard_cutoff"] = n.hard_cutoff.isoformat()
+            node_list.append(nd)
+
+        edge_list = [{
+            "id": e.id,
+            "source": e.source_node_id,
+            "target": e.target_node_id,
+            "min_buffer_minutes": e.min_buffer_minutes,
+            "constraint_type": e.constraint_type,
+        } for e in edges]
+
+        return jsonify({
+            "message": "Demo trip seeded successfully",
+            "trip_id": trip_id,
+            "trip_name": result["trip_name"],
+            "already_existed": result["already_existed"],
+            "graph": {
+                "trip_id": trip_id,
+                "trip_name": result["trip_name"],
+                "nodes": node_list,
+                "edges": edge_list,
+            }
+        }), 200
 
     return app

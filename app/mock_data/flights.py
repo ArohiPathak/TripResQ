@@ -1,0 +1,92 @@
+"""
+Deterministic mock flight data for TripResQ demo scenario.
+All times are relative to today's date for consistent demo experience.
+"""
+
+# Primary flights for the demo trip (Delhi → Mumbai → Goa)
+FLIGHTS = [
+    {
+        "id": "flight-ai502",
+        "code": "AI-502",
+        "airline": "Air India",
+        "type": "FLIGHT",
+        "title": "Flight AI-502 (Air India)",
+        "origin": "Delhi (DEL)",
+        "destination": "Mumbai (BOM)",
+        "terminal_origin": "Terminal 3",
+        "terminal_dest": "Terminal 2",
+        "location": "Delhi DEL T3 → Mumbai BOM T2",
+        "start_hour": 6,
+        "start_min": 0,
+        "end_hour": 8,
+        "end_min": 15,
+        "duration_minutes": 135,
+        "price": 5200,
+        "pnr": "PNR-A123",
+    },
+    {
+        "id": "flight-6e301",
+        "code": "6E-301",
+        "airline": "IndiGo",
+        "type": "FLIGHT",
+        "title": "Flight 6E-301 (IndiGo)",
+        "origin": "Mumbai (BOM)",
+        "destination": "Goa (GOI)",
+        "terminal_origin": "Terminal 1",
+        "terminal_dest": "Dabolim Airport",
+        "location": "Mumbai BOM T1 → Goa GOI",
+        "start_hour": 9,
+        "start_min": 30,
+        "end_hour": 11,
+        "end_min": 0,
+        "duration_minutes": 90,
+        "price": 3800,
+        "pnr": "PNR-B456",
+    },
+]
+
+# Alternative flights for recovery options
+ALTERNATIVE_FLIGHTS = [
+    {
+        "id": "alt-ai504",
+        "code": "AI-504",
+        "airline": "Air India",
+        "title": "AI-504 Express Connection",
+        "origin": "Delhi (DEL)",
+        "destination": "Mumbai (BOM)",
+        "delay_offset_hours": 2,
+        "delay_offset_minutes": 15,
+        "duration_minutes": 130,
+        "price": 6400,
+        "category": "EXPRESS",
+        "description": "Next immediate express departure (+2h 15m)",
+    },
+    {
+        "id": "alt-ai510",
+        "code": "AI-510",
+        "airline": "Air India",
+        "title": "AI-510 Off-Peak Slot",
+        "origin": "Delhi (DEL)",
+        "destination": "Mumbai (BOM)",
+        "delay_offset_hours": 4,
+        "delay_offset_minutes": 30,
+        "duration_minutes": 140,
+        "price": 0,
+        "category": "OFF_PEAK",
+        "description": "Complimentary off-peak transit slot (+4h 30m)",
+    },
+    {
+        "id": "alt-sg220",
+        "code": "SG-220",
+        "airline": "SpiceJet",
+        "title": "SG-220 Priority Buffer Slot",
+        "origin": "Delhi (DEL)",
+        "destination": "Mumbai (BOM)",
+        "delay_offset_hours": 1,
+        "delay_offset_minutes": 15,
+        "duration_minutes": 135,
+        "price": 850,
+        "category": "BUFFER",
+        "description": "Minor departure shift (+1h 15m), preserves downstream",
+    },
+]

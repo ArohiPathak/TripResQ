@@ -1,0 +1,24 @@
+/* src/components/recovery/recovery.css - Scoped styles for Recovery Control */
+
+.recovery-control-container {
+  animation: fadeIn 0.25s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.recovery-card-glow {
+  box-shadow: 0 4px 20px rgba(40, 125, 250, 0.12);
+}
+
+.recovery-card-glow:hover {
+  box-shadow: 0 8px 30px rgba(40, 125, 250, 0.18);
+}
