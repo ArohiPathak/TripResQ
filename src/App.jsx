@@ -2050,6 +2050,7 @@ function App() {
                 {t('navHome')}
               </button>
               <button
+                data-tour="my-trip"
                 onClick={() => setCurrentPage('my-trip')}
                 className={`hover:text-[#287DFA] transition py-1 flex items-center gap-1.5 cursor-pointer ${currentPage === 'my-trip' ? 'text-[#287DFA] border-b-2 border-[#287DFA]' : ''}`}
               >
@@ -2082,6 +2083,7 @@ function App() {
           {/* Chaos Sandbox badge - Gated by Login */}
           {userAuth.loggedIn && (
             <button
+              data-tour="chaos-lab"
               onClick={() => setCurrentPage('chaos-lab')}
               className={`flex items-center gap-1 px-2.5 py-1.5 text-[10px] sm:text-xs font-bold rounded-full transition duration-200 cursor-pointer ${currentPage === 'chaos-lab'
                 ? 'bg-[#FF7700] text-white shadow-md shadow-[#FF7700]/20'
@@ -2631,6 +2633,7 @@ function App() {
                     {t('backToBookings')}
                   </button>
                   <button
+                    data-tour="edit-route"
                     onClick={() => alert('Itinerary emailed to your account!')}
                     className="flex-1 sm:flex-initial px-4 py-2 bg-slate-950 text-white text-xs font-bold rounded-full hover:bg-slate-900 transition cursor-pointer text-center"
                   >
@@ -2642,6 +2645,7 @@ function App() {
               {/* 🔮 Risk Radar Section */}
               {riskRadar && riskRadar.nodes && riskRadar.nodes.length > 0 && disruptionState === 'healthy' && (
                 <motion.div
+                  data-tour="risk-radar"
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   className="rounded-2xl border border-slate-200 bg-white shadow-sm overflow-hidden"
@@ -2803,6 +2807,7 @@ function App() {
                       </div>
                     </div>
                     <button
+                      data-tour="recovery-control"
                       onClick={() => setCurrentPage('rescue')}
                       className="px-4 py-2 bg-[#FF7700] hover:bg-[#E06600] text-white text-xs font-extrabold rounded-lg transition shrink-0 shadow-sm flex items-center gap-1 cursor-pointer w-full md:w-auto justify-center"
                     >
