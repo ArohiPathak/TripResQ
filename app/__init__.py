@@ -74,7 +74,7 @@ def create_app(test_config=None):
     def health():
         return {'status': 'ok'}
 
-<<<<<<< HEAD
+
         @app.route('/api/seed-demo', methods=['POST'])
     def seed_demo():
         """
