@@ -153,13 +153,79 @@ export function detectCuisineCategory(restaurant = {}) {
 }
 
 /**
- * Returns the local fallback image URL for a given cuisine category.
+ * Multi-variant local fallback images by category.
+ */
+export const CUISINE_FALLBACK_IMAGES = {
+  'bakery': [
+    '/dining/bakery.jpg',
+    '/dining/bakery-2.jpg',
+    '/dining/bakery-3.jpg'
+  ],
+  'cafe': [
+    '/dining/cafe.jpg',
+    '/dining/cafe-2.jpg',
+    '/dining/cafe-3.jpg'
+  ],
+  'chinese': [
+    '/dining/chinese.jpg',
+    '/dining/chinese-2.jpg',
+    '/dining/chinese-3.jpg'
+  ],
+  'fast-food': [
+    '/dining/fast-food.jpg',
+    '/dining/fast-food-2.jpg',
+    '/dining/fast-food-3.jpg'
+  ],
+  'indian': [
+    '/dining/indian.jpg',
+    '/dining/indian-2.jpg',
+    '/dining/indian-3.jpg'
+  ],
+  'pizza': [
+    '/dining/pizza.jpg',
+    '/dining/pizza-1.jpg',
+    '/dining/pizza-2.jpg',
+    '/dining/pizza-3.jpg'
+  ],
+  'restaurant': [
+    '/dining/restaurant.jpg',
+    '/dining/restaurant-2.jpg',
+    '/dining/restaurant-3.jpg'
+  ],
+  'south-indian': [
+    '/dining/south-indian.jpg',
+    '/dining/south-indian-2.jpg',
+    '/dining/south-indian-3.jpg'
+  ],
+  'vegetarian': [
+    '/dining/vegetarian.jpg',
+    '/dining/vegetarian-2.jpg',
+    '/dining/vegetarian-3.jpg'
+  ]
+};
+
+/**
+ * Returns the local fallback image URL for a given cuisine category and rotation index/seed.
  * @param {string} cuisineCategory
+ * @param {number|string} [indexOrSeed=0]
  * @returns {string}
  */
-export function getCuisineFallbackImage(cuisineCategory) {
+export function getCuisineFallbackImage(cuisineCategory, indexOrSeed = 0) {
   const category = cuisineCategory || 'restaurant';
-  return `/dining/${category}.jpg`;
+  const images = CUISINE_FALLBACK_IMAGES[category] || CUISINE_FALLBACK_IMAGES['restaurant'];
+
+  let idx = 0;
+  if (typeof indexOrSeed === 'number' && !isNaN(indexOrSeed)) {
+    idx = Math.abs(Math.floor(indexOrSeed)) % images.length;
+  } else if (typeof indexOrSeed === 'string' && indexOrSeed.length > 0) {
+    let hash = 0;
+    for (let i = 0; i < indexOrSeed.length; i++) {
+      hash = (hash * 31 + indexOrSeed.charCodeAt(i)) & 0x7fffffff;
+    }
+    idx = hash % images.length;
+  }
+
+  return images[idx];
 }
 
 /**
@@ -191,14 +257,30 @@ export function formatWikimediaCommonsUrl(rawFileName) {
  * Resolves the final image for a restaurant with strict priority:
  * 1. OSM `image` tag (direct URL or File: prefix)
  * 2. `wikimedia_commons` tag
- * 3. Local cuisine fallback asset
+ * 3. Local cuisine fallback asset (rotating across available category variants)
  *
  * @param {Object} restaurant
+ * @param {number|string} [occurrenceIndex]
  * @returns {{url: string, source: 'osm'|'wikimedia'|'fallback', isFallback: boolean, attribution?: string, cuisineCategory: string, fallbackUrl: string}}
  */
-export function getRestaurantImage(restaurant = {}) {
+export function getRestaurantImage(restaurant = {}, occurrenceIndex) {
   const cuisineCategory = detectCuisineCategory(restaurant);
-  const fallbackUrl = getCuisineFallbackImage(cuisineCategory);
+
+  // Determine rotation index / seed for fallback image
+  let fallbackSeed = occurrenceIndex;
+  if (fallbackSeed === undefined || fallbackSeed === null) {
+    if (restaurant.fallbackIndex !== undefined) {
+      fallbackSeed = restaurant.fallbackIndex;
+    } else if (restaurant.categoryIndex !== undefined) {
+      fallbackSeed = restaurant.categoryIndex;
+    } else if (typeof restaurant.index === 'number') {
+      fallbackSeed = restaurant.index - 1;
+    } else {
+      fallbackSeed = restaurant.id || restaurant.name || 0;
+    }
+  }
+
+  const fallbackUrl = getCuisineFallbackImage(cuisineCategory, fallbackSeed);
 
   // 1. First priority: OSM direct `image` tag
   const rawImage = restaurant.rawImage || restaurant.image;

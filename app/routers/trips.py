@@ -53,130 +53,6 @@ def list_trips():
         "created_at": t.created_at.isoformat() if t.created_at else None,
     } for t in trips]), 200
 
-@trips_bp.route('/<trip_id>/risk-radar', methods=['GET'])
-def get_risk_radar(trip_id):
-    """
-    Calculate Risk Radar scores for all nodes in a trip
-    ---
-    tags:
-      - Risk Radar
-    parameters:
-      - in: path
-        name: trip_id
-        type: string
-        required: true
-    responses:
-      200:
-        description: Risk assessment returned
-    """
-    trip = db.session.get(Trip, trip_id)
-    if not trip:
-        return jsonify({"error": "Trip not found"}), 404
-
-    nodes = ItineraryNode.query.filter_by(trip_id=trip_id).order_by(
-        ItineraryNode.start_time
-    ).all()
-
-    from app.mock_data.weather import WEATHER_CONDITIONS, get_route_risk
-
-    node_risks = []
-    overall_risk = 0
-
-    for node in nodes:
-        loc = node.location or ""
-
-        # Extract airport codes from location string
-        origin_code = None
-        dest_code = None
-        if "→" in loc:
-            parts = loc.split("→")
-            origin_part = parts[0].strip()
-            dest_part = parts[1].strip()
-            # Try to extract 3-letter codes
-            for code in WEATHER_CONDITIONS:
-                if code in origin_part.upper():
-                    origin_code = code
-                if code in dest_part.upper():
-                    dest_code = code
-
-        # Calculate weather risk
-        weather_risk = 0
-        weather_data = {}
-        if origin_code or dest_code:
-            route_risk = get_route_risk(
-                origin_code or "BOM", dest_code or "BOM"
-            )
-            weather_risk = route_risk["combined_risk_score"]
-            weather_data = route_risk
-        else:
-            # For non-transit nodes (hotel, cab at destination), use dest weather
-            for code in WEATHER_CONDITIONS:
-                if code.lower() in loc.lower() or WEATHER_CONDITIONS[code]["city"].lower() in loc.lower():
-                    weather_risk = WEATHER_CONDITIONS[code]["risk_score"]
-                    weather_data = WEATHER_CONDITIONS[code]
-                    break
-
-        # Calculate buffer risk based on incoming edges
-        buffer_risk = 0
-        if node.status == "BROKEN":
-            buffer_risk = 100
-        elif node.status == "AT_RISK":
-            buffer_risk = 70
-        else:
-            # Check buffer adequacy from edges
-            from app.models.edge import DependencyEdge
-            incoming = DependencyEdge.query.filter_by(target_node_id=node.id).first()
-            if incoming:
-                source = db.session.get(ItineraryNode, incoming.source_node_id)
-                if source:
-                    gap_mins = (node.start_time - source.end_time).total_seconds() / 60
-                    if gap_mins < 30:
-                        buffer_risk = 60
-                    elif gap_mins < 60:
-                        buffer_risk = 30
-                    else:
-                        buffer_risk = 10
-
-        # Combined node risk (weather 60%, buffer 40%)
-        combined = int(weather_risk * 0.6 + buffer_risk * 0.4)
-        overall_risk = max(overall_risk, combined)
-
-        if combined >= 70:
-            level = "HIGH"
-        elif combined >= 40:
-            level = "MEDIUM"
-        elif combined >= 15:
-            level = "LOW"
-        else:
-            level = "NONE"
-
-        node_risks.append({
-            "node_id": node.id,
-            "title": node.title,
-            "type": node.node_type,
-            "status": node.status,
-            "weather_risk": weather_risk,
-            "buffer_risk": buffer_risk,
-            "combined_risk": combined,
-            "risk_level": level,
-            "weather": weather_data,
-        })
-
-    if overall_risk >= 70:
-        trip_level = "HIGH"
-    elif overall_risk >= 40:
-        trip_level = "MEDIUM"
-    elif overall_risk >= 15:
-        trip_level = "LOW"
-    else:
-        trip_level = "NONE"
-
-    return jsonify({
-        "trip_id": trip_id,
-        "overall_risk": overall_risk,
-        "risk_level": trip_level,
-        "nodes": node_risks,
-    }), 200
 
 @trips_bp.route('/<trip_id>/graph', methods=['GET'])
 def get_trip_graph(trip_id):
@@ -466,6 +342,7 @@ def get_next_stop(trip_id):
       404:
         description: Trip not found
     """
+    import re
     from datetime import datetime, timezone
 
     trip = db.session.get(Trip, trip_id)
@@ -496,8 +373,49 @@ def get_next_stop(trip_id):
     CITY_NAMES = {
         "BOM": "Mumbai", "DEL": "Delhi", "PUN": "Pune", "BLR": "Bangalore",
         "HYD": "Hyderabad", "CCU": "Kolkata", "MAA": "Chennai", "AGR": "Agra",
-        "GOI": "Goa", "PNQ": "Pune"
+        "GOI": "Goa", "PNQ": "Pune", "NYC": "New York", "LON": "London",
+        "JAI": "Jaipur", "COK": "Kochi", "AMD": "Ahmedabad", "GAU": "Guwahati",
+        "VNS": "Varanasi", "IXC": "Chandigarh", "SXR": "Srinagar"
     }
+
+    def resolve_destination_city(node):
+        dest_field = (node.destination or "").strip()
+        loc_field = (node.location or "").strip()
+        title_field = (node.title or "").strip()
+
+        # 1. Check destination field first
+        if dest_field:
+            for code, city in CITY_NAMES.items():
+                if re.search(rf'\b{code}\b', dest_field, re.IGNORECASE) or re.search(rf'\b{city}\b', dest_field, re.IGNORECASE):
+                    return city
+            clean_dest = re.sub(r'\(.*?\)', '', dest_field).strip()
+            if clean_dest:
+                return clean_dest
+
+        # 2. Check location destination segment (after arrow or "to")
+        loc_target = loc_field
+        if "→" in loc_field:
+            loc_target = loc_field.split("→")[-1].strip()
+        elif "->" in loc_field:
+            loc_target = loc_field.split("->")[-1].strip()
+        elif " to " in loc_field.lower():
+            loc_target = re.split(r'\s+to\s+', loc_field, flags=re.IGNORECASE)[-1].strip()
+
+        for code, city in CITY_NAMES.items():
+            if re.search(rf'\b{code}\b', loc_target, re.IGNORECASE) or re.search(rf'\b{city}\b', loc_target, re.IGNORECASE):
+                return city
+
+        # 3. Check full location string for known city/code
+        for code, city in CITY_NAMES.items():
+            if re.search(rf'\b{code}\b', loc_field, re.IGNORECASE) or re.search(rf'\b{city}\b', loc_field, re.IGNORECASE):
+                return city
+
+        # 4. Check title for known city/code
+        for code, city in CITY_NAMES.items():
+            if re.search(rf'\b{code}\b', title_field, re.IGNORECASE) or re.search(rf'\b{city}\b', title_field, re.IGNORECASE):
+                return city
+
+        return loc_target or loc_field or title_field
 
     # Find the first node whose relevant end_time (or start_time for hotel/activity) is in the future
     upcoming_node = None
@@ -512,60 +430,63 @@ def get_next_stop(trip_id):
             upcoming_node = n
             break
 
+    # If all nodes are in the past (e.g. demo/hackathon trips with fixed historical timestamps),
+    # fallback to the first transit node (or first node) so Dining still resolves a useful destination.
     if not upcoming_node:
-        return jsonify({
-            "available": False,
-            "reason": "NO_UPCOMING_STOP"
-        }), 200
+        transit_nodes = [n for n in nodes if (n.node_type or "").upper() in ("FLIGHT", "TRAIN", "CAB")]
+        upcoming_node = transit_nodes[0] if transit_nodes else nodes[0]
 
     node_type = (upcoming_node.node_type or "").upper()
-    dest = upcoming_node.destination or ""
-    dest_name = CITY_NAMES.get(dest.upper(), dest)
+    dest_city = resolve_destination_city(upcoming_node)
     loc = upcoming_node.location or ""
     title = upcoming_node.title or ""
 
     if node_type == "TRAIN":
-        if dest_name:
-            stop_name = f"{dest_name} Railway Station"
+        if dest_city:
+            stop_name = f"{dest_city} Railway Station"
             stop_location = stop_name
+            destination = dest_city
         elif loc and not loc.startswith("Platform"):
             stop_name = loc
             stop_location = loc
+            destination = loc
         else:
             stop_name = title
             stop_location = loc or title
-        destination = dest_name or dest or loc
+            destination = title
         arrival_time = upcoming_node.end_time.isoformat()
 
     elif node_type == "FLIGHT":
-        if dest_name:
-            stop_name = f"{dest_name} Airport"
+        if dest_city:
+            stop_name = f"{dest_city} Airport"
             stop_location = stop_name
+            destination = dest_city
         elif loc and not loc.startswith("Terminal"):
             stop_name = loc
             stop_location = loc
+            destination = loc
         else:
             stop_name = title
             stop_location = loc or title
-        destination = dest_name or dest or loc
+            destination = title
         arrival_time = upcoming_node.end_time.isoformat()
 
     elif node_type == "CAB":
-        stop_name = loc or dest_name or title
-        stop_location = loc or dest_name or title
-        destination = dest_name or loc or title
+        destination = dest_city or loc or title
+        stop_name = loc or dest_city or title
+        stop_location = loc or dest_city or title
         arrival_time = upcoming_node.end_time.isoformat()
 
     elif node_type == "HOTEL":
+        destination = dest_city or loc or title
         stop_name = title
         stop_location = loc or title
-        destination = dest_name or loc or title
         arrival_time = upcoming_node.start_time.isoformat()
 
     else:  # ACTIVITY or generic
+        destination = dest_city or loc or title
         stop_name = title
         stop_location = loc or title
-        destination = dest_name or loc or title
         arrival_time = upcoming_node.start_time.isoformat()
 
     return jsonify({

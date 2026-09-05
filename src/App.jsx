@@ -22,14 +22,14 @@ import {
   Globe,
   Flame,
   AlertCircle,
-  Calendar
+  Calendar,
+  RefreshCw
 } from 'lucide-react';
 import './App.css';
-<<<<<<< HEAD
+
 import { RecoveryControl } from './components/recovery';
-=======
 import { DiningHub } from './components/dining';
->>>>>>> origin/main
+
 
 // --- i18n Translation Dictionary ---
 const TRANSLATIONS = {
@@ -872,15 +872,14 @@ const RESTAURANTS = [
 
 // Seed helper to construct the default trip (Delhi → Goa Family Vacation)
 const seedInitialTripNodes = () => {
-<<<<<<< HEAD
-=======
+
   const startTime = "08:00";
   const transitEnd = "11:00"; // 3 hours duration
   const cabStart = "11:30"; // 30 mins buffer
   const cabEnd = "12:15"; // 45 mins cab ride
   const checkinTime = "13:00"; // 45 mins buffer
 
->>>>>>> origin/main
+
   return [
     {
       id: 'node-1',
@@ -1304,7 +1303,6 @@ function App() {
   const [currentTrip, setCurrentTrip] = useState(seedInitialTripNodes);
   const [originalTripNodes, setOriginalTripNodes] = useState([]);
   const [recoveryResult, setRecoveryResult] = useState(null);
-  const [riskRadar, setRiskRadar] = useState(null);
   const [recentTrips, setRecentTrips] = useState([]);
 
   // --- Risk Radar / Confidence Score (proactive, pre-disruption) ---
@@ -1366,8 +1364,7 @@ function App() {
     return TRANSLATIONS[currentLanguage][key] || TRANSLATIONS['en'][key] || key;
   };
 
-<<<<<<< HEAD
-  
+
   // Fetch recent trips from backend
   const fetchRecentTrips = async () => {
     try {
@@ -1381,20 +1378,6 @@ function App() {
     }
   };
 
-  // Fetch risk radar data for current trip
-  const fetchRiskRadar = async (tripId) => {
-    try {
-      const res = await fetch(`http://localhost:5000/api/trips/${tripId}/risk-radar`);
-      if (res.ok) {
-        const data = await res.json();
-        setRiskRadar(data);
-      }
-    } catch (err) {
-      console.error('Error fetching risk radar:', err);
-    }
-  };
-=======
->>>>>>> origin/main
 
   const initializeSeedTrip = async () => {
     try {
@@ -1405,70 +1388,9 @@ function App() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ force: false })
       });
-<<<<<<< HEAD
       const seedData = await res.json();
       const tripId = seedData.trip_id;
       const graphData = seedData.graph;
-=======
-      const tripData = await res.json();
-      const tripId = tripData.id;
-
-      const seeds = [
-        {
-          type: 'TRAIN',
-          title: 'Deccan Express DEC-809',
-          location: 'Platform 4 • Main Terminal',
-          origin: 'BOM',
-          destination: 'PUN',
-          operator: 'Central Railway',
-          service_number: 'DEC-809',
-          start_time: `${todayStr}T08:00:00Z`,
-          end_time: `${todayStr}T11:00:00Z`
-        },
-        {
-          type: 'CAB',
-          title: 'Airport/Station Cab Transfer',
-          location: 'Pickup Zone B • Uber Select',
-          start_time: `${todayStr}T11:30:00Z`,
-          end_time: `${todayStr}T12:15:00Z`,
-          hard_cutoff: `${todayStr}T12:00:00Z`
-        },
-        {
-          type: 'HOTEL',
-          title: 'Grand Hyatt Check-In',
-          location: 'Premium Suite Room • Reception Desk',
-          start_time: `${todayStr}T13:00:00Z`,
-          end_time: `${todayStr}T23:59:59Z`,
-          hard_cutoff: `${todayStr}T14:00:00Z`
-        }
-      ];
-
-      for (const s of seeds) {
-        const payload = {
-          trip_id: tripId,
-          node_type: s.type,
-          title: s.title,
-          location: s.location,
-          origin: s.origin || null,
-          destination: s.destination || null,
-          operator: s.operator || null,
-          service_number: s.service_number || null,
-          start_time: s.start_time,
-          end_time: s.end_time
-        };
-        if (s.hard_cutoff) {
-          payload.hard_cutoff = s.hard_cutoff;
-        }
-        await fetch('http://localhost:5000/api/nodes', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload)
-        });
-      }
-
-      const graphRes = await fetch(`http://localhost:5000/api/trips/${tripId}/graph`);
-      const graphData = await graphRes.json();
->>>>>>> origin/main
 
       const formattedNodes = formatGraphNodes(graphData.nodes);
 
@@ -1816,17 +1738,16 @@ function App() {
         alert(`Disruption Error: ${data.error}`);
         return;
       }
-<<<<<<< HEAD
-      
-      // Preserve OG scheduled times by passing originalTripNodes baseline
-      const targetBaseline = (originalTripNodes && originalTripNodes.length > 0) ? originalTripNodes : currentTrip;
-      const formattedNodes = formatGraphNodes(data.updated_graph?.nodes || [], targetBaseline);
-=======
+      // Preserve original scheduled times as the baseline
+      const targetBaseline =
+        originalTripNodes && originalTripNodes.length > 0
+          ? originalTripNodes
+          : currentTrip;
 
-      // Preserve OG scheduled times by passing currentTrip
-      const formattedNodes = formatGraphNodes(data.updated_graph.nodes, currentTrip);
->>>>>>> origin/main
-
+      const formattedNodes = formatGraphNodes(
+        data.updated_graph?.nodes || [],
+        targetBaseline
+      );
       const backendMetrics = data.metrics || {};
       const brokenCount = backendMetrics.brokenConnections ?? backendMetrics.broken_connections ?? (data.updated_graph?.nodes || []).filter(n => n.status === 'BROKEN').length;
       const affectedCount = backendMetrics.affectedNodes ?? backendMetrics.affected_nodes ?? (data.updated_graph?.nodes || []).filter(n => n.status !== 'OK').length;
@@ -1862,62 +1783,14 @@ function App() {
       const tripId = seedData.trip_id;
       const graphData = seedData.graph;
 
-<<<<<<< HEAD
       const formattedNodes = formatGraphNodes(graphData.nodes);
 
       setCurrentTrip(formattedNodes);
       setOriginalTripNodes(formattedNodes);
       if (formattedNodes.length > 0) {
         setSelectedDisruptNode(formattedNodes[0].id);
-=======
-        for (const node of targetNodes) {
-          const nodeDate = node.date || new Date().toISOString().split('T')[0];
-          const st = `${nodeDate}T${node.scheduledStart}:00Z`;
-          const et = node.scheduledEnd === 'Onwards' ? `${nodeDate}T23:59:59Z` : `${nodeDate}T${node.scheduledEnd}:00Z`;
-
-          let hardCutoff = null;
-          if (node.type === 'cab') {
-            hardCutoff = addMinutesToISO(st, 30);
-          } else if (node.type === 'hotel') {
-            hardCutoff = addMinutesToISO(st, 60);
-          }
-
-          const payload = {
-            trip_id: tripId,
-            node_type: (node.type || 'flight').toUpperCase(),
-            title: node.title,
-            location: node.info || node.sub || '',
-            start_time: st,
-            end_time: et
-          };
-          if (hardCutoff) {
-            payload.hard_cutoff = hardCutoff;
-          }
-
-          await fetch('http://localhost:5000/api/nodes', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload)
-          });
-        }
-
-        const graphRes = await fetch(`http://localhost:5000/api/trips/${tripId}/graph`);
-        const graphData = await graphRes.json();
-
-        const formattedNodes = formatGraphNodes(graphData.nodes);
-
-        setCurrentTrip(formattedNodes);
-        setTripRefNum(tripId);
-        setDisruptionState('healthy');
-        setImpactMetrics({ delayMinutes: 0, brokenConnections: 0, affectedNodes: 0 });
-      } catch (err) {
-        console.error(err);
-        const resetNodes = targetNodes.map(n => ({ ...n, status: 'healthy', actualStart: n.scheduledStart, actualEnd: n.scheduledEnd, delayMinutes: 0, disruptionReason: '' }));
-        setCurrentTrip(resetNodes);
-        setDisruptionState('healthy');
-        setImpactMetrics({ delayMinutes: 0, brokenConnections: 0, affectedNodes: 0 });
->>>>>>> origin/main
       }
+
       setTripRefNum(tripId);
       setDisruptionState('healthy');
       setRecoveryResult(null);
@@ -2071,36 +1944,49 @@ function App() {
     setCurrentPage('home');
   };
 
-<<<<<<< HEAD
   // Restaurant destination: use LAST node's destination or hotel city
   const lastNode = currentTrip[currentTrip.length - 1];
+
   const activeDestination = (() => {
     // Try hotel/destination node's location for city
     if (lastNode?.type === 'hotel') {
       const loc = lastNode.info || lastNode.sub || '';
+
       if (loc.toLowerCase().includes('goa')) return 'Goa';
       if (loc.toLowerCase().includes('pune')) return 'Pune';
       if (loc.toLowerCase().includes('mumbai')) return 'Mumbai';
       if (loc.toLowerCase().includes('delhi')) return 'Delhi';
     }
-    // Try last node's destination from sub field
+
+    // Try last node's destination
     const lastSub = lastNode?.sub || '';
+
     if (lastSub.includes('→')) {
-      return lastSub.split('→').pop().trim().split(' ')[0].split('(')[0].trim();
+      return lastSub
+        .split('→')
+        .pop()
+        .trim()
+        .split(' ')[0]
+        .split('(')[0]
+        .trim();
     }
+
     // Fallback to first node's arrival
     const firstSub = currentTrip[0]?.sub || '';
+
     if (firstSub.includes('→')) {
-      return firstSub.split('→').pop().trim().split(' ')[0].split('(')[0].trim();
+      return firstSub
+        .split('→')
+        .pop()
+        .trim()
+        .split(' ')[0]
+        .split('(')[0]
+        .trim();
     }
+
     return 'Goa';
   })();
-  
-=======
-  // Restaurant details filtered
-  const activeDestination = currentTrip[0]?.sub?.split('→')[1]?.trim()?.split(' ')[0] || 'Pune';
 
->>>>>>> origin/main
   const filteredRestaurants = RESTAURANTS.filter(r => {
     const isCity = r.city.toLowerCase() === activeDestination.toLowerCase();
     if (!isCity) return false;
@@ -2198,8 +2084,8 @@ function App() {
             <button
               onClick={() => setCurrentPage('chaos-lab')}
               className={`flex items-center gap-1 px-2.5 py-1.5 text-[10px] sm:text-xs font-bold rounded-full transition duration-200 cursor-pointer ${currentPage === 'chaos-lab'
-                  ? 'bg-[#FF7700] text-white shadow-md shadow-[#FF7700]/20'
-                  : 'bg-orange-50 text-[#FF7700] hover:bg-orange-100 border border-orange-200/20'
+                ? 'bg-[#FF7700] text-white shadow-md shadow-[#FF7700]/20'
+                : 'bg-orange-50 text-[#FF7700] hover:bg-orange-100 border border-orange-200/20'
                 }`}
             >
               {t('navChaos')}
@@ -2768,11 +2654,10 @@ function App() {
                         <p className="text-[10px] text-white/80 font-mono">Real-time weather + buffer risk analysis</p>
                       </div>
                     </div>
-                    <span className={`text-[10px] font-mono font-bold uppercase px-2.5 py-1 rounded-full border ${
-                      riskRadar.risk_level === 'HIGH' ? 'bg-red-500/20 border-red-300 text-red-100' :
+                    <span className={`text-[10px] font-mono font-bold uppercase px-2.5 py-1 rounded-full border ${riskRadar.risk_level === 'HIGH' ? 'bg-red-500/20 border-red-300 text-red-100' :
                       riskRadar.risk_level === 'MEDIUM' ? 'bg-amber-500/20 border-amber-300 text-amber-100' :
-                      'bg-emerald-500/20 border-emerald-300 text-emerald-100'
-                    }`}>
+                        'bg-emerald-500/20 border-emerald-300 text-emerald-100'
+                      }`}>
                       Overall: {riskRadar.risk_level} ({riskRadar.overall_risk}%)
                     </span>
                   </div>
@@ -2788,11 +2673,10 @@ function App() {
                             <span className="text-xs font-bold text-slate-700 truncate pr-2">
                               {nr.type === 'FLIGHT' ? '✈️' : nr.type === 'CAB' ? '🚕' : nr.type === 'HOTEL' ? '🏨' : '🚆'} {nr.title.split('(')[0].trim()}
                             </span>
-                            <span className={`text-[9px] font-mono font-bold uppercase px-1.5 py-0.5 rounded ${
-                              nr.risk_level === 'HIGH' ? 'bg-red-100 text-red-700' :
+                            <span className={`text-[9px] font-mono font-bold uppercase px-1.5 py-0.5 rounded ${nr.risk_level === 'HIGH' ? 'bg-red-100 text-red-700' :
                               nr.risk_level === 'MEDIUM' ? 'bg-amber-100 text-amber-700' :
-                              'bg-emerald-100 text-emerald-700'
-                            }`}>
+                                'bg-emerald-100 text-emerald-700'
+                              }`}>
                               {nr.risk_level}
                             </span>
                           </div>
@@ -2803,11 +2687,10 @@ function App() {
                           {/* Risk bar */}
                           <div className="w-full h-2 bg-slate-100 rounded-full overflow-hidden mb-1.5">
                             <div
-                              className={`h-full rounded-full transition-all duration-700 ${
-                                nr.risk_level === 'HIGH' ? 'bg-red-500' :
+                              className={`h-full rounded-full transition-all duration-700 ${nr.risk_level === 'HIGH' ? 'bg-red-500' :
                                 nr.risk_level === 'MEDIUM' ? 'bg-amber-400' :
-                                'bg-emerald-400'
-                              }`}
+                                  'bg-emerald-400'
+                                }`}
                               style={{ width: `${Math.min(nr.combined_risk, 100)}%` }}
                             />
                           </div>
@@ -3028,11 +2911,10 @@ function App() {
                           })).map((item, idx) => (
                             <div
                               key={item.id || idx}
-                              className={`p-3 rounded-xl border transition-all ${
-                                item.isRebooked
-                                  ? 'border-emerald-200 bg-emerald-50/40'
-                                  : 'border-slate-100 bg-slate-50/50'
-                              }`}
+                              className={`p-3 rounded-xl border transition-all ${item.isRebooked
+                                ? 'border-emerald-200 bg-emerald-50/40'
+                                : 'border-slate-100 bg-slate-50/50'
+                                }`}
                             >
                               <div className="grid grid-cols-1 md:grid-cols-11 gap-2 md:gap-3 items-center text-xs">
                                 {/* Original */}
@@ -3060,14 +2942,12 @@ function App() {
                                 {/* Rescheduled */}
                                 <div className="md:col-span-5 flex flex-col gap-0.5">
                                   <div className="flex items-center gap-2">
-                                    <span className={`px-1.5 py-0.2 rounded text-[9px] font-mono font-bold uppercase ${
-                                      item.isRebooked ? 'bg-emerald-100 text-emerald-700' : 'bg-blue-100 text-[#287DFA]'
-                                    }`}>
+                                    <span className={`px-1.5 py-0.2 rounded text-[9px] font-mono font-bold uppercase ${item.isRebooked ? 'bg-emerald-100 text-emerald-700' : 'bg-blue-100 text-[#287DFA]'
+                                      }`}>
                                       {item.isRebooked ? 'Rescheduled' : 'Preserved'}
                                     </span>
-                                    <span className={`font-mono font-bold ${
-                                      item.isRebooked ? 'text-emerald-700 font-extrabold' : 'text-slate-700'
-                                    }`}>
+                                    <span className={`font-mono font-bold ${item.isRebooked ? 'text-emerald-700 font-extrabold' : 'text-slate-700'
+                                      }`}>
                                       {item.newStart} → {item.newEnd}
                                     </span>
                                   </div>
@@ -3116,14 +2996,14 @@ function App() {
                           <motion.div
                             layout
                             className={`w-64 p-4 rounded-xl border transition-all duration-300 shadow-sm flex-shrink-0 ${node.status === 'broken'
-                                ? 'border-red-500 bg-red-50/20 shadow-red-105'
-                                : node.status === 'delayed' ? 'border-amber-400 bg-amber-50/30 shadow-amber-100' : 'border-emerald-500 bg-emerald-50/20 shadow-emerald-100 hover:border-emerald-600'
+                              ? 'border-red-500 bg-red-50/20 shadow-red-105'
+                              : node.status === 'delayed' ? 'border-amber-400 bg-amber-50/30 shadow-amber-100' : 'border-emerald-500 bg-emerald-50/20 shadow-emerald-100 hover:border-emerald-600'
                               }`}
                           >
                             <div className="flex items-center justify-between mb-3">
                               <span className={`px-2 py-0.5 rounded text-[9px] font-bold uppercase tracking-wide flex items-center gap-1 ${node.status === 'broken'
-                                  ? 'bg-red-100 text-red-600'
-                                  : node.status === 'delayed' ? 'bg-amber-100 text-amber-700' : 'bg-emerald-100 text-emerald-700 font-extrabold'
+                                ? 'bg-red-100 text-red-600'
+                                : node.status === 'delayed' ? 'bg-amber-100 text-amber-700' : 'bg-emerald-100 text-emerald-700 font-extrabold'
                                 }`}>
                                 {node.type === 'flight' ? t('flightTab').split(' ')[1] : node.type === 'train' ? t('trainTab').split(' ')[1] : node.type === 'cab' ? t('cabTab').split(' ')[1] : t('hotelTab').split(' ')[1]}
                               </span>
@@ -3132,12 +3012,12 @@ function App() {
                                 {node.status === 'broken'
                                   ? '❌ ' + t('connectionBroken')
                                   : node.status === 'delayed'
-                                  ? '⚠️ ' + t('delayed')
-                                  : (disruptionState === 'resolved' && node.actualStart !== node.scheduledStart
-                                    ? '✓ RECOVERED'
-                                    : (node.title.includes('LATE CHECK-IN APPROVED')
-                                      ? '✓ LATE CHECK-IN'
-                                      : '✓ SAFE & ON TIME'))}
+                                    ? '⚠️ ' + t('delayed')
+                                    : (disruptionState === 'resolved' && node.actualStart !== node.scheduledStart
+                                      ? '✓ RECOVERED'
+                                      : (node.title.includes('LATE CHECK-IN APPROVED')
+                                        ? '✓ LATE CHECK-IN'
+                                        : '✓ SAFE & ON TIME'))}
                               </span>
                             </div>
 
@@ -3150,87 +3030,90 @@ function App() {
                                 <span className="text-xs font-semibold text-slate-555 font-mono">{node.scheduledStart} - {node.scheduledEnd}</span>
                               </div>
                               <div>
-<<<<<<< HEAD
                                 <span className="text-[9px] font-bold text-slate-400 block uppercase tracking-wider">
                                   {disruptionState === 'resolved' && node.actualStart !== node.scheduledStart ? 'RECOVERED' : t('actual')}
                                 </span>
-                                <span className={`text-xs font-extrabold font-mono ${
-                                  node.status === 'broken' ? 'text-red-500' : node.status === 'delayed' ? 'text-[#FF7700]' : (disruptionState === 'resolved' && node.actualStart !== node.scheduledStart ? 'text-emerald-700' : 'text-emerald-600')
-                                }`}>
-=======
-                                <span className="text-[9px] font-bold text-slate-400 block uppercase tracking-wider">{t('actual')}</span>
-                                <span className={`text-xs font-extrabold font-mono ${node.status === 'broken' ? 'text-red-500' : node.status === 'delayed' ? 'text-[#FF7700]' : 'text-emerald-600'
+                                <span className={`text-xs font-extrabold font-mono ${node.status === 'broken' ? 'text-red-500' : node.status === 'delayed' ? 'text-[#FF7700]' : (disruptionState === 'resolved' && node.actualStart !== node.scheduledStart ? 'text-emerald-700' : 'text-emerald-600')
                                   }`}>
->>>>>>> origin/main
                                   {node.actualStart} - {node.actualEnd}
                                 </span>
                               </div>
-                            </div>
+                            </div >
 
                             {/* Recovered replacement note */}
-                            {disruptionState === 'resolved' && node.actualStart !== node.scheduledStart && (
-                              <div className="mt-3 p-1.5 rounded bg-emerald-100/40 text-[9px] font-bold text-emerald-800 flex items-center gap-1">
-                                <CheckCircle className="w-3.5 h-3.5 text-emerald-600" />
-                                <span>✓ Replacement: {node.actualStart} - {node.actualEnd}</span>
-                              </div>
-                            )}
+                            {
+                              disruptionState === 'resolved' && node.actualStart !== node.scheduledStart && (
+                                <div className="mt-3 p-1.5 rounded bg-emerald-100/40 text-[9px] font-bold text-emerald-800 flex items-center gap-1">
+                                  <CheckCircle className="w-3.5 h-3.5 text-emerald-600" />
+                                  <span>✓ Replacement: {node.actualStart} - {node.actualEnd}</span>
+                                </div>
+                              )
+                            }
 
-                            {disruptionState === 'resolved' && node.actualStart === node.scheduledStart && node.title.includes('LATE CHECK-IN APPROVED') && (
-                              <div className="mt-3 p-1.5 rounded bg-blue-100/40 text-[9px] font-bold text-[#287DFA] flex items-center gap-1">
-                                <Check className="w-3.5 h-3.5 text-[#287DFA]" />
-                                <span>✓ Room Hold Guaranteed (Late Arrival)</span>
-                              </div>
-                            )}
+                            {
+                              disruptionState === 'resolved' && node.actualStart === node.scheduledStart && node.title.includes('LATE CHECK-IN APPROVED') && (
+                                <div className="mt-3 p-1.5 rounded bg-blue-100/40 text-[9px] font-bold text-[#287DFA] flex items-center gap-1">
+                                  <Check className="w-3.5 h-3.5 text-[#287DFA]" />
+                                  <span>✓ Room Hold Guaranteed (Late Arrival)</span>
+                                </div>
+                              )
+                            }
 
                             {/* Node Alert message */}
-                            {node.status === 'delayed' && (
-                              <div className="mt-3 p-1.5 rounded bg-orange-100/30 text-[9px] font-bold text-[#FF7700] flex items-center gap-1">
-                                <AlertTriangle className="w-3.5 h-3.5" />
-                                <span>+{node.delayMinutes} {t('minsLabel')} {t('delayed')} ({t(node.disruptionReason) || t('generalDisruption')})</span>
-                              </div>
-                            )}
+                            {
+                              node.status === 'delayed' && (
+                                <div className="mt-3 p-1.5 rounded bg-orange-100/30 text-[9px] font-bold text-[#FF7700] flex items-center gap-1">
+                                  <AlertTriangle className="w-3.5 h-3.5" />
+                                  <span>+{node.delayMinutes} {t('minsLabel')} {t('delayed')} ({t(node.disruptionReason) || t('generalDisruption')})</span>
+                                </div>
+                              )
+                            }
 
-                            {node.status === 'broken' && (
-                              <div className="mt-3 p-1.5 rounded bg-red-100/30 text-[9px] font-bold text-red-600 flex items-center gap-1 animate-pulse">
-                                <AlertCircle className="w-3.5 h-3.5" />
-                                <span>{t('missedConnection')}</span>
-                              </div>
-                            )}
-                          </motion.div>
+                            {
+                              node.status === 'broken' && (
+                                <div className="mt-3 p-1.5 rounded bg-red-100/30 text-[9px] font-bold text-red-600 flex items-center gap-1 animate-pulse">
+                                  <AlertCircle className="w-3.5 h-3.5" />
+                                  <span>{t('missedConnection')}</span>
+                                </div>
+                              )
+                            }
+                          </motion.div >
 
                           {/* Timeline connector bridge */}
-                          {index < currentTrip.length - 1 && (
-                            <div className="relative flex items-center justify-center w-20 flex-shrink-0">
-                              <div className="h-[2px] w-full bg-slate-205">
-                                <motion.div
-                                  className={`h-full ${isTargetDisrupted ? 'bg-red-400' : 'bg-emerald-400'}`}
-                                  initial={{ width: 0 }}
-                                  animate={{ width: '100%' }}
-                                  transition={{ duration: 0.5 }}
-                                />
+                          {
+                            index < currentTrip.length - 1 && (
+                              <div className="relative flex items-center justify-center w-20 flex-shrink-0">
+                                <div className="h-[2px] w-full bg-slate-205">
+                                  <motion.div
+                                    className={`h-full ${isTargetDisrupted ? 'bg-red-400' : 'bg-emerald-400'}`}
+                                    initial={{ width: 0 }}
+                                    animate={{ width: '100%' }}
+                                    transition={{ duration: 0.5 }}
+                                  />
+                                </div>
+                                <div className="absolute z-10">
+                                  {isTargetDisrupted ? (
+                                    <span className="px-2 py-0.5 rounded-full bg-red-50 border border-red-200 text-[8px] font-bold text-red-650 whitespace-nowrap shadow-sm font-mono">
+                                      {t('missed')}
+                                    </span>
+                                  ) : (
+                                    <span className="px-2 py-0.5 rounded-full bg-emerald-50 border border-emerald-200 text-[8px] font-bold text-emerald-655 whitespace-nowrap shadow-sm font-mono">
+                                      {t('bufferLabel')}: {node.buffer}m
+                                    </span>
+                                  )}
+                                </div>
                               </div>
-                              <div className="absolute z-10">
-                                {isTargetDisrupted ? (
-                                  <span className="px-2 py-0.5 rounded-full bg-red-50 border border-red-200 text-[8px] font-bold text-red-650 whitespace-nowrap shadow-sm font-mono">
-                                    {t('missed')}
-                                  </span>
-                                ) : (
-                                  <span className="px-2 py-0.5 rounded-full bg-emerald-50 border border-emerald-200 text-[8px] font-bold text-emerald-655 whitespace-nowrap shadow-sm font-mono">
-                                    {t('bufferLabel')}: {node.buffer}m
-                                  </span>
-                                )}
-                              </div>
-                            </div>
-                          )}
-                        </div>
+                            )
+                          }
+                        </div >
                       );
                     })}
-                  </div>
-                </div>
-              </div>
+                  </div >
+                </div >
+              </div >
 
               {/* ================= RISK RADAR / CONFIDENCE SCORE (proactive) ================= */}
-              <div className="bg-white p-4 sm:p-6 rounded-2xl border border-slate-100 shadow-sm flex flex-col gap-4">
+              < div className="bg-white p-4 sm:p-6 rounded-2xl border border-slate-100 shadow-sm flex flex-col gap-4" >
                 <div className="flex items-center justify-between flex-wrap gap-3">
                   <div className="flex items-center gap-2">
                     <div className="p-1.5 rounded-lg bg-[#EAF3FF] text-[#287DFA]">
@@ -3243,9 +3126,9 @@ function App() {
                   {riskRadar && (
                     <div className="flex items-center gap-2">
                       <span className={`px-3 py-1 rounded-full text-xs font-extrabold ${riskRadar.overall_risk_level === 'CRITICAL' ? 'bg-red-100 text-red-700'
-                          : riskRadar.overall_risk_level === 'HIGH' ? 'bg-orange-100 text-[#E06600]'
-                            : riskRadar.overall_risk_level === 'MEDIUM' ? 'bg-amber-100 text-amber-700'
-                              : 'bg-emerald-100 text-emerald-700'
+                        : riskRadar.overall_risk_level === 'HIGH' ? 'bg-orange-100 text-[#E06600]'
+                          : riskRadar.overall_risk_level === 'MEDIUM' ? 'bg-amber-100 text-amber-700'
+                            : 'bg-emerald-100 text-emerald-700'
                         }`}>
                         Trip Risk: {riskRadar.overall_risk_level} • {riskRadar.overall_risk_score}/100
                         {riskRadar.connections && riskRadar.connections.length > 0 && (
@@ -3266,35 +3149,43 @@ function App() {
                   )}
                 </div>
 
-                {!riskRadar && (
-                  <p className="text-xs text-slate-400">Scanning connections for proactive risk before anything goes wrong…</p>
-                )}
+                {
+                  !riskRadar && (
+                    <p className="text-xs text-slate-400">Scanning connections for proactive risk before anything goes wrong…</p>
+                  )
+                }
 
-                {riskRadar && riskRadar.connections.length === 0 && (
-                  <p className="text-xs text-slate-400">Add at least two connected legs to your itinerary to see proactive risk scoring.</p>
-                )}
+                {
+                  riskRadar && riskRadar.connections.length === 0 && (
+                    <p className="text-xs text-slate-400">Add at least two connected legs to your itinerary to see proactive risk scoring.</p>
+                  )
+                }
 
-                {riskRadar && riskRadar.connections.map((conn) => (
-                  <RiskConnectionCard
-                    key={conn.target_node_id}
-                    conn={conn}
-                    plan={bufferPlans[conn.edge_id]}
-                    planLoading={bufferPlanLoadingId === conn.edge_id}
-                    applying={bufferApplyingId === conn.edge_id}
-                    onPrecompute={() => fetchBufferPlan(tripRefNum, conn.edge_id)}
-                    onApply={() => applyBufferPlanForEdge(tripRefNum, conn.edge_id)}
-                  />
-                ))}
+                {
+                  riskRadar && riskRadar.connections.map((conn) => (
+                    <RiskConnectionCard
+                      key={conn.target_node_id}
+                      conn={conn}
+                      plan={bufferPlans[conn.edge_id]}
+                      planLoading={bufferPlanLoadingId === conn.edge_id}
+                      applying={bufferApplyingId === conn.edge_id}
+                      onPrecompute={() => fetchBufferPlan(tripRefNum, conn.edge_id)}
+                      onApply={() => applyBufferPlanForEdge(tripRefNum, conn.edge_id)}
+                    />
+                  ))
+                }
 
-                {riskRadar && (riskRadar.last_evaluated_at || riskRadar.generated_at) && (
-                  <p className="text-[10px] text-slate-400 font-mono">
-                    Background model last evaluated {new Date(riskRadar.last_evaluated_at || riskRadar.generated_at).toLocaleTimeString()} · re-scans automatically every 45s
-                  </p>
-                )}
-              </div>
+                {
+                  riskRadar && (riskRadar.last_evaluated_at || riskRadar.generated_at) && (
+                    <p className="text-[10px] text-slate-400 font-mono">
+                      Background model last evaluated {new Date(riskRadar.last_evaluated_at || riskRadar.generated_at).toLocaleTimeString()} · re-scans automatically every 45s
+                    </p>
+                  )
+                }
+              </div >
 
               {/* Quick instructions to use Chaos Sandbox */}
-              <div className="p-5 bg-blue-50 border border-blue-105 rounded-2xl flex flex-col sm:flex-row items-center justify-between gap-4">
+              < div className="p-5 bg-blue-50 border border-blue-105 rounded-2xl flex flex-col sm:flex-row items-center justify-between gap-4" >
                 <div className="flex gap-3">
                   <div className="p-2 rounded-xl bg-white text-[#287DFA] shrink-0">
                     <Sparkles className="w-5 h-5" />
@@ -3312,875 +3203,652 @@ function App() {
                 >
                   {t('openSandbox')}
                 </button>
-              </div>
-            </motion.div>
+              </div >
+            </motion.div >
           )}
 
           {/* ================= PAGE 3: THE RESCUE CENTER ================= */}
-          {currentPage === 'rescue' && userAuth.loggedIn && (
-            <motion.div
-              key="rescue-page"
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -15 }}
-              transition={{ duration: 0.25 }}
-              className="max-w-5xl mx-auto w-full px-4 sm:px-6 py-6 flex flex-col gap-6"
-            >
-<<<<<<< HEAD
-              <RecoveryControl
-                tripId={tripRefNum}
-                currentTrip={currentTrip}
-                disruptionState={disruptionState}
-                onPlanApplied={handlePlanApplied}
-                onBackToTimeline={() => setCurrentPage('my-trip')}
-              />
-=======
-              {/* Rescue Portal Alert Banner */}
-              <div className="p-6 rounded-2xl bg-[#FF7700] text-white flex flex-col md:flex-row items-start md:items-center justify-between gap-6 shadow-md relative overflow-hidden">
-                <div className="absolute right-0 bottom-0 translate-x-10 translate-y-10 w-44 h-44 rounded-full bg-white/10 blur-xl pointer-events-none" />
-                <div className="absolute left-1/3 top-0 w-24 h-24 rounded-full bg-white/5 blur-lg pointer-events-none" />
-
-                <div className="z-10 max-w-2xl text-left">
-                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/20 text-xs font-bold text-white mb-3 tracking-wider uppercase font-mono">
-                    🛡️ TripResQ Guard Active
-                  </span>
-                  <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight mb-2 font-serif">{t('rescueHeader')}</h1>
-                  <p className="text-white/95 text-xs md:text-sm leading-relaxed">
-                    {t('rescueSub')}
-                  </p>
-                </div>
-                <button
-                  onClick={() => setCurrentPage('my-trip')}
-                  className="px-4 py-2 bg-white text-[#FF7700] font-extrabold hover:bg-slate-100 text-xs rounded-xl transition shrink-0 z-10 shadow cursor-pointer w-full md:w-auto text-center"
-                >
-                  {t('backToTimeline')}
-                </button>
-              </div>
-
-              {/* 3 Recovery alternatives */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-4">
-
-                {/* Fastest Plan */}
-                <div className="bg-white rounded-2xl border-2 border-[#287DFA] shadow-lg flex flex-col justify-between relative overflow-hidden hover:scale-[1.01] transition duration-200">
-                  <div className="bg-[#287DFA] text-white text-[9px] font-extrabold text-center py-1 tracking-wider uppercase font-mono">
-                    ⭐ {t('fastestTitle').split(' ')[0]} Recommended
-                  </div>
-
-                  <div className="p-6 flex-1 flex flex-col gap-4 text-left">
-                    <div className="flex items-center justify-between">
-                      <div className="p-2.5 rounded-xl bg-[#EAF3FF] text-[#287DFA]">
-                        <Zap className="w-6 h-6 animate-pulse" />
-                      </div>
-                      <span className="text-[10px] font-bold text-[#287DFA] bg-[#EAF3FF] px-2.5 py-1 rounded-full uppercase tracking-wider font-mono">Fastest</span>
-                    </div>
-
-                    <div>
-                      <h3 className="font-extrabold text-base text-slate-900 font-serif">{t('fastestTitle')}</h3>
-                      <p className="text-xs text-slate-500 mt-0.5 leading-relaxed">{t('fastestDesc')}</p>
-                    </div>
-
-                    {recoveryProposals && recoveryProposals.length > 0 ? (
-                      <div className="space-y-2 bg-blue-50/60 p-3 rounded-xl border border-blue-100 text-left">
-                        <span className="text-[10px] font-mono font-extrabold uppercase tracking-wider text-[#287DFA] block">
-                          ⚡ Backend Recovery Action Plan ({recoveryProposals.length}):
-                        </span>
-                        {recoveryProposals.map((prop, idx) => (
-                          <div key={idx} className="p-2 bg-white rounded-lg border border-blue-100 text-xs text-slate-800 flex flex-col gap-0.5 shadow-xs">
-                            <span className="font-bold text-[#287DFA] text-[11px]">{prop.node_title} &rarr; {prop.action}</span>
-                            <span className="text-[10px] text-slate-600">{prop.description}</span>
-                          </div>
-                        ))}
-                      </div>
-                    ) : (
-                      <p className="text-slate-505 text-xs leading-relaxed">
-                        {t('fastestDetails')}
-                      </p>
-                    )}
-
-                    <div className="bg-slate-50 p-3 rounded-xl border border-slate-100 text-[11px] flex flex-col gap-1.5 font-semibold">
-                      <div className="flex justify-between">
-                        <span className="text-slate-400">{t('transitShift')}</span>
-                        <span className="text-slate-700">{t('nextDepartureRescheduled')}</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-slate-400">{t('cabPickup')}</span>
-                        <span className="text-emerald-600">{t('updatedAutomatically')}</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-slate-400">{t('hotelCheckin')}</span>
-                        <span className="text-emerald-600">{t('warningAlertDispatched')}</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="p-6 bg-slate-50/60 border-t border-slate-100 flex flex-col gap-3 text-left">
-                    <div className="flex justify-between items-baseline">
-                      <span className="text-slate-550 text-xs font-semibold">{t('tripresqCost')}</span>
-                      <span className="text-base font-extrabold text-[#287DFA]">
-                        {t('free')} <span className="text-[10px] text-slate-400 line-through font-normal">₹1,500</span>
-                      </span>
-                    </div>
-                    <button
-                      onClick={() => handleAcceptPlan('fastest')}
-                      disabled={successPlanAccepted !== null}
-                      className="w-full h-10 bg-[#287DFA] hover:bg-[#1C6BDB] text-white font-bold text-xs rounded-xl shadow-md transition cursor-pointer flex items-center justify-center gap-1.5 active:scale-98"
-                    >
-                      {successPlanAccepted === 'fastest' ? t('processing') : t('acceptPlan')}
-                    </button>
-                  </div>
-                </div>
-
-                {/* Budget Plan */}
-                <div className="bg-white rounded-2xl border border-slate-205 shadow-sm flex flex-col justify-between overflow-hidden hover:scale-[1.01] transition duration-200">
-                  <div className="p-6 flex-1 flex flex-col gap-4 text-left">
-                    <div className="flex items-center justify-between">
-                      <div className="p-2.5 rounded-xl bg-orange-50 text-[#FF7700]">
-                        <RefreshCw className="w-6 h-6" />
-                      </div>
-                      <span className="text-[10px] font-bold text-[#FF7700] bg-orange-50 px-2.5 py-1 rounded-full uppercase tracking-wider font-mono">Budget</span>
-                    </div>
-
-                    <div>
-                      <h3 className="font-extrabold text-base text-slate-900 font-serif">{t('budgetTitle')}</h3>
-                      <p className="text-xs text-slate-405 mt-0.5 font-semibold">{t('budgetDesc')}</p>
-                    </div>
-
-                    <p className="text-slate-505 text-xs leading-relaxed">
-                      {t('budgetDetails')}
-                    </p>
-
-                    <div className="bg-slate-50 p-3 rounded-xl border border-slate-100 text-[11px] flex flex-col gap-1.5 font-semibold">
-                      <div className="flex justify-between">
-                        <span className="text-slate-400">{t('transitShift')}</span>
-                        <span className="text-slate-700">{t('delayedByHours')}</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-slate-400">{t('compensation')}</span>
-                        <span className="text-emerald-600">{t('travelVoucher')}</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-slate-400">{t('hotelCheckin')}</span>
-                        <span className="text-orange-500">{t('postponedReservation')}</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="p-6 bg-slate-55/60 border-t border-slate-100 flex flex-col gap-3 text-left">
-                    <div className="flex justify-between items-baseline">
-                      <span className="text-slate-550 text-xs font-semibold">{t('compensationCredit')}</span>
-                      <span className="text-base font-extrabold text-slate-800">{t('creditBack')}</span>
-                    </div>
-                    <button
-                      onClick={() => handleAcceptPlan('cheapest')}
-                      disabled={successPlanAccepted !== null}
-                      className="w-full h-10 bg-slate-950 hover:bg-slate-900 text-white font-bold text-xs rounded-xl shadow-sm transition cursor-pointer active:scale-98"
-                    >
-                      {successPlanAccepted === 'cheapest' ? t('processing') : t('acceptPlan')}
-                    </button>
-                  </div>
-                </div>
-
-                {/* Refund Plan */}
-                <div className="bg-white rounded-2xl border border-slate-205 shadow-sm flex flex-col justify-between overflow-hidden hover:scale-[1.01] transition duration-200">
-                  <div className="p-6 flex-1 flex flex-col gap-4 text-left">
-                    <div className="flex items-center justify-between">
-                      <div className="p-2.5 rounded-xl bg-red-50 text-red-500">
-                        <Trash2 className="w-6 h-6" />
-                      </div>
-                      <span className="text-[10px] font-bold text-red-655 bg-red-50 px-2.5 py-1 rounded-full uppercase tracking-wider font-mono">Cancellation</span>
-                    </div>
-
-                    <div>
-                      <h3 className="font-extrabold text-base text-slate-900 font-serif">{t('refundTitle')}</h3>
-                      <p className="text-xs text-slate-450 mt-0.5 font-semibold">{t('refundDesc')}</p>
-                    </div>
-
-                    <p className="text-slate-505 text-xs leading-relaxed">
-                      {t('refundDetails')}
-                    </p>
-
-                    <div className="bg-slate-50 p-3 rounded-xl border border-slate-100 text-[11px] flex flex-col gap-1.5 font-semibold">
-                      <div className="flex justify-between">
-                        <span className="text-slate-400">{t('refundEligible')}</span>
-                        <span className="text-emerald-600">{t('fullRefund')}</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-slate-400">Processing</span>
-                        <span className="text-slate-700">{t('immediateInitiated')}</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-slate-400">{t('cancellationCost')}</span>
-                        <span className="text-slate-700">{t('freeFee')}</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="p-6 bg-slate-50/60 border-t border-slate-100 flex flex-col gap-3 text-left">
-                    <div className="flex justify-between items-baseline">
-                      <span className="text-slate-550 text-xs font-semibold">{t('refundAmount')}</span>
-                      <span className="text-base font-extrabold text-emerald-600">{t('fullRefundClaim')}</span>
-                    </div>
-                    <button
-                      onClick={() => handleAcceptPlan('refund')}
-                      disabled={successPlanAccepted !== null}
-                      className="w-full h-10 border border-slate-300 hover:bg-slate-55 text-slate-700 font-bold text-xs rounded-xl shadow-xs transition cursor-pointer active:scale-98"
-                    >
-                      {successPlanAccepted === 'refund' ? t('processing') : t('acceptPlan')}
-                    </button>
-                  </div>
-                </div>
-
-              </div>
-
-              {/* Success Feedback Modal Simulation */}
-              <AnimatePresence>
-                {successPlanAccepted && (
-                  <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/45 backdrop-blur-xs p-6"
-                  >
-                    <motion.div
-                      initial={{ scale: 0.9, y: 20 }}
-                      animate={{ scale: 1, y: 0 }}
-                      exit={{ scale: 0.9, y: 20 }}
-                      className="bg-white p-8 rounded-2xl shadow-2xl max-w-sm w-full text-center border border-slate-100 flex flex-col items-center gap-4"
-                    >
-                      <div className="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center text-emerald-555 mb-2">
-                        <Check className="w-8 h-8 stroke-[3]" />
-                      </div>
-                      <h3 className="text-xl font-bold text-slate-900 font-serif">{t('tripRecoveredTitle')}</h3>
-                      <p className="text-xs text-slate-550 leading-relaxed px-2">
-                        {t('tripRecoveredDesc')}
-                      </p>
-                      <span className="text-[10px] text-slate-400 font-mono tracking-wider animate-pulse">{t('updatingTimeline')}</span>
-                    </motion.div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
->>>>>>> origin/main
-            </motion.div>
-          )}
+          {
+            currentPage === 'rescue' && userAuth.loggedIn && (
+              <motion.div
+                key="rescue-page"
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -15 }}
+                transition={{ duration: 0.25 }}
+                className="max-w-5xl mx-auto w-full px-4 sm:px-6 py-6 flex flex-col gap-6"
+              >
+                <RecoveryControl
+                  tripId={tripRefNum}
+                  currentTrip={currentTrip}
+                  disruptionState={disruptionState}
+                  onPlanApplied={handlePlanApplied}
+                  onBackToTimeline={() => setCurrentPage('my-trip')}
+                />
+              </motion.div >
+            )
+          }
 
           {/* ================= PAGE 4: CHAOS LAB SANDBOX ================= */}
-          {currentPage === 'chaos-lab' && userAuth.loggedIn && (
-            <motion.div
-              key="chaos-lab"
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -15 }}
-              transition={{ duration: 0.25 }}
-              className="max-w-5xl mx-auto w-full px-4 sm:px-6 py-10 flex flex-col gap-6"
-            >
-              <div className="border-b border-slate-205 pb-5 text-left">
-                <span className="px-3 py-1 rounded-full bg-orange-100 text-[#FF7700] text-xs font-bold font-mono uppercase tracking-wider">
-                  ⚡ Sandbox Mode
-                </span>
-                <h1 className="text-2xl font-extrabold text-slate-900 mt-2 font-serif">{t('chaosTitle')}</h1>
-                <p className="text-slate-505 text-xs mt-1 leading-relaxed">{t('chaosDesc')}</p>
-              </div>
+          {
+            currentPage === 'chaos-lab' && userAuth.loggedIn && (
+              <motion.div
+                key="chaos-lab"
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -15 }}
+                transition={{ duration: 0.25 }}
+                className="max-w-5xl mx-auto w-full px-4 sm:px-6 py-10 flex flex-col gap-6"
+              >
+                <div className="border-b border-slate-205 pb-5 text-left">
+                  <span className="px-3 py-1 rounded-full bg-orange-100 text-[#FF7700] text-xs font-bold font-mono uppercase tracking-wider">
+                    ⚡ Sandbox Mode
+                  </span>
+                  <h1 className="text-2xl font-extrabold text-slate-900 mt-2 font-serif">{t('chaosTitle')}</h1>
+                  <p className="text-slate-505 text-xs mt-1 leading-relaxed">{t('chaosDesc')}</p>
+                </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                {/* Controls Card */}
-                <div className="md:col-span-2 bg-white p-4 sm:p-6 rounded-2xl border border-slate-100 shadow-sm space-y-6 text-left">
-                  <h3 className="text-sm font-bold uppercase tracking-wider text-slate-400 font-mono">{t('disruptionParams')}</h3>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                  {/* Controls Card */}
+                  <div className="md:col-span-2 bg-white p-4 sm:p-6 rounded-2xl border border-slate-100 shadow-sm space-y-6 text-left">
+                    <h3 className="text-sm font-bold uppercase tracking-wider text-slate-400 font-mono">{t('disruptionParams')}</h3>
 
-                  {/* 1. Node selector */}
-                  <div className="space-y-2">
-                    <label className="text-xs font-bold text-slate-655 block">{t('selectNode')}</label>
-                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                      {currentTrip.map(node => (
-                        <button
-                          key={node.id}
-                          type="button"
-                          onClick={() => setSelectedDisruptNode(node.id)}
-                          className={`p-3 rounded-xl border text-left transition cursor-pointer flex flex-col gap-1.5 ${selectedDisruptNode === node.id
+                    {/* 1. Node selector */}
+                    <div className="space-y-2">
+                      <label className="text-xs font-bold text-slate-655 block">{t('selectNode')}</label>
+                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                        {currentTrip.map(node => (
+                          <button
+                            key={node.id}
+                            type="button"
+                            onClick={() => setSelectedDisruptNode(node.id)}
+                            className={`p-3 rounded-xl border text-left transition cursor-pointer flex flex-col gap-1.5 ${selectedDisruptNode === node.id
                               ? 'border-[#287DFA] bg-[#EAF3FF]/60 ring-2 ring-[#287DFA]/30'
                               : node.status === 'broken'
                                 ? 'border-red-300 bg-red-50/30 hover:bg-red-50/50'
                                 : node.status === 'delayed'
                                   ? 'border-amber-300 bg-amber-50/30 hover:bg-amber-50/50'
                                   : 'border-emerald-300 bg-emerald-50/30 hover:bg-emerald-50/50'
-                            }`}
-                        >
-                          <div className="flex justify-between items-center w-full">
-                            <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500">
-                              {node.type}
-                            </span>
-                            <span className={`text-[9px] font-extrabold px-1.5 py-0.5 rounded uppercase font-mono ${node.status === 'broken'
+                              }`}
+                          >
+                            <div className="flex justify-between items-center w-full">
+                              <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500">
+                                {node.type}
+                              </span>
+                              <span className={`text-[9px] font-extrabold px-1.5 py-0.5 rounded uppercase font-mono ${node.status === 'broken'
                                 ? 'bg-red-100 text-red-700'
                                 : node.status === 'delayed'
                                   ? 'bg-amber-100 text-amber-700'
                                   : 'bg-emerald-100 text-emerald-700'
-                              }`}>
-                              {node.status === 'broken' ? 'BROKEN' : node.status === 'delayed' ? 'AT RISK' : 'SAFE'}
-                            </span>
-                          </div>
-                          <span className="font-bold text-xs truncate text-slate-900">{node.title}</span>
-                          <span className="text-[10px] font-semibold text-slate-500 font-mono">{node.scheduledStart} - {node.scheduledEnd}</span>
-                        </button>
-                      ))}
+                                }`}>
+                                {node.status === 'broken' ? 'BROKEN' : node.status === 'delayed' ? 'AT RISK' : 'SAFE'}
+                              </span>
+                            </div>
+                            <span className="font-bold text-xs truncate text-slate-900">{node.title}</span>
+                            <span className="text-[10px] font-semibold text-slate-500 font-mono">{node.scheduledStart} - {node.scheduledEnd}</span>
+                          </button>
+                        ))}
+                      </div>
                     </div>
-                  </div>
 
-                  {/* 2. Disruption Type */}
-                  <div className="space-y-2">
-                    <label className="text-xs font-bold text-slate-655 block">{t('disruptType')}</label>
-                    <div className="grid grid-cols-3 gap-3">
-                      <button
-                        type="button"
-                        onClick={() => setDisruptType('delay')}
-                        className={`py-2 px-3 rounded-lg border text-center text-xs font-bold transition cursor-pointer ${disruptType === 'delay'
+                    {/* 2. Disruption Type */}
+                    <div className="space-y-2">
+                      <label className="text-xs font-bold text-slate-655 block">{t('disruptType')}</label>
+                      <div className="grid grid-cols-3 gap-3">
+                        <button
+                          type="button"
+                          onClick={() => setDisruptType('delay')}
+                          className={`py-2 px-3 rounded-lg border text-center text-xs font-bold transition cursor-pointer ${disruptType === 'delay'
                             ? 'border-[#FF7700] bg-orange-50 text-[#FF7700]'
                             : 'border-slate-205 text-slate-600 hover:bg-slate-50'
-                          }`}
-                      >
-                        {t('delayOption')}
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => setDisruptType('cancel')}
-                        className={`py-2 px-3 rounded-lg border text-center text-xs font-bold transition cursor-pointer ${disruptType === 'cancel'
-                            ? 'border-red-500 bg-red-50 text-red-655'
-                            : 'border-slate-205 text-slate-600 hover:bg-slate-50'
-                          }`}
-                      >
-                        {t('cancelOption')}
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => setDisruptType('lockout')}
-                        className={`py-2 px-3 rounded-lg border text-center text-xs font-bold transition cursor-pointer ${disruptType === 'lockout'
-                            ? 'border-red-500 bg-red-50 text-red-655'
-                            : 'border-slate-205 text-slate-600 hover:bg-slate-50'
-                          }`}
-                      >
-                        {t('lockoutOption')}
-                      </button>
-                    </div>
-                  </div>
-
-                  {/* 3. Delay duration slider */}
-                  {disruptType === 'delay' && (
-                    <div className="space-y-2">
-                      <div className="flex justify-between items-baseline">
-                        <label className="text-xs font-bold text-slate-655">{t('delayAmount')}</label>
-                        <span className="text-sm font-mono font-extrabold text-[#FF7700]">{disruptDelay} {t('minsLabel')} ({(disruptDelay / 60).toFixed(1)} hrs)</span>
-                      </div>
-                      <input
-                        type="range"
-                        min="15"
-                        max="360"
-                        step="15"
-                        value={disruptDelay}
-                        onChange={(e) => setDisruptDelay(Number(e.target.value))}
-                        className="w-full h-2 bg-slate-100 rounded-lg appearance-none cursor-pointer accent-[#FF7700]"
-                      />
-                    </div>
-                  )}
-
-                  {/* 4. Reason */}
-                  <div className="space-y-2">
-                    <label className="text-xs font-bold text-slate-655 block">{t('disruptReason')}</label>
-                    <select
-                      value={disruptReason}
-                      onChange={(e) => setDisruptReason(e.target.value)}
-                      className="w-full h-10 px-3 rounded-lg border border-slate-200 text-xs font-bold bg-slate-50 focus:outline-none focus:border-[#FF7700] transition cursor-pointer appearance-none"
-                    >
-                      <option value="Severe Weather & Thunderstorms">{t('weatherReason')}</option>
-                      <option value="Mechanical Failure & Engine Stall">{t('mechReason')}</option>
-                      <option value="Rail/Air Traffic Congestion">{t('trafficReason')}</option>
-                      <option value="Security Lockdown Alert">{t('securityReason')}</option>
-                    </select>
-                  </div>
-
-                  {/* Action Buttons */}
-                  <div className="flex flex-col sm:flex-row gap-3 pt-4 border-t border-slate-105">
-                    <button
-                      type="button"
-                      onClick={() => {
-                        triggerDisruptionCascade(selectedDisruptNode, disruptType, disruptDelay, disruptReason);
-                      }}
-                      className="flex-1 px-6 h-11 bg-[#FF7700] hover:bg-[#E06600] text-white font-extrabold rounded-xl transition shadow-md shadow-[#FF7700]/10 active:scale-98 flex items-center justify-center gap-2 cursor-pointer text-xs"
-                    >
-                      <Flame className="w-4 h-4" /> {t('triggerBtn')}
-                    </button>
-
-<<<<<<< HEAD
-                    <button
-                      type="button"
-                      onClick={() => setCurrentPage('rescue')}
-                      className="px-4 h-11 border border-blue-200 bg-blue-50 hover:bg-blue-100 text-[#287DFA] font-bold rounded-xl transition cursor-pointer text-xs flex items-center justify-center gap-1.5"
-                    >
-                      <span>🎛️ Recovery Control →</span>
-                    </button>
-
-                    <button
-                      type="button"
-                      onClick={() => setCurrentPage('my-trip')}
-                      className="px-4 h-11 border border-orange-200 bg-orange-50 hover:bg-orange-100 text-orange-800 font-bold rounded-xl transition cursor-pointer text-xs flex items-center justify-center gap-1.5"
-                    >
-                      <span>{t('navMyTrips')} →</span>
-                    </button>
-                    
-=======
->>>>>>> origin/main
-                    <button
-                      type="button"
-                      onClick={handleResetJourney}
-                      className="px-6 h-11 border border-slate-350 bg-white hover:bg-slate-50 text-slate-700 font-bold rounded-xl transition cursor-pointer text-xs"
-                    >
-                      {t('resetBtn')}
-                    </button>
-                  </div>
-                </div>
-
-                {/* Metrics & Impact Panel */}
-                <div className="bg-slate-900 text-white p-6 rounded-2xl flex flex-col justify-between relative overflow-hidden shadow-xl border border-slate-800 text-left">
-                  <div className="absolute right-0 top-0 translate-x-10 -translate-y-10 w-36 h-36 rounded-full bg-[#FF7700]/10 blur-xl pointer-events-none" />
-
-                  <div className="space-y-6 z-10">
-                    <div className="flex items-center gap-2 text-orange-400">
-                      <Sparkles className="w-5 h-5" />
-                      <h4 className="text-xs font-bold uppercase tracking-wider font-mono">{t('impactTitle')}</h4>
-                    </div>
-
-                    <div className="space-y-4">
-                      {/* Metric 1 */}
-                      <div className="border-b border-slate-800 pb-3 flex justify-between items-center">
-                        <span className="text-slate-400 text-xs font-semibold">{t('downstreamDelay')}</span>
-                        <span className="text-lg font-mono font-extrabold text-[#FF7700]">
-                          {impactMetrics.delayMinutes > 0 ? `${impactMetrics.delayMinutes} ${t('minsLabel')}` : `0 ${t('minsLabel')}`}
-                        </span>
-                      </div>
-
-                      {/* Metric 2 */}
-                      <div className="border-b border-slate-800 pb-3 flex justify-between items-center">
-                        <span className="text-slate-400 text-xs font-semibold">{t('brokenConnections')}</span>
-                        <span className="text-lg font-mono font-extrabold text-rose-500">
-                          {impactMetrics.brokenConnections}
-                        </span>
-                      </div>
-
-                      {/* Metric 3 */}
-                      <div className="pb-1 flex justify-between items-center">
-                        <span className="text-slate-400 text-xs font-semibold">{t('affectedNodes')}</span>
-                        <span className="text-lg font-mono font-extrabold text-orange-400">
-                          {impactMetrics.affectedNodes}
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="pt-8 z-10">
-                    <div className="bg-slate-800/60 p-4 rounded-xl border border-slate-700/50 text-[11px] leading-relaxed text-slate-400 space-y-2">
-                      <span className="font-extrabold text-white block uppercase tracking-wider font-mono text-[10px]">{t('realTimeGraphImpact')}</span>
-                      {t('graphImpactDesc')}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-          )}
-
-          {/* ================= PAGE 5: LOCAL DINING & RESTAURANTS ================= */}
-          {currentPage === 'restaurants' && userAuth.loggedIn && (
-            <motion.div
-              key="restaurants-page"
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -15 }}
-              transition={{ duration: 0.25 }}
-              className="max-w-5xl mx-auto w-full px-4 sm:px-6 py-10 flex flex-col gap-6"
-            >
-              <DiningHub
-                tripId={tripRefNum}
-                tripRef={tripRefNum}
-                currentTripNodes={currentTrip}
-                activeDestination={activeDestination}
-              />
-            </motion.div>
-          )}
-
-          {/* ================= PAGE 6: SUPPORT HUB & CHATBOT CENTER ================= */}
-          {currentPage === 'support' && userAuth.loggedIn && (
-            <motion.div
-              key="support-page"
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -15 }}
-              transition={{ duration: 0.25 }}
-              className="max-w-5xl mx-auto w-full px-4 sm:px-6 py-10 flex flex-col gap-6"
-            >
-              <div className="border-b border-slate-200 pb-5 text-left">
-                <span className="px-3 py-1 rounded-full bg-slate-900 text-white text-xs font-bold font-mono uppercase tracking-wider">
-                  📞 Help Center
-                </span>
-                <h1 className="text-2xl font-extrabold text-slate-900 mt-2 font-serif">{t('supportTitle')}</h1>
-                <p className="text-slate-550 text-xs mt-1">{t('supportDesc')}</p>
-              </div>
-
-              {/* Support tabs */}
-              <div className="flex gap-2 border-b border-slate-200 pb-2">
-                <button
-                  onClick={() => setSupportTab('faq')}
-                  className={`px-4 py-2 text-xs font-bold transition cursor-pointer ${supportTab === 'faq' ? 'text-[#287DFA] border-b-2 border-[#287DFA]' : 'text-slate-505'
-                    }`}
-                >
-                  {t('faqTab')}
-                </button>
-                <button
-                  onClick={() => setSupportTab('bug')}
-                  className={`px-4 py-2 text-xs font-bold transition cursor-pointer ${supportTab === 'bug' ? 'text-[#287DFA] border-b-2 border-[#287DFA]' : 'text-slate-505'
-                    }`}
-                >
-                  {t('bugTab')}
-                </button>
-                <button
-                  onClick={() => setSupportTab('feedback')}
-                  className={`px-4 py-2 text-xs font-bold transition cursor-pointer ${supportTab === 'feedback' ? 'text-[#287DFA] border-b-2 border-[#287DFA]' : 'text-slate-505'
-                    }`}
-                >
-                  {t('feedbackTab')}
-                </button>
-              </div>
-
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
-
-                {/* Left Side: Content Tab Panels */}
-                <div className="lg:col-span-2">
-
-                  {/* Tab 1: FAQs & Helpline */}
-                  {supportTab === 'faq' && (
-                    <div className="space-y-6 text-left">
-                      {/* Helpline Box */}
-                      <div className="p-5 bg-rose-50 border border-rose-100 rounded-2xl flex flex-col sm:flex-row items-center justify-between gap-4">
-                        <div className="flex gap-3">
-                          <div className="p-3 bg-rose-500 text-white rounded-xl self-start shrink-0">
-                            <ShieldAlert className="w-5 h-5 animate-pulse" />
-                          </div>
-                          <div>
-                            <h4 className="text-sm font-bold text-slate-900 font-serif">{t('sosHelpline')}</h4>
-                            <p className="text-xs text-slate-600 mt-1 leading-normal font-semibold">
-                              {t('sosDesc')}: <span className="font-extrabold text-rose-600 font-mono">1800-419-7377</span> (Toll-Free). Immediate vector backup deck active.
-                            </p>
-                          </div>
-                        </div>
-                        <a
-                          href="tel:18004197377"
-                          className="px-4 py-2 bg-rose-500 text-white text-xs font-bold rounded-lg hover:bg-rose-600 transition shadow-sm whitespace-nowrap text-center animate-pulse w-full sm:w-auto"
-                        >
-                          {t('callSos')}
-                        </a>
-                      </div>
-
-                      {/* FAQs Grid */}
-                      <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm space-y-4">
-                        <h3 className="text-base font-extrabold text-slate-900 border-b border-slate-50 pb-2 font-serif">{t('faqTitle')}</h3>
-
-                        <div className="space-y-4">
-                          <div className="space-y-1">
-                            <h4 className="text-xs font-extrabold text-slate-900 font-serif">Q: How does the automatic rebooking guard work?</h4>
-                            <p className="text-[11px] text-slate-505 leading-relaxed font-semibold">
-                              TripResQ monitors flight and train schedules in real-time. If your transit is delayed and we compute a broken connection with your downstream travel (e.g. cab pickup or hotel stay), our engine automatically triggers pre-validated recovery routes and registers them for you at no cost.
-                            </p>
-                          </div>
-                          <div className="space-y-1">
-                            <h4 className="text-xs font-extrabold text-slate-900 font-serif">Q: Are the rescue flights/trains completely free?</h4>
-                            <p className="text-[11px] text-slate-505 leading-relaxed font-semibold">
-                              Yes! All recovery travel is covered 100% under your TripResQ Protection plan. You don't pay a single rupee extra when choosing a replacement plan.
-                            </p>
-                          </div>
-                          <div className="space-y-1">
-                            <h4 className="text-xs font-extrabold text-slate-900 font-serif">Q: How is hotel late check-in handled?</h4>
-                            <p className="text-[11px] text-slate-555 leading-relaxed font-semibold">
-                              If your arrival is delayed, our system automatically informs the hotel reception desk via API, sending check-in updates and preventing reservation cancellations for late arrival.
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  )}
-
-                  {/* Tab 2: Bug Report Form */}
-                  {supportTab === 'bug' && (
-                    <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm space-y-6 text-left">
-                      <div>
-                        <h3 className="text-base font-extrabold text-slate-900 font-serif">{t('bugTitle')}</h3>
-                        <p className="text-slate-450 text-[11px] mt-0.5 font-semibold">Spotted something broken? File a report so our engineers can fix it.</p>
-                      </div>
-
-                      <AnimatePresence mode="wait">
-                        {bugSuccess ? (
-                          <motion.div
-                            initial={{ opacity: 0, y: 10 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            exit={{ opacity: 0 }}
-                            className="p-6 bg-emerald-50 border border-emerald-200 rounded-xl text-center flex flex-col items-center gap-3"
-                          >
-                            <CheckCircle className="w-10 h-10 text-emerald-500" />
-                            <h4 className="font-bold text-slate-900 text-sm font-serif">{t('reportSuccessTitle')}</h4>
-                            <p className="text-xs text-slate-600 font-semibold">{t('reportSuccessDesc')}{bugTicketId}. {t('reportSuccessSub')}</p>
-                          </motion.div>
-                        ) : (
-                          <form onSubmit={handleBugSubmit} className="space-y-4">
-                            <div className="flex flex-col gap-1">
-                              <label className="text-xs font-bold text-slate-655">{t('bugSummary')}</label>
-                              <input
-                                type="text"
-                                required
-                                value={bugSummary}
-                                onChange={(e) => setBugSummary(e.target.value)}
-                                placeholder="E.g. Cab pick-up timeline node is showing NaN hours delay"
-                                className="w-full h-10 px-3 rounded-lg border border-slate-205 text-xs font-semibold focus:outline-none focus:border-[#287DFA] transition"
-                              />
-                            </div>
-
-                            <div className="flex flex-col gap-1">
-                              <label className="text-xs font-bold text-slate-655">{t('bugSteps')}</label>
-                              <textarea
-                                rows="3"
-                                value={bugSteps}
-                                onChange={(e) => setBugSteps(e.target.value)}
-                                placeholder="1. Go to homepage&#10;2. Build a flight trip&#10;3. Trigger terminal disruption in chaos lab"
-                                className="w-full p-3 rounded-lg border border-slate-205 text-xs font-semibold focus:outline-none focus:border-[#287DFA] transition resize-none"
-                              />
-                            </div>
-
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                              <div className="flex flex-col gap-1">
-                                <label className="text-xs font-bold text-slate-655">{t('bugSeverity')}</label>
-                                <select
-                                  value={bugSeverity}
-                                  onChange={(e) => setBugSeverity(e.target.value)}
-                                  className="h-10 px-3 rounded-lg border border-slate-205 text-xs font-bold bg-slate-50 focus:outline-none focus:border-[#287DFA] transition cursor-pointer"
-                                >
-                                  <option value="Low">{t('severityLow')}</option>
-                                  <option value="Medium">{t('severityMedium')}</option>
-                                  <option value="High">{t('severityHigh')}</option>
-                                  <option value="Critical">{t('severityCritical')}</option>
-                                </select>
-                              </div>
-
-                              <div className="flex flex-col gap-1">
-                                <label className="text-xs font-bold text-slate-655">Mock Screenshot Upload</label>
-                                <div
-                                  onClick={() => setBugScreenshot('tripresq_screenshot.png')}
-                                  className="h-10 px-3 border border-dashed border-slate-300 rounded-lg flex items-center justify-center gap-1.5 text-xs text-slate-555 cursor-pointer hover:bg-slate-50 transition"
-                                >
-                                  <Upload className="w-4 h-4 text-slate-400" />
-                                  <span>{bugScreenshot ? bugScreenshot : t('bugScreenshot').split(',')[0]}</span>
-                                </div>
-                              </div>
-                            </div>
-
-                            <button
-                              type="submit"
-                              className="w-full h-10 bg-[#287DFA] hover:bg-[#1C6BDB] text-white text-xs font-bold rounded-lg transition shadow-sm cursor-pointer"
-                            >
-                              {t('bugSubmit')}
-                            </button>
-                          </form>
-                        )}
-                      </AnimatePresence>
-                    </div>
-                  )}
-
-                  {/* Tab 3: Share Feedback */}
-                  {supportTab === 'feedback' && (
-                    <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm space-y-6 text-left">
-                      <div>
-                        <h3 className="text-base font-extrabold text-slate-905 font-serif">{t('feedbackTitle')}</h3>
-                        <p className="text-slate-450 text-[11px] mt-0.5 font-semibold">{t('feedbackSub')}</p>
-                      </div>
-
-                      <AnimatePresence mode="wait">
-                        {feedbackSuccess ? (
-                          <motion.div
-                            initial={{ opacity: 0, y: 10 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            exit={{ opacity: 0 }}
-                            className="p-6 bg-emerald-50 border border-emerald-200 rounded-xl text-center flex flex-col items-center gap-3"
-                          >
-                            <CheckCircle className="w-10 h-10 text-emerald-500" />
-                            <h4 className="font-bold text-slate-900 text-sm font-serif">{t('feedbackSuccessTitle')}</h4>
-                            <p className="text-xs text-slate-650 font-semibold">{t('feedbackSuccessDesc')}</p>
-                          </motion.div>
-                        ) : (
-                          <form onSubmit={handleFeedbackSubmit} className="space-y-6">
-                            {/* Star Selection */}
-                            <div className="flex flex-col items-center gap-2 py-4 bg-slate-50/60 rounded-xl">
-                              <span className="text-xs font-bold text-slate-500 font-serif">{t('tapToRate')}</span>
-                              <div className="flex items-center gap-1.5">
-                                {[1, 2, 3, 4, 5].map((star) => (
-                                  <button
-                                    key={star}
-                                    type="button"
-                                    onClick={() => setFeedbackRating(star)}
-                                    onMouseEnter={() => setFeedbackHover(star)}
-                                    onMouseLeave={() => setFeedbackHover(0)}
-                                    className="p-1 cursor-pointer transition active:scale-90"
-                                  >
-                                    <Star
-                                      className={`w-8 h-8 ${star <= (feedbackHover || feedbackRating)
-                                          ? 'text-amber-450 fill-amber-400 stroke-amber-500'
-                                          : 'text-slate-300 stroke-slate-300'
-                                        }`}
-                                    />
-                                  </button>
-                                ))}
-                              </div>
-                            </div>
-
-                            {/* Tags Selection */}
-                            <div className="space-y-2">
-                              <label className="text-xs font-bold text-slate-655 block">{t('feedbackTags')}</label>
-                              <div className="flex flex-wrap gap-2">
-                                {['#FastRescue', '#CleanLayout', '#ResponsiveSupport', '#ZeroHassle', '#AccurateCalculations'].map(tag => {
-                                  const isSelected = selectedTags.includes(tag);
-                                  return (
-                                    <button
-                                      key={tag}
-                                      type="button"
-                                      onClick={() => {
-                                        if (isSelected) {
-                                          setSelectedTags(prev => prev.filter(t => t !== tag));
-                                        } else {
-                                          setSelectedTags(prev => [...prev, tag]);
-                                        }
-                                      }}
-                                      className={`px-3 py-1 rounded-full text-xs font-bold transition cursor-pointer ${isSelected
-                                          ? 'bg-slate-900 text-white'
-                                          : 'bg-slate-105 hover:bg-slate-200 text-slate-605'
-                                        }`}
-                                    >
-                                      {tag}
-                                    </button>
-                                  );
-                                })}
-                              </div>
-                            </div>
-
-                            {/* Comment */}
-                            <div className="flex flex-col gap-1">
-                              <label className="text-xs font-bold text-slate-655 font-serif font-semibold">Review Comment</label>
-                              <textarea
-                                rows="3"
-                                value={feedbackComment}
-                                onChange={(e) => setFeedbackComment(e.target.value)}
-                                placeholder={t('feedbackComment')}
-                                className="w-full p-3 rounded-lg border border-slate-205 text-xs font-semibold focus:outline-none focus:border-[#287DFA] transition resize-none"
-                              />
-                            </div>
-
-                            <button
-                              type="submit"
-                              disabled={feedbackRating === 0}
-                              className={`w-full h-10 text-white text-xs font-bold rounded-lg transition shadow-sm cursor-pointer ${feedbackRating > 0 ? 'bg-[#287DFA] hover:bg-[#1C6BDB]' : 'bg-slate-300 text-slate-555 cursor-not-allowed'
-                                }`}
-                            >
-                              {t('feedbackSubmit')}
-                            </button>
-                          </form>
-                        )}
-                      </AnimatePresence>
-                    </div>
-                  )}
-
-                </div>
-
-                {/* Right Side: Chatbot Widget */}
-                <div className="bg-white rounded-2xl border border-slate-100 shadow-lg flex flex-col h-[480px] overflow-hidden text-left">
-                  {/* Chatbot Header */}
-                  <div className="p-4 bg-[#287DFA] text-white flex items-center gap-3">
-                    <div className="p-2 bg-white/20 rounded-xl">
-                      <Sparkles className="w-5 h-5 text-white" />
-                    </div>
-                    <div>
-                      <h4 className="font-extrabold text-sm font-serif">{t('chatbotTitle')}</h4>
-                      <p className="text-[10px] text-white/80">{t('chatbotSub')}</p>
-                    </div>
-                  </div>
-
-                  {/* Messages Feed */}
-                  <div className="flex-1 p-4 overflow-y-auto space-y-3 bg-slate-50 custom-scrollbar">
-                    {chatMessages.map(msg => (
-                      <div
-                        key={msg.id}
-                        className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}
-                      >
-                        <div
-                          className={`max-w-[85%] rounded-2xl px-3.5 py-2 text-xs leading-relaxed ${msg.sender === 'user'
-                              ? 'bg-[#287DFA] text-white rounded-tr-none'
-                              : 'bg-white text-slate-850 border border-slate-100 rounded-tl-none shadow-xs'
                             }`}
                         >
-                          {msg.text}
+                          {t('delayOption')}
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setDisruptType('cancel')}
+                          className={`py-2 px-3 rounded-lg border text-center text-xs font-bold transition cursor-pointer ${disruptType === 'cancel'
+                            ? 'border-red-500 bg-red-50 text-red-655'
+                            : 'border-slate-205 text-slate-600 hover:bg-slate-50'
+                            }`}
+                        >
+                          {t('cancelOption')}
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setDisruptType('lockout')}
+                          className={`py-2 px-3 rounded-lg border text-center text-xs font-bold transition cursor-pointer ${disruptType === 'lockout'
+                            ? 'border-red-500 bg-red-50 text-red-655'
+                            : 'border-slate-205 text-slate-600 hover:bg-slate-50'
+                            }`}
+                        >
+                          {t('lockoutOption')}
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* 3. Delay duration slider */}
+                    {disruptType === 'delay' && (
+                      <div className="space-y-2">
+                        <div className="flex justify-between items-baseline">
+                          <label className="text-xs font-bold text-slate-655">{t('delayAmount')}</label>
+                          <span className="text-sm font-mono font-extrabold text-[#FF7700]">{disruptDelay} {t('minsLabel')} ({(disruptDelay / 60).toFixed(1)} hrs)</span>
+                        </div>
+                        <input
+                          type="range"
+                          min="15"
+                          max="360"
+                          step="15"
+                          value={disruptDelay}
+                          onChange={(e) => setDisruptDelay(Number(e.target.value))}
+                          className="w-full h-2 bg-slate-100 rounded-lg appearance-none cursor-pointer accent-[#FF7700]"
+                        />
+                      </div>
+                    )}
+
+                    {/* 4. Reason */}
+                    <div className="space-y-2">
+                      <label className="text-xs font-bold text-slate-655 block">{t('disruptReason')}</label>
+                      <select
+                        value={disruptReason}
+                        onChange={(e) => setDisruptReason(e.target.value)}
+                        className="w-full h-10 px-3 rounded-lg border border-slate-200 text-xs font-bold bg-slate-50 focus:outline-none focus:border-[#FF7700] transition cursor-pointer appearance-none"
+                      >
+                        <option value="Severe Weather & Thunderstorms">{t('weatherReason')}</option>
+                        <option value="Mechanical Failure & Engine Stall">{t('mechReason')}</option>
+                        <option value="Rail/Air Traffic Congestion">{t('trafficReason')}</option>
+                        <option value="Security Lockdown Alert">{t('securityReason')}</option>
+                      </select>
+                    </div>
+
+                    {/* Action Buttons */}
+                    <div className="flex flex-col sm:flex-row gap-3 pt-4 border-t border-slate-105">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          triggerDisruptionCascade(selectedDisruptNode, disruptType, disruptDelay, disruptReason);
+                        }}
+                        className="flex-1 px-6 h-11 bg-[#FF7700] hover:bg-[#E06600] text-white font-extrabold rounded-xl transition shadow-md shadow-[#FF7700]/10 active:scale-98 flex items-center justify-center gap-2 cursor-pointer text-xs"
+                      >
+                        <Flame className="w-4 h-4" /> {t('triggerBtn')}
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={() => setCurrentPage('rescue')}
+                        className="px-4 h-11 border border-blue-200 bg-blue-50 hover:bg-blue-100 text-[#287DFA] font-bold rounded-xl transition cursor-pointer text-xs flex items-center justify-center gap-1.5"
+                      >
+                        <span>🎛️ Recovery Control →</span>
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={() => setCurrentPage('my-trip')}
+                        className="px-4 h-11 border border-orange-200 bg-orange-50 hover:bg-orange-100 text-orange-800 font-bold rounded-xl transition cursor-pointer text-xs flex items-center justify-center gap-1.5"
+                      >
+                        <span>{t('navMyTrips')} →</span>
+                      </button>
+                      <button
+                        type="button"
+                        onClick={handleResetJourney}
+                        className="px-6 h-11 border border-slate-350 bg-white hover:bg-slate-50 text-slate-700 font-bold rounded-xl transition cursor-pointer text-xs"
+                      >
+                        {t('resetBtn')}
+                      </button>
+                    </div >
+                  </div >
+
+                  {/* Metrics & Impact Panel */}
+                  < div className="bg-slate-900 text-white p-6 rounded-2xl flex flex-col justify-between relative overflow-hidden shadow-xl border border-slate-800 text-left" >
+                    <div className="absolute right-0 top-0 translate-x-10 -translate-y-10 w-36 h-36 rounded-full bg-[#FF7700]/10 blur-xl pointer-events-none" />
+
+                    <div className="space-y-6 z-10">
+                      <div className="flex items-center gap-2 text-orange-400">
+                        <Sparkles className="w-5 h-5" />
+                        <h4 className="text-xs font-bold uppercase tracking-wider font-mono">{t('impactTitle')}</h4>
+                      </div>
+
+                      <div className="space-y-4">
+                        {/* Metric 1 */}
+                        <div className="border-b border-slate-800 pb-3 flex justify-between items-center">
+                          <span className="text-slate-400 text-xs font-semibold">{t('downstreamDelay')}</span>
+                          <span className="text-lg font-mono font-extrabold text-[#FF7700]">
+                            {impactMetrics.delayMinutes > 0 ? `${impactMetrics.delayMinutes} ${t('minsLabel')}` : `0 ${t('minsLabel')}`}
+                          </span>
+                        </div>
+
+                        {/* Metric 2 */}
+                        <div className="border-b border-slate-800 pb-3 flex justify-between items-center">
+                          <span className="text-slate-400 text-xs font-semibold">{t('brokenConnections')}</span>
+                          <span className="text-lg font-mono font-extrabold text-rose-500">
+                            {impactMetrics.brokenConnections}
+                          </span>
+                        </div>
+
+                        {/* Metric 3 */}
+                        <div className="pb-1 flex justify-between items-center">
+                          <span className="text-slate-400 text-xs font-semibold">{t('affectedNodes')}</span>
+                          <span className="text-lg font-mono font-extrabold text-orange-400">
+                            {impactMetrics.affectedNodes}
+                          </span>
                         </div>
                       </div>
-                    ))}
-                    {isChatTyping && (
-                      <div className="flex justify-start">
-                        <div className="bg-white border border-slate-100 text-slate-400 rounded-2xl rounded-tl-none px-4 py-2 text-xs flex items-center gap-1 shadow-xs">
-                          <span className="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce" />
-                          <span className="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce [animation-delay:0.2s]" />
-                          <span className="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce [animation-delay:0.4s]" />
+                    </div>
+
+                    <div className="pt-8 z-10">
+                      <div className="bg-slate-800/60 p-4 rounded-xl border border-slate-700/50 text-[11px] leading-relaxed text-slate-400 space-y-2">
+                        <span className="font-extrabold text-white block uppercase tracking-wider font-mono text-[10px]">{t('realTimeGraphImpact')}</span>
+                        {t('graphImpactDesc')}
+                      </div>
+                    </div>
+                  </div >
+                </div >
+              </motion.div >
+            )
+          }
+
+          {/* ================= PAGE 5: LOCAL DINING & RESTAURANTS ================= */}
+          {
+            currentPage === 'restaurants' && userAuth.loggedIn && (
+              <motion.div
+                key="restaurants-page"
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -15 }}
+                transition={{ duration: 0.25 }}
+                className="max-w-5xl mx-auto w-full px-4 sm:px-6 py-10 flex flex-col gap-6"
+              >
+                <DiningHub
+                  tripId={tripRefNum}
+                  tripRef={tripRefNum}
+                  currentTripNodes={currentTrip}
+                  activeDestination={activeDestination}
+                />
+              </motion.div>
+            )
+          }
+
+          {/* ================= PAGE 6: SUPPORT HUB & CHATBOT CENTER ================= */}
+          {
+            currentPage === 'support' && userAuth.loggedIn && (
+              <motion.div
+                key="support-page"
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -15 }}
+                transition={{ duration: 0.25 }}
+                className="max-w-5xl mx-auto w-full px-4 sm:px-6 py-10 flex flex-col gap-6"
+              >
+                <div className="border-b border-slate-200 pb-5 text-left">
+                  <span className="px-3 py-1 rounded-full bg-slate-900 text-white text-xs font-bold font-mono uppercase tracking-wider">
+                    📞 Help Center
+                  </span>
+                  <h1 className="text-2xl font-extrabold text-slate-900 mt-2 font-serif">{t('supportTitle')}</h1>
+                  <p className="text-slate-550 text-xs mt-1">{t('supportDesc')}</p>
+                </div>
+
+                {/* Support tabs */}
+                <div className="flex gap-2 border-b border-slate-200 pb-2">
+                  <button
+                    onClick={() => setSupportTab('faq')}
+                    className={`px-4 py-2 text-xs font-bold transition cursor-pointer ${supportTab === 'faq' ? 'text-[#287DFA] border-b-2 border-[#287DFA]' : 'text-slate-505'
+                      }`}
+                  >
+                    {t('faqTab')}
+                  </button>
+                  <button
+                    onClick={() => setSupportTab('bug')}
+                    className={`px-4 py-2 text-xs font-bold transition cursor-pointer ${supportTab === 'bug' ? 'text-[#287DFA] border-b-2 border-[#287DFA]' : 'text-slate-505'
+                      }`}
+                  >
+                    {t('bugTab')}
+                  </button>
+                  <button
+                    onClick={() => setSupportTab('feedback')}
+                    className={`px-4 py-2 text-xs font-bold transition cursor-pointer ${supportTab === 'feedback' ? 'text-[#287DFA] border-b-2 border-[#287DFA]' : 'text-slate-505'
+                      }`}
+                  >
+                    {t('feedbackTab')}
+                  </button>
+                </div>
+
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+
+                  {/* Left Side: Content Tab Panels */}
+                  <div className="lg:col-span-2">
+
+                    {/* Tab 1: FAQs & Helpline */}
+                    {supportTab === 'faq' && (
+                      <div className="space-y-6 text-left">
+                        {/* Helpline Box */}
+                        <div className="p-5 bg-rose-50 border border-rose-100 rounded-2xl flex flex-col sm:flex-row items-center justify-between gap-4">
+                          <div className="flex gap-3">
+                            <div className="p-3 bg-rose-500 text-white rounded-xl self-start shrink-0">
+                              <ShieldAlert className="w-5 h-5 animate-pulse" />
+                            </div>
+                            <div>
+                              <h4 className="text-sm font-bold text-slate-900 font-serif">{t('sosHelpline')}</h4>
+                              <p className="text-xs text-slate-600 mt-1 leading-normal font-semibold">
+                                {t('sosDesc')}: <span className="font-extrabold text-rose-600 font-mono">1800-419-7377</span> (Toll-Free). Immediate vector backup deck active.
+                              </p>
+                            </div>
+                          </div>
+                          <a
+                            href="tel:18004197377"
+                            className="px-4 py-2 bg-rose-500 text-white text-xs font-bold rounded-lg hover:bg-rose-600 transition shadow-sm whitespace-nowrap text-center animate-pulse w-full sm:w-auto"
+                          >
+                            {t('callSos')}
+                          </a>
+                        </div>
+
+                        {/* FAQs Grid */}
+                        <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm space-y-4">
+                          <h3 className="text-base font-extrabold text-slate-900 border-b border-slate-50 pb-2 font-serif">{t('faqTitle')}</h3>
+
+                          <div className="space-y-4">
+                            <div className="space-y-1">
+                              <h4 className="text-xs font-extrabold text-slate-900 font-serif">Q: How does the automatic rebooking guard work?</h4>
+                              <p className="text-[11px] text-slate-505 leading-relaxed font-semibold">
+                                TripResQ monitors flight and train schedules in real-time. If your transit is delayed and we compute a broken connection with your downstream travel (e.g. cab pickup or hotel stay), our engine automatically triggers pre-validated recovery routes and registers them for you at no cost.
+                              </p>
+                            </div>
+                            <div className="space-y-1">
+                              <h4 className="text-xs font-extrabold text-slate-900 font-serif">Q: Are the rescue flights/trains completely free?</h4>
+                              <p className="text-[11px] text-slate-505 leading-relaxed font-semibold">
+                                Yes! All recovery travel is covered 100% under your TripResQ Protection plan. You don't pay a single rupee extra when choosing a replacement plan.
+                              </p>
+                            </div>
+                            <div className="space-y-1">
+                              <h4 className="text-xs font-extrabold text-slate-900 font-serif">Q: How is hotel late check-in handled?</h4>
+                              <p className="text-[11px] text-slate-555 leading-relaxed font-semibold">
+                                If your arrival is delayed, our system automatically informs the hotel reception desk via API, sending check-in updates and preventing reservation cancellations for late arrival.
+                              </p>
+                            </div>
+                          </div>
                         </div>
                       </div>
                     )}
+
+                    {/* Tab 2: Bug Report Form */}
+                    {supportTab === 'bug' && (
+                      <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm space-y-6 text-left">
+                        <div>
+                          <h3 className="text-base font-extrabold text-slate-900 font-serif">{t('bugTitle')}</h3>
+                          <p className="text-slate-450 text-[11px] mt-0.5 font-semibold">Spotted something broken? File a report so our engineers can fix it.</p>
+                        </div>
+
+                        <AnimatePresence mode="wait">
+                          {bugSuccess ? (
+                            <motion.div
+                              initial={{ opacity: 0, y: 10 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              exit={{ opacity: 0 }}
+                              className="p-6 bg-emerald-50 border border-emerald-200 rounded-xl text-center flex flex-col items-center gap-3"
+                            >
+                              <CheckCircle className="w-10 h-10 text-emerald-500" />
+                              <h4 className="font-bold text-slate-900 text-sm font-serif">{t('reportSuccessTitle')}</h4>
+                              <p className="text-xs text-slate-600 font-semibold">{t('reportSuccessDesc')}{bugTicketId}. {t('reportSuccessSub')}</p>
+                            </motion.div>
+                          ) : (
+                            <form onSubmit={handleBugSubmit} className="space-y-4">
+                              <div className="flex flex-col gap-1">
+                                <label className="text-xs font-bold text-slate-655">{t('bugSummary')}</label>
+                                <input
+                                  type="text"
+                                  required
+                                  value={bugSummary}
+                                  onChange={(e) => setBugSummary(e.target.value)}
+                                  placeholder="E.g. Cab pick-up timeline node is showing NaN hours delay"
+                                  className="w-full h-10 px-3 rounded-lg border border-slate-205 text-xs font-semibold focus:outline-none focus:border-[#287DFA] transition"
+                                />
+                              </div>
+
+                              <div className="flex flex-col gap-1">
+                                <label className="text-xs font-bold text-slate-655">{t('bugSteps')}</label>
+                                <textarea
+                                  rows="3"
+                                  value={bugSteps}
+                                  onChange={(e) => setBugSteps(e.target.value)}
+                                  placeholder="1. Go to homepage&#10;2. Build a flight trip&#10;3. Trigger terminal disruption in chaos lab"
+                                  className="w-full p-3 rounded-lg border border-slate-205 text-xs font-semibold focus:outline-none focus:border-[#287DFA] transition resize-none"
+                                />
+                              </div>
+
+                              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div className="flex flex-col gap-1">
+                                  <label className="text-xs font-bold text-slate-655">{t('bugSeverity')}</label>
+                                  <select
+                                    value={bugSeverity}
+                                    onChange={(e) => setBugSeverity(e.target.value)}
+                                    className="h-10 px-3 rounded-lg border border-slate-205 text-xs font-bold bg-slate-50 focus:outline-none focus:border-[#287DFA] transition cursor-pointer"
+                                  >
+                                    <option value="Low">{t('severityLow')}</option>
+                                    <option value="Medium">{t('severityMedium')}</option>
+                                    <option value="High">{t('severityHigh')}</option>
+                                    <option value="Critical">{t('severityCritical')}</option>
+                                  </select>
+                                </div>
+
+                                <div className="flex flex-col gap-1">
+                                  <label className="text-xs font-bold text-slate-655">Mock Screenshot Upload</label>
+                                  <div
+                                    onClick={() => setBugScreenshot('tripresq_screenshot.png')}
+                                    className="h-10 px-3 border border-dashed border-slate-300 rounded-lg flex items-center justify-center gap-1.5 text-xs text-slate-555 cursor-pointer hover:bg-slate-50 transition"
+                                  >
+                                    <Upload className="w-4 h-4 text-slate-400" />
+                                    <span>{bugScreenshot ? bugScreenshot : t('bugScreenshot').split(',')[0]}</span>
+                                  </div>
+                                </div>
+                              </div>
+
+                              <button
+                                type="submit"
+                                className="w-full h-10 bg-[#287DFA] hover:bg-[#1C6BDB] text-white text-xs font-bold rounded-lg transition shadow-sm cursor-pointer"
+                              >
+                                {t('bugSubmit')}
+                              </button>
+                            </form>
+                          )}
+                        </AnimatePresence>
+                      </div>
+                    )}
+
+                    {/* Tab 3: Share Feedback */}
+                    {supportTab === 'feedback' && (
+                      <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm space-y-6 text-left">
+                        <div>
+                          <h3 className="text-base font-extrabold text-slate-905 font-serif">{t('feedbackTitle')}</h3>
+                          <p className="text-slate-450 text-[11px] mt-0.5 font-semibold">{t('feedbackSub')}</p>
+                        </div>
+
+                        <AnimatePresence mode="wait">
+                          {feedbackSuccess ? (
+                            <motion.div
+                              initial={{ opacity: 0, y: 10 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              exit={{ opacity: 0 }}
+                              className="p-6 bg-emerald-50 border border-emerald-200 rounded-xl text-center flex flex-col items-center gap-3"
+                            >
+                              <CheckCircle className="w-10 h-10 text-emerald-500" />
+                              <h4 className="font-bold text-slate-900 text-sm font-serif">{t('feedbackSuccessTitle')}</h4>
+                              <p className="text-xs text-slate-650 font-semibold">{t('feedbackSuccessDesc')}</p>
+                            </motion.div>
+                          ) : (
+                            <form onSubmit={handleFeedbackSubmit} className="space-y-6">
+                              {/* Star Selection */}
+                              <div className="flex flex-col items-center gap-2 py-4 bg-slate-50/60 rounded-xl">
+                                <span className="text-xs font-bold text-slate-500 font-serif">{t('tapToRate')}</span>
+                                <div className="flex items-center gap-1.5">
+                                  {[1, 2, 3, 4, 5].map((star) => (
+                                    <button
+                                      key={star}
+                                      type="button"
+                                      onClick={() => setFeedbackRating(star)}
+                                      onMouseEnter={() => setFeedbackHover(star)}
+                                      onMouseLeave={() => setFeedbackHover(0)}
+                                      className="p-1 cursor-pointer transition active:scale-90"
+                                    >
+                                      <Star
+                                        className={`w-8 h-8 ${star <= (feedbackHover || feedbackRating)
+                                          ? 'text-amber-450 fill-amber-400 stroke-amber-500'
+                                          : 'text-slate-300 stroke-slate-300'
+                                          }`}
+                                      />
+                                    </button>
+                                  ))}
+                                </div>
+                              </div>
+
+                              {/* Tags Selection */}
+                              <div className="space-y-2">
+                                <label className="text-xs font-bold text-slate-655 block">{t('feedbackTags')}</label>
+                                <div className="flex flex-wrap gap-2">
+                                  {['#FastRescue', '#CleanLayout', '#ResponsiveSupport', '#ZeroHassle', '#AccurateCalculations'].map(tag => {
+                                    const isSelected = selectedTags.includes(tag);
+                                    return (
+                                      <button
+                                        key={tag}
+                                        type="button"
+                                        onClick={() => {
+                                          if (isSelected) {
+                                            setSelectedTags(prev => prev.filter(t => t !== tag));
+                                          } else {
+                                            setSelectedTags(prev => [...prev, tag]);
+                                          }
+                                        }}
+                                        className={`px-3 py-1 rounded-full text-xs font-bold transition cursor-pointer ${isSelected
+                                          ? 'bg-slate-900 text-white'
+                                          : 'bg-slate-105 hover:bg-slate-200 text-slate-605'
+                                          }`}
+                                      >
+                                        {tag}
+                                      </button>
+                                    );
+                                  })}
+                                </div>
+                              </div>
+
+                              {/* Comment */}
+                              <div className="flex flex-col gap-1">
+                                <label className="text-xs font-bold text-slate-655 font-serif font-semibold">Review Comment</label>
+                                <textarea
+                                  rows="3"
+                                  value={feedbackComment}
+                                  onChange={(e) => setFeedbackComment(e.target.value)}
+                                  placeholder={t('feedbackComment')}
+                                  className="w-full p-3 rounded-lg border border-slate-205 text-xs font-semibold focus:outline-none focus:border-[#287DFA] transition resize-none"
+                                />
+                              </div>
+
+                              <button
+                                type="submit"
+                                disabled={feedbackRating === 0}
+                                className={`w-full h-10 text-white text-xs font-bold rounded-lg transition shadow-sm cursor-pointer ${feedbackRating > 0 ? 'bg-[#287DFA] hover:bg-[#1C6BDB]' : 'bg-slate-300 text-slate-555 cursor-not-allowed'
+                                  }`}
+                              >
+                                {t('feedbackSubmit')}
+                              </button>
+                            </form>
+                          )}
+                        </AnimatePresence>
+                      </div>
+                    )}
+
                   </div>
 
-                  {/* Quick query chips */}
-                  <div className="px-4 py-2 border-t border-slate-55 flex gap-1.5 overflow-x-auto whitespace-nowrap custom-scrollbar bg-white">
-                    <button
-                      onClick={() => handleQuickChatPrompt("My flight is delayed, what do I do?")}
-                      className="px-2.5 py-1 bg-slate-50 hover:bg-slate-105 border border-slate-200 text-[10px] font-bold text-slate-605 rounded-full transition shrink-0 cursor-pointer font-semibold"
-                    >
-                      {t('chatbotChipDelay')}
-                    </button>
-                    <button
-                      onClick={() => handleQuickChatPrompt("How do I claim a full refund?")}
-                      className="px-2.5 py-1 bg-slate-50 hover:bg-slate-105 border border-slate-200 text-[10px] font-bold text-[#FF7700] rounded-full transition shrink-0 cursor-pointer font-semibold"
-                    >
-                      {t('chatbotChipRefund')}
-                    </button>
-                    <button
-                      onClick={() => handleQuickChatPrompt("Is my hotel stay check-in safe?")}
-                      className="px-2.5 py-1 bg-slate-50 hover:bg-slate-105 border border-slate-200 text-[10px] font-bold text-slate-605 rounded-full transition shrink-0 cursor-pointer font-semibold"
-                    >
-                      {t('chatbotChipHotel')}
-                    </button>
-                  </div>
+                  {/* Right Side: Chatbot Widget */}
+                  <div className="bg-white rounded-2xl border border-slate-100 shadow-lg flex flex-col h-[480px] overflow-hidden text-left">
+                    {/* Chatbot Header */}
+                    <div className="p-4 bg-[#287DFA] text-white flex items-center gap-3">
+                      <div className="p-2 bg-white/20 rounded-xl">
+                        <Sparkles className="w-5 h-5 text-white" />
+                      </div>
+                      <div>
+                        <h4 className="font-extrabold text-sm font-serif">{t('chatbotTitle')}</h4>
+                        <p className="text-[10px] text-white/80">{t('chatbotSub')}</p>
+                      </div>
+                    </div>
 
-                  {/* Input Form */}
-                  <form onSubmit={handleChatSubmit} className="p-3 border-t border-slate-100 flex gap-2 bg-white">
-                    <input
-                      type="text"
-                      value={chatInput}
-                      onChange={(e) => setChatInput(e.target.value)}
-                      placeholder={t('chatPlaceholder')}
-                      className="flex-1 px-3 h-9 rounded-lg border border-slate-200 text-xs focus:outline-none focus:border-[#287DFA] transition font-semibold"
-                    />
-                    <button
-                      type="submit"
-                      className="p-2.5 bg-[#287DFA] hover:bg-[#1C6BDB] text-white rounded-lg transition cursor-pointer active:scale-95 flex items-center justify-center animate-pulse"
-                    >
-                      <Send className="w-3.5 h-3.5" />
-                    </button>
-                  </form>
+                    {/* Messages Feed */}
+                    <div className="flex-1 p-4 overflow-y-auto space-y-3 bg-slate-50 custom-scrollbar">
+                      {chatMessages.map(msg => (
+                        <div
+                          key={msg.id}
+                          className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}
+                        >
+                          <div
+                            className={`max-w-[85%] rounded-2xl px-3.5 py-2 text-xs leading-relaxed ${msg.sender === 'user'
+                              ? 'bg-[#287DFA] text-white rounded-tr-none'
+                              : 'bg-white text-slate-850 border border-slate-100 rounded-tl-none shadow-xs'
+                              }`}
+                          >
+                            {msg.text}
+                          </div>
+                        </div>
+                      ))}
+                      {isChatTyping && (
+                        <div className="flex justify-start">
+                          <div className="bg-white border border-slate-100 text-slate-400 rounded-2xl rounded-tl-none px-4 py-2 text-xs flex items-center gap-1 shadow-xs">
+                            <span className="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce" />
+                            <span className="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce [animation-delay:0.2s]" />
+                            <span className="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce [animation-delay:0.4s]" />
+                          </div>
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Quick query chips */}
+                    <div className="px-4 py-2 border-t border-slate-55 flex gap-1.5 overflow-x-auto whitespace-nowrap custom-scrollbar bg-white">
+                      <button
+                        onClick={() => handleQuickChatPrompt("My flight is delayed, what do I do?")}
+                        className="px-2.5 py-1 bg-slate-50 hover:bg-slate-105 border border-slate-200 text-[10px] font-bold text-slate-605 rounded-full transition shrink-0 cursor-pointer font-semibold"
+                      >
+                        {t('chatbotChipDelay')}
+                      </button>
+                      <button
+                        onClick={() => handleQuickChatPrompt("How do I claim a full refund?")}
+                        className="px-2.5 py-1 bg-slate-50 hover:bg-slate-105 border border-slate-200 text-[10px] font-bold text-[#FF7700] rounded-full transition shrink-0 cursor-pointer font-semibold"
+                      >
+                        {t('chatbotChipRefund')}
+                      </button>
+                      <button
+                        onClick={() => handleQuickChatPrompt("Is my hotel stay check-in safe?")}
+                        className="px-2.5 py-1 bg-slate-50 hover:bg-slate-105 border border-slate-200 text-[10px] font-bold text-slate-605 rounded-full transition shrink-0 cursor-pointer font-semibold"
+                      >
+                        {t('chatbotChipHotel')}
+                      </button>
+                    </div>
+
+                    {/* Input Form */}
+                    <form onSubmit={handleChatSubmit} className="p-3 border-t border-slate-100 flex gap-2 bg-white">
+                      <input
+                        type="text"
+                        value={chatInput}
+                        onChange={(e) => setChatInput(e.target.value)}
+                        placeholder={t('chatPlaceholder')}
+                        className="flex-1 px-3 h-9 rounded-lg border border-slate-200 text-xs focus:outline-none focus:border-[#287DFA] transition font-semibold"
+                      />
+                      <button
+                        type="submit"
+                        className="p-2.5 bg-[#287DFA] hover:bg-[#1C6BDB] text-white rounded-lg transition cursor-pointer active:scale-95 flex items-center justify-center animate-pulse"
+                      >
+                        <Send className="w-3.5 h-3.5" />
+                      </button>
+                    </form>
+
+                  </div>
 
                 </div>
+              </motion.div>
+            )
+          }
 
-              </div>
-            </motion.div>
-          )}
-
-        </AnimatePresence>
-      </div>
+        </AnimatePresence >
+      </div >
 
       {/* --- Global Footer Area --- */}
-      <footer className="bg-white border-t border-slate-100 py-8 px-6 mt-12 text-center text-left">
+      < footer className="bg-white border-t border-slate-100 py-8 px-6 mt-12 text-center text-left" >
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-slate-450 font-mono">
           <p>{t('allRightsReserved')}</p>
           <div className="flex gap-4">
@@ -4189,10 +3857,10 @@ function App() {
             <a href="#contact" className="hover:text-slate-600 font-semibold">{t('contactHelpDesk')}</a>
           </div>
         </div>
-      </footer>
+      </footer >
 
       {/* --- Authentication Sign In / Sign Up Modal --- */}
-      <AnimatePresence>
+      < AnimatePresence >
         {showAuthModal && (
           <motion.div
             initial={{ opacity: 0 }}
@@ -4329,9 +3997,9 @@ function App() {
             </motion.div>
           </motion.div>
         )}
-      </AnimatePresence>
+      </AnimatePresence >
 
-    </div>
+    </div >
   );
 }
 
