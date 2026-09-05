@@ -1,5 +1,6 @@
 import React from 'react';
 import RestaurantCard from './RestaurantCard';
+import { detectCuisineCategory } from '../../services/restaurantImageService';
 import { UtensilsCrossed, AlertCircle, RotateCcw, Loader2, ChevronLeft, ChevronRight } from 'lucide-react';
 
 const PAGE_SIZE = 9;
@@ -114,14 +115,23 @@ export default function DiningResults({
 
       {/* Responsive Grid: 3 cols desktop (3x3 = 9 cards), 2 cols tablet, 1 col mobile */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-        {visibleRestaurants.map((r, idx) => (
-          <RestaurantCard
-            key={r.id || `${startIndex + idx}`}
-            restaurant={r}
-            index={startIndex + idx + 1}
-            onSelect={onSelectRestaurant}
-          />
-        ))}
+        {(() => {
+          const categoryCounts = {};
+          return visibleRestaurants.map((r, idx) => {
+            const cat = detectCuisineCategory(r);
+            const catIndex = categoryCounts[cat] || 0;
+            categoryCounts[cat] = catIndex + 1;
+            return (
+              <RestaurantCard
+                key={r.id || `${startIndex + idx}`}
+                restaurant={r}
+                index={startIndex + idx + 1}
+                categoryIndex={catIndex}
+                onSelect={onSelectRestaurant}
+              />
+            );
+          });
+        })()}
       </div>
 
       {/* Compact Pagination Navigation Controls */}

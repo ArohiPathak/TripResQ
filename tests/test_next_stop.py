@@ -87,3 +87,58 @@ def test_next_stop_nonexistent_trip(client):
     data = res.json
     assert data["available"] is False
     assert data["reason"] == "NO_ACTIVE_TRIP"
+
+def test_next_stop_historical_or_past_demo_trip(client):
+    # Trip with historical/past dates (e.g. seeded hackathon demo)
+    res = client.post('/api/trips', json={"name": "Past Demo Trip"})
+    trip_id = res.json["id"]
+    now = datetime.now(timezone.utc)
+
+    # All nodes completed in the past
+    client.post('/api/nodes', json={
+        "trip_id": trip_id,
+        "node_type": "FLIGHT",
+        "title": "Flight 6E-301 (IndiGo)",
+        "location": "Mumbai BOM T1 → Goa GOI",
+        "destination": "Goa (GOI)",
+        "start_time": (now - timedelta(days=2, hours=4)).isoformat(),
+        "end_time": (now - timedelta(days=2, hours=2)).isoformat()
+    })
+    client.post('/api/nodes', json={
+        "trip_id": trip_id,
+        "node_type": "HOTEL",
+        "title": "Taj Fort Aguada Check-In",
+        "location": "Taj Fort Aguada, Sinquerim, Goa",
+        "destination": "Goa",
+        "start_time": (now - timedelta(days=2, hours=1)).isoformat(),
+        "end_time": (now - timedelta(days=1)).isoformat()
+    })
+
+    res = client.get(f'/api/trips/{trip_id}/next-stop')
+    assert res.status_code == 200
+    data = res.json
+    assert data["available"] is True
+    assert data["destination"] == "Goa"
+    assert "Goa Airport" in data["name"] or "Goa" in data["name"]
+
+def test_next_stop_city_code_resolution(client):
+    # Test airport / railway codes like HYD, PNQ, BLR
+    res = client.post('/api/trips', json={"name": "Code Resolution Trip"})
+    trip_id = res.json["id"]
+    now = datetime.now(timezone.utc)
+
+    client.post('/api/nodes', json={
+        "trip_id": trip_id,
+        "node_type": "FLIGHT",
+        "title": "Flight to Hyderabad",
+        "location": "DEL to HYD",
+        "start_time": (now + timedelta(hours=1)).isoformat(),
+        "end_time": (now + timedelta(hours=3)).isoformat()
+    })
+
+    res = client.get(f'/api/trips/{trip_id}/next-stop')
+    assert res.status_code == 200
+    data = res.json
+    assert data["available"] is True
+    assert data["destination"] == "Hyderabad"
+    assert data["name"] == "Hyderabad Airport"

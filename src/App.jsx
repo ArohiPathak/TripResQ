@@ -22,7 +22,8 @@ import {
   Globe,
   Flame,
   AlertCircle,
-  Calendar
+  Calendar,
+  RefreshCw
 } from 'lucide-react';
 import './App.css';
 

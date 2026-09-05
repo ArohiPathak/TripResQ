@@ -342,6 +342,7 @@ def get_next_stop(trip_id):
       404:
         description: Trip not found
     """
+    import re
     from datetime import datetime, timezone
 
     trip = db.session.get(Trip, trip_id)
@@ -372,8 +373,49 @@ def get_next_stop(trip_id):
     CITY_NAMES = {
         "BOM": "Mumbai", "DEL": "Delhi", "PUN": "Pune", "BLR": "Bangalore",
         "HYD": "Hyderabad", "CCU": "Kolkata", "MAA": "Chennai", "AGR": "Agra",
-        "GOI": "Goa", "PNQ": "Pune"
+        "GOI": "Goa", "PNQ": "Pune", "NYC": "New York", "LON": "London",
+        "JAI": "Jaipur", "COK": "Kochi", "AMD": "Ahmedabad", "GAU": "Guwahati",
+        "VNS": "Varanasi", "IXC": "Chandigarh", "SXR": "Srinagar"
     }
+
+    def resolve_destination_city(node):
+        dest_field = (node.destination or "").strip()
+        loc_field = (node.location or "").strip()
+        title_field = (node.title or "").strip()
+
+        # 1. Check destination field first
+        if dest_field:
+            for code, city in CITY_NAMES.items():
+                if re.search(rf'\b{code}\b', dest_field, re.IGNORECASE) or re.search(rf'\b{city}\b', dest_field, re.IGNORECASE):
+                    return city
+            clean_dest = re.sub(r'\(.*?\)', '', dest_field).strip()
+            if clean_dest:
+                return clean_dest
+
+        # 2. Check location destination segment (after arrow or "to")
+        loc_target = loc_field
+        if "→" in loc_field:
+            loc_target = loc_field.split("→")[-1].strip()
+        elif "->" in loc_field:
+            loc_target = loc_field.split("->")[-1].strip()
+        elif " to " in loc_field.lower():
+            loc_target = re.split(r'\s+to\s+', loc_field, flags=re.IGNORECASE)[-1].strip()
+
+        for code, city in CITY_NAMES.items():
+            if re.search(rf'\b{code}\b', loc_target, re.IGNORECASE) or re.search(rf'\b{city}\b', loc_target, re.IGNORECASE):
+                return city
+
+        # 3. Check full location string for known city/code
+        for code, city in CITY_NAMES.items():
+            if re.search(rf'\b{code}\b', loc_field, re.IGNORECASE) or re.search(rf'\b{city}\b', loc_field, re.IGNORECASE):
+                return city
+
+        # 4. Check title for known city/code
+        for code, city in CITY_NAMES.items():
+            if re.search(rf'\b{code}\b', title_field, re.IGNORECASE) or re.search(rf'\b{city}\b', title_field, re.IGNORECASE):
+                return city
+
+        return loc_target or loc_field or title_field
 
     # Find the first node whose relevant end_time (or start_time for hotel/activity) is in the future
     upcoming_node = None
@@ -388,60 +430,63 @@ def get_next_stop(trip_id):
             upcoming_node = n
             break
 
+    # If all nodes are in the past (e.g. demo/hackathon trips with fixed historical timestamps),
+    # fallback to the first transit node (or first node) so Dining still resolves a useful destination.
     if not upcoming_node:
-        return jsonify({
-            "available": False,
-            "reason": "NO_UPCOMING_STOP"
-        }), 200
+        transit_nodes = [n for n in nodes if (n.node_type or "").upper() in ("FLIGHT", "TRAIN", "CAB")]
+        upcoming_node = transit_nodes[0] if transit_nodes else nodes[0]
 
     node_type = (upcoming_node.node_type or "").upper()
-    dest = upcoming_node.destination or ""
-    dest_name = CITY_NAMES.get(dest.upper(), dest)
+    dest_city = resolve_destination_city(upcoming_node)
     loc = upcoming_node.location or ""
     title = upcoming_node.title or ""
 
     if node_type == "TRAIN":
-        if dest_name:
-            stop_name = f"{dest_name} Railway Station"
+        if dest_city:
+            stop_name = f"{dest_city} Railway Station"
             stop_location = stop_name
+            destination = dest_city
         elif loc and not loc.startswith("Platform"):
             stop_name = loc
             stop_location = loc
+            destination = loc
         else:
             stop_name = title
             stop_location = loc or title
-        destination = dest_name or dest or loc
+            destination = title
         arrival_time = upcoming_node.end_time.isoformat()
 
     elif node_type == "FLIGHT":
-        if dest_name:
-            stop_name = f"{dest_name} Airport"
+        if dest_city:
+            stop_name = f"{dest_city} Airport"
             stop_location = stop_name
+            destination = dest_city
         elif loc and not loc.startswith("Terminal"):
             stop_name = loc
             stop_location = loc
+            destination = loc
         else:
             stop_name = title
             stop_location = loc or title
-        destination = dest_name or dest or loc
+            destination = title
         arrival_time = upcoming_node.end_time.isoformat()
 
     elif node_type == "CAB":
-        stop_name = loc or dest_name or title
-        stop_location = loc or dest_name or title
-        destination = dest_name or loc or title
+        destination = dest_city or loc or title
+        stop_name = loc or dest_city or title
+        stop_location = loc or dest_city or title
         arrival_time = upcoming_node.end_time.isoformat()
 
     elif node_type == "HOTEL":
+        destination = dest_city or loc or title
         stop_name = title
         stop_location = loc or title
-        destination = dest_name or loc or title
         arrival_time = upcoming_node.start_time.isoformat()
 
     else:  # ACTIVITY or generic
+        destination = dest_city or loc or title
         stop_name = title
         stop_location = loc or title
-        destination = dest_name or loc or title
         arrival_time = upcoming_node.start_time.isoformat()
 
     return jsonify({

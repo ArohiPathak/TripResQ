@@ -5,9 +5,11 @@ import { getRestaurantImage } from '../../services/restaurantImageService';
 export default function RestaurantCard({
   restaurant,
   index,
+  categoryIndex,
   onSelect
 }) {
-  const imageMeta = getRestaurantImage(restaurant);
+  const fallbackIndex = categoryIndex ?? (typeof index === 'number' ? index - 1 : 0);
+  const imageMeta = getRestaurantImage(restaurant, fallbackIndex);
 
   const [currentImgSrc, setCurrentImgSrc] = useState(imageMeta.url);
   const [isFallbackActive, setIsFallbackActive] = useState(imageMeta.isFallback);
@@ -15,11 +17,11 @@ export default function RestaurantCard({
 
   // Sync if restaurant props change
   useEffect(() => {
-    const updated = getRestaurantImage(restaurant);
+    const updated = getRestaurantImage(restaurant, fallbackIndex);
     setCurrentImgSrc(updated.url);
     setIsFallbackActive(updated.isFallback);
     setImageLoaded(false);
-  }, [restaurant]);
+  }, [restaurant, fallbackIndex]);
 
   const {
     name,
