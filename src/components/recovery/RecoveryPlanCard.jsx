@@ -33,13 +33,32 @@ export default function RecoveryPlanCard({
 
   const getBorderClasses = () => {
     if (isRecommended) {
-      return 'border-2 border-[#287DFA] shadow-lg ring-1 ring-[#287DFA]/20';
+      return 'border-2 border-[#287DFA] shadow-xl ring-2 ring-[#287DFA]/30';
     }
     if (isSelected) {
       return 'border-2 border-slate-700 shadow-md';
     }
     return 'border border-slate-200 hover:border-slate-300 shadow-xs hover:shadow-sm';
   };
+
+  const getDynamicReasons = () => {
+    const reasons = [];
+    if (plan.reason) {
+      reasons.push({ icon: <Check className="w-3 h-3 stroke-[3]" />, text: plan.reason, color: 'text-emerald-700 bg-emerald-100' });
+    }
+    if (plan.time_saved_minutes > 0) {
+      reasons.push({ icon: <Clock className="w-3 h-3 stroke-[3]" />, text: `Saves ${plan.time_saved_minutes} mins`, color: 'text-indigo-700 bg-indigo-100' });
+    }
+    if (plan.estimated_cost === 0 && plan.priority !== 'MAX_REFUND') {
+      reasons.push({ icon: <ShieldCheck className="w-3 h-3 stroke-[3]" />, text: `Zero out-of-pocket cost`, color: 'text-emerald-700 bg-emerald-100' });
+    }
+    if (plan.estimated_refund > 0) {
+      reasons.push({ icon: <Zap className="w-3 h-3 stroke-[3]" />, text: `Refunds ₹${plan.estimated_refund}`, color: 'text-emerald-700 bg-emerald-100' });
+    }
+    return reasons;
+  };
+
+  const keyReasons = getDynamicReasons();
 
   return (
     <motion.div
@@ -117,16 +136,20 @@ export default function RecoveryPlanCard({
         />
 
         {/* Dynamic "Why this plan?" section */}
-        {plan.reason && (
+        {keyReasons.length > 0 && (
           <div className="bg-blue-50/60 p-3 rounded-xl border border-blue-100/80 text-left">
-            <span className="text-[10px] font-mono font-extrabold uppercase tracking-wider text-[#287DFA] block mb-1">
-              Why this plan?
+            <span className="text-[10px] font-mono font-extrabold uppercase tracking-wider text-[#287DFA] block mb-2">
+              Key Advantages
             </span>
-            <div className="flex items-start gap-1.5 text-xs text-slate-700 leading-snug">
-              <div className="p-0.5 rounded bg-emerald-100 text-emerald-700 mt-0.5 shrink-0">
-                <Check className="w-3 h-3 stroke-[3]" />
-              </div>
-              <span>{plan.reason}</span>
+            <div className="flex flex-col gap-2">
+              {keyReasons.map((reason, idx) => (
+                <div key={idx} className="flex items-start gap-1.5 text-xs text-slate-700 leading-snug font-medium">
+                  <div className={`p-0.5 rounded shrink-0 ${reason.color}`}>
+                    {reason.icon}
+                  </div>
+                  <span>{reason.text}</span>
+                </div>
+              ))}
             </div>
           </div>
         )}

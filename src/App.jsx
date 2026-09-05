@@ -1326,6 +1326,9 @@ function App() {
     brokenConnections: 0,
     affectedNodes: 0
   });
+  
+  const [isDisrupting, setIsDisrupting] = useState(false);
+  const [disruptionError, setDisruptionError] = useState(null);
 
   // Restaurant Filters
   const [restaurantFilter, setRestaurantFilter] = useState('All');
@@ -1718,9 +1721,12 @@ function App() {
   const triggerDisruptionCascade = async (nodeId, type, delayMins, reason) => {
     const targetId = nodeId || selectedDisruptNode || (currentTrip.length > 0 ? currentTrip[0].id : '');
     if (!targetId) {
-      alert("Please select a travel node to disrupt!");
+      setDisruptionError("Please select a travel node to disrupt!");
       return;
     }
+    
+    setIsDisrupting(true);
+    setDisruptionError(null);
     try {
       const delayToApply = (type === 'cancel' || type === 'lockout') ? 360 : (delayMins || 180);
       const res = await fetch(`http://localhost:5000/api/trips/${tripRefNum}/disrupt`, {
@@ -1735,7 +1741,7 @@ function App() {
       });
       const data = await res.json();
       if (data.error) {
-        alert(`Disruption Error: ${data.error}`);
+        setDisruptionError(`Disruption Error: ${data.error}`);
         return;
       }
       // Preserve original scheduled times as the baseline
@@ -1866,6 +1872,15 @@ function App() {
     setDisruptionState('resolved');
     setImpactMetrics({ delayMinutes: 0, brokenConnections: 0, affectedNodes: 0 });
     setCurrentPage('my-trip');
+  };
+
+  const handleResetDemo = () => {
+    setCurrentTrip([]);
+    setDisruptionState('healthy');
+    setRecoveryResult(null);
+    setImpactMetrics({ delayMinutes: 0, brokenConnections: 0, affectedNodes: 0 });
+    setDisruptionError(null);
+    initializeSeedTrip();
   };
 
   // Chatbot Query Submit Handler
@@ -2080,6 +2095,13 @@ function App() {
 
         {/* Right Controls */}
         <div className="flex items-center gap-2 sm:gap-4 flex-wrap">
+          <button
+            onClick={handleResetDemo}
+            className="flex items-center gap-1.5 px-2.5 py-1.5 text-[10px] sm:text-xs font-bold rounded-full bg-slate-100 text-slate-600 hover:bg-slate-200 hover:text-slate-900 transition duration-200 cursor-pointer"
+            aria-label="Reset Demo"
+          >
+            <RefreshCw className="w-3.5 h-3.5" /> Reset Demo
+          </button>
           {/* Chaos Sandbox badge - Gated by Login */}
           {userAuth.loggedIn && (
             <button
@@ -3369,14 +3391,27 @@ function App() {
 
                     {/* Action Buttons */}
                     <div className="flex flex-col sm:flex-row gap-3 pt-4 border-t border-slate-105">
+                      {/* Disruption Error State */}
+                      {disruptionError && (
+                        <div className="w-full mb-3 p-3 rounded-lg bg-red-50 border border-red-200 text-red-700 flex items-center gap-2">
+                          <AlertCircle className="w-4 h-4 shrink-0" />
+                          <p className="text-xs font-medium">{disruptionError}</p>
+                        </div>
+                      )}
+
                       <button
                         type="button"
+                        disabled={isDisrupting || !selectedDisruptNode}
                         onClick={() => {
                           triggerDisruptionCascade(selectedDisruptNode, disruptType, disruptDelay, disruptReason);
                         }}
-                        className="flex-1 px-6 h-11 bg-[#FF7700] hover:bg-[#E06600] text-white font-extrabold rounded-xl transition shadow-md shadow-[#FF7700]/10 active:scale-98 flex items-center justify-center gap-2 cursor-pointer text-xs"
+                        className="flex-1 px-6 h-11 bg-[#FF7700] hover:bg-[#E06600] text-white font-extrabold rounded-xl transition shadow-md shadow-[#FF7700]/10 active:scale-98 flex items-center justify-center gap-2 cursor-pointer text-xs disabled:opacity-50 disabled:cursor-not-allowed"
                       >
-                        <Flame className="w-4 h-4" /> {t('triggerBtn')}
+                        {isDisrupting ? (
+                          <><RefreshCw className="w-4 h-4 animate-spin" /> Simulating...</>
+                        ) : (
+                          <><Flame className="w-4 h-4" /> {t('triggerBtn')}</>
+                        )}
                       </button>
 
                       <button

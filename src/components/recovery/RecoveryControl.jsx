@@ -424,14 +424,19 @@ export default function RecoveryControl({
 
           {/* Empty State */}
           {!isLoading && !errorMessage && plans.length === 0 && (
-            <div className="p-10 rounded-2xl bg-white border border-slate-200 text-center flex flex-col items-center justify-center gap-3 shadow-xs">
-              <CheckCircle className="w-8 h-8 text-emerald-500" />
-              <h3 className="font-extrabold text-base text-slate-800 font-serif">
-                No recovery options are currently available.
-              </h3>
-              <p className="text-xs text-slate-500 max-w-md">
-                All nodes are operating within scheduled buffer parameters, or no broken connections require dynamic rebooking.
-              </p>
+            <div className="p-10 rounded-2xl bg-white border border-slate-200 text-center flex flex-col items-center justify-center gap-4 shadow-sm mt-4">
+              <div className="p-4 bg-emerald-50 rounded-full">
+                <CheckCircle className="w-10 h-10 text-emerald-500" />
+              </div>
+              <div>
+                <h3 className="font-extrabold text-lg text-slate-800 font-serif mb-1">
+                  No recovery options needed
+                </h3>
+                <p className="text-sm text-slate-500 max-w-md mx-auto leading-relaxed">
+                  Your itinerary is secure! No broken connections require dynamic rebooking for this priority. 
+                  Try selecting a different priority above, or use the <b>Reset Demo</b> button to start over.
+                </p>
+              </div>
             </div>
           )}
 
